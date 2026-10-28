@@ -1,0 +1,27 @@
+# --- Material personal (no se entrega ni se publica) ---
+docs/
+src/enfoques/
+
+# --- Python ---
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# --- Entornos virtuales ---
+.venv/
+venv/
+env/
+
+# --- Editores y sistema ---
+.vscode/
+.idea/
+*.swp
+.DS_Store
+
+# --- Claude Code (configuración local) ---
+.claude/settings.local.json
