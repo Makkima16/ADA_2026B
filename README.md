@@ -49,12 +49,9 @@ Por ser un grupo de tres integrantes se implementa además la **variante de audi
 
 ```
 README.md
-requirements.txt        # dependencias (por ahora, solo la librería estándar y pytest para las pruebas)
-run_all.py              # corre todos los casos y genera las evidencias
-context/                # enunciado del proyecto y guía de entrega
-src/ruta/               # algoritmos, resolución de casos y escritura de traza
-casos/                  # casos de la profesora (solo lectura)
-resultados/             # resultado, tiempo y traza por caso (se regenera completo)
+context/                # guía de entrega, enunciado y reparto de tareas
+docs/                   # documentación del proyecto: informe (formalización y reducción) y, luego, el manual técnico
+src/ruta/               # algoritmos, lectura de casos, resolución y escritura de traza
 tests/                  # pruebas
 ```
 
@@ -62,8 +59,9 @@ Los algoritmos, la lectura de la entrada y la escritura de la traza están separ
 
 ## Estado actual
 
-- Implementado: voraz de la Parte 2, verificación de factibilidad, fuerza bruta, cota $H(d)$, resolución de un caso y escritura de traza; con sus pruebas.
-- Pendiente: lectura de los casos de la profesora (su formato aún no se conoce y se aislará en un solo módulo), `run_all.py`, `requirements.txt`, la Parte 1 y la variante ponderada.
+- Implementado: voraz de la Parte 2, verificación de factibilidad, fuerza bruta, cota $H(d)$, resolución de un caso y escritura de traza, con la lectura de casos aislada en `src/ruta/lectura.py`; con sus pruebas.
+- Documentación: el informe de la Parte 2 (formalización y reducción) está en `docs/`.
+- Pendiente: adaptar la lectura al formato de los casos de la profesora (aún no llegaron; se guardarán en `casos/`), `requirements.txt`, el manual técnico, la Parte 1 y la variante ponderada.
 
 ## Ejecución
 
@@ -71,7 +69,6 @@ Requiere Python 3.8 o superior.
 
 ```
 python3 -m pytest tests/                                   # pruebas (requiere pytest)
-python3 run_all.py --casos casos/ --salida resultados/    # evidencias (pendiente de implementar)
 ```
 
 Los tiempos se miden con `time.perf_counter()` y todo generador aleatorio usa semilla fija, de modo que el mismo código con los mismos casos produce los mismos resultados.
@@ -93,5 +90,6 @@ $n$ (etapas o interacciones), $B$ (presupuesto), $r$ (categorías de riesgo), $t
 
 ## Referencias
 
+- Karp, R. M. (1972). Reducibility among combinatorial problems. En R. E. Miller y J. W. Thatcher (Eds.), *Complexity of Computer Computations* (pp. 85–103). Plenum Press.
 - Johnson, D. S. (1974). Approximation algorithms for combinatorial problems. *Journal of Computer and System Sciences*, 9(3), 256–278.
 - Chvátal, V. (1979). A greedy heuristic for the set-covering problem. *Mathematics of Operations Research*, 4(3), 233–235.

@@ -1,6 +1,9 @@
-# --- Material personal (no se entrega ni se publica) ---
-docs/
-src/enfoques/
+# --- Material personal del integrante 2 (no se entrega ni se publica) ---
+notas_integrante2/
+resultados/
+casos_propios/
+run_all.py
+frontend/
 
 # --- Python ---
 __pycache__/
