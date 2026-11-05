@@ -35,6 +35,22 @@ print(formatear_resultado(resolver_caso(leer_instancia('ruta/al/caso.json'))))  
 
 Imprime la traza de elecciones, la cobertura final, el tiempo y, si n ≤ 12, el óptimo por fuerza bruta. El visor (más abajo) hace lo mismo con una interfaz.
 
+## Resolver un caso con la DP de la Parte 1
+
+Tampoco hay comando de terminal todavía (lo hará el `run_all.py` del integrante 3). Desde Python, en la raíz:
+
+```
+python3 -c "
+import sys; sys.path.insert(0, 'src')
+from aceleracion.lectura import leer_instancia
+from aceleracion.resolver import resolver_caso
+from aceleracion.traza import formatear_caso
+print(formatear_caso(resolver_caso(leer_instancia('ruta/al/caso.json'))))   # solo .json
+"
+```
+
+Imprime las etapas aceleradas, costo, ahorro, duración final, tiempo de la DP, la comprobación de la solución, el óptimo por fuerza bruta si n ≤ 12, las decisiones etapa por etapa y la tabla DP (solo si B ≤ 100). Si la instancia no cumple las restricciones lanza `ErrorDeEntrada` (resolver) o `ErrorDeLectura` (lector) con un mensaje claro. Guía de cada archivo: `docs/Guía del código de la Parte 1.md`.
+
 ## Enfoques sobre el voraz (`src/auditoria/enfoques/`, se versiona)
 
 | Comando | Ruta desde donde se ejecuta | Para qué sirve |

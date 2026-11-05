@@ -52,7 +52,7 @@ README.md
 requirements.txt
 run_all.py            # corre todos los casos y genera evidencias (lo crea el integrante 3; aún no está en el repo)
 context/                 # enunciado, guía de entrega, manual técnico, informe
-src/aceleracion/      # Parte 1 completa: algoritmo (DP), fuerza bruta de verificación, lectura de casos y traza
+src/aceleracion/      # Parte 1 completa: algoritmo (DP), resolver de un caso, fuerza bruta de verificación, lectura de casos y traza
 src/auditoria/        # Parte 2 completa: voraz, fuerza bruta, lectura de casos, resolución, traza y variante ponderada
 src/auditoria/enfoques/  # enfoques aparte del voraz base (Parte 2) y su experimento; no reemplazan a src/auditoria/auditoria.py
 frontend/             # visor local de apoyo (Parte 2); solo importa de src/auditoria/
@@ -69,6 +69,7 @@ tests/                # pruebas (DP vs fuerza bruta, voraz vs óptimo y cota H(d
 - Medir tiempos con `time.perf_counter()`. Cada caso se identifica por nombre en la salida.
 - Fuerza bruta solo para verificar, con n ≤ ~12.
 - Separar siempre algoritmo, lectura de entrada y escritura de traza, para poder reutilizarlos en las variantes.
+- **Costo por línea** (Parte 1, `src/aceleracion/`): modelo del curso. Cada línea lleva al final `# costo: OE × veces` (OE: asignación, comparación, aritmética, acceso a lista, return y llamada = 1; veces en términos de n: la cabecera de un `for` n+1 veces con 3 OE, el cuerpo n veces, un `if` dentro de un `for` se evalúa en todas las vueltas y su cuerpo entre 0 y todas, `while` según su condición). Cada función cierra con el desarrollo de T(n) (suma de costos, expansión, agrupación) y cada archivo con un cuadro de mejor caso, peor caso y promedio y con los **invariantes de ciclo** (inicialización, mantenimiento, finalización). La regla completa está al inicio de `src/aceleracion/aceleracion.py`. Son comentarios: no cambian la lógica.
 - Notación única en todo el proyecto: n, B, r, t_i, c_i, d_i, S_j, a_j (costo de auditar j), A (etapas aceleradas), J (interacciones auditadas).
 
 ## Comandos
@@ -79,7 +80,7 @@ python3 -m pytest tests/                                   # pruebas
 ```
 
 Si un comando no existe todavía, créalo siguiendo esta convención en vez de inventar otra. **Excepción: `run_all.py`.** Lo está creando el integrante 3 y todavía no está en el repositorio; los demás integrantes no deben crear su propia versión. Cuando llegue, debe cumplir esto:
-- Usa solo las funciones públicas de cada parte: `src/aceleracion/` (`resolver`, `traza`) y `src/auditoria/` (`leer_casos`, `resolver_caso`, `formatear_resultado`). No reimplementa algoritmos ni lectura.
+- Usa solo las funciones públicas de cada parte: `src/aceleracion/` (`leer_casos`, `resolver_caso`, `formatear_caso`) y `src/auditoria/` (`leer_casos`, `resolver_caso`, `formatear_resultado`). No reimplementa algoritmos ni lectura.
 - Recibe `--casos` (directorio de entrada, solo lectura) y `--salida` (directorio donde regenera **todo** `resultados/`).
 - Por caso escribe resultado, tiempo y traza, identificados por nombre de caso. Parte 1 y Parte 2 (y la variante ponderada) deben quedar en la misma versión.
 - Mientras no exista, las pruebas (`python3 -m pytest tests/`) son el único comando de verificación del repo.

@@ -1,6 +1,7 @@
-from aceleracion.aceleracion import resolver
+import pytest
+
+from aceleracion.aceleracion import MAX_CELDAS_TABLA, ErrorDeEntrada, resolver, verificar_tamano_tabla
 from aceleracion.verificacion import fuerza_bruta, generar_instancia
-from aceleracion.traza import formatear_resultado
 
 
 def test_dp_igual_a_fuerza_bruta():
@@ -27,8 +28,27 @@ def test_casos_borde():
     assert res["aceleradas"] == [1] and res["ahorro"] == 3
 
 
-def test_traza_del_ejemplo():
-    t, c, d, B = [4, 3, 5, 2], [2, 3, 4, 1], [3, 2, 4, 1], 5
-    texto = formatear_resultado(resolver(t, c, d, B), t, c, d, B)
-    assert "Etapas aceleradas: [1, 2]" in texto
-    assert "Duración final: 9 (original 14)" in texto
+@pytest.mark.parametrize("t,c,d,B,mensaje", [
+    ([4, 3], [2], [3, 2], 5, "mismo largo"),
+    ([4, 3], [2, 3], [3, 2], -1, "presupuesto B"),
+    ([4, 3], [2, 3], [3, 2], 2.5, "presupuesto B"),
+    ([4, 3], [-2, 3], [3, 2], 5, "c_1"),
+    ([4, 3], [2, 3], [3, "2"], 5, "d_2"),
+    ([4, -3], [2, 3], [3, 0], 5, "t_2"),
+    ([4, 3], [2, 3], [3, 4], 5, "supera la duración"),
+    ([4, 3], [2, True], [3, 2], 5, "c_2"),
+])
+def test_resolver_rechaza_entradas_invalidas(t, c, d, B, mensaje):
+    with pytest.raises(ErrorDeEntrada, match=mensaje):
+        resolver(t, c, d, B)
+
+
+def test_tabla_demasiado_grande_da_error_claro_sin_reservar_memoria():
+    with pytest.raises(ErrorDeEntrada, match="celdas y el límite es"):
+        resolver([5], [1], [3], MAX_CELDAS_TABLA)          # 2 x (10^7 + 1) celdas: falla antes de crear la tabla
+
+
+def test_el_limite_es_exacto():
+    verificar_tamano_tabla(9, 999_999)                      # 10 x 10^6 = 10^7 celdas: cabe
+    with pytest.raises(ErrorDeEntrada):
+        verificar_tamano_tabla(10, 999_999)                 # 11 x 10^6 > 10^7
