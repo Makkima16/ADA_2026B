@@ -3,7 +3,6 @@ notas_integrante2/
 resultados/
 casos_propios/
 run_all.py
-frontend/
 
 # --- Python ---
 __pycache__/

@@ -53,6 +53,8 @@ requirements.txt
 run_all.py            # corre todos los casos y genera evidencias
 context/                 # enunciado, guía de entrega, manual técnico, informe
 src/ruta/             # algoritmos (aceleracion, auditoria, ponderada) + lectura de casos + traza
+src/enfoques/         # enfoques aparte del voraz base (Parte 2) y su experimento; no reemplazan a src/ruta/
+frontend/             # visor local de apoyo (Parte 2); solo importa de src/
 casos/                # casos de la profesora (SOLO LECTURA)
 resultados/           # salida, tiempo y traza por caso (se regenera completo)
 tests/                # pruebas (DP vs fuerza bruta, voraz vs óptimo y cota H(d))
