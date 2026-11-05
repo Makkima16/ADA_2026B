@@ -1,7 +1,7 @@
 "use strict";
 
 /* Visor del voraz (Parte 2). Toda la lógica de decisión vive en el código del
-   proyecto (src/ruta), invocada desde el servidor local: aquí solo se arma el
+   proyecto (src/auditoria), invocada desde el servidor local: aquí solo se arma el
    caso, se pide el análisis y se dibuja el resultado paso a paso. */
 
 const $ = (sel) => document.querySelector(sel);

@@ -26,20 +26,20 @@ No hay un comando de terminal propio para esto todavía (ver "Pendiente"). Se ha
 ```
 python3 -c "
 import sys; sys.path.insert(0, 'src')
-from ruta.lectura import leer_instancia
-from ruta.resolver import resolver_caso
-from ruta.traza import formatear_resultado
+from auditoria.lectura import leer_instancia
+from auditoria.resolver import resolver_caso
+from auditoria.traza import formatear_resultado
 print(formatear_resultado(resolver_caso(leer_instancia('ruta/al/caso.json'))))   # también acepta .txt
 "
 ```
 
 Imprime la traza de elecciones, la cobertura final, el tiempo y, si n ≤ 12, el óptimo por fuerza bruta. El visor (más abajo) hace lo mismo con una interfaz.
 
-## Enfoques sobre el voraz (`src/enfoques/`, se versiona)
+## Enfoques sobre el voraz (`src/auditoria/enfoques/`, se versiona)
 
 | Comando | Ruta desde donde se ejecuta | Para qué sirve |
 | --- | --- | --- |
-| `python3 src/enfoques/comparacion/experimento.py [--instancias N] [--semilla S]` | Raíz | Compara el voraz base con los enfoques de esenciales, parejas, rareza y todo junto contra el óptimo exacto por fuerza bruta (n ≤ 12): instancias aleatorias de tres densidades (por defecto 3000 cada una, semilla 2026), familia de cebos, la instancia más chica donde cada enfoque empeora, instancias grandes (n de 20 a 30, sin mínimo real), tiempos con n = r de 20 a 160 y la contribución de cada ingrediente. Tarda unos 20 s. Las pruebas de los enfoques están en `tests/test_enfoques.py` (las corre el `pytest` de arriba). |
+| `python3 src/auditoria/enfoques/comparacion/experimento.py [--instancias N] [--semilla S]` | Raíz | Compara el voraz base con los enfoques de esenciales, parejas, rareza y todo junto contra el óptimo exacto por fuerza bruta (n ≤ 12): instancias aleatorias de tres densidades (por defecto 3000 cada una, semilla 2026), familia de cebos, la instancia más chica donde cada enfoque empeora, instancias grandes (n de 20 a 30, sin mínimo real), tiempos con n = r de 20 a 160 y la contribución de cada ingrediente. Tarda unos 20 s. Las pruebas de los enfoques están en `tests/test_enfoques.py` (las corre el `pytest` de arriba). |
 
 ## Visor (`frontend/`, se versiona)
 

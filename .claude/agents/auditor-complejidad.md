@@ -10,7 +10,7 @@ Eres un auditor de análisis de complejidad. El profesor no acepta "tardó X seg
 Para cada algoritmo (DP de la Parte 1, voraz de la Parte 2, voraz ponderado, fuerza bruta de cada uno, verificación de factibilidad), comprueba con ✔ o ✘ y una frase:
 
 1. **Existe la deducción.** Se cuenta cuántas veces se ejecuta cada ciclo y cuánto cuesta cada operación interna; no solo se enuncia el resultado.
-2. **Coincide con el código.** Lee el algoritmo en `src/ruta/` y confirma que los ciclos y estructuras de datos realmente producen esa cota (por ejemplo, que el voraz recorra n interacciones por paso con costo O(r) y haga a lo sumo min(n, r) pasos).
+2. **Coincide con el código.** Lee el algoritmo en `src/auditoria/` y confirma que los ciclos y estructuras de datos realmente producen esa cota (por ejemplo, que el voraz recorra n interacciones por paso con costo O(r) y haga a lo sumo min(n, r) pasos).
 3. **Cota correcta.** DP: O(n·B). Voraz: O(n·r·min(n, r)). Factibilidad: O(n·r). Fuerza bruta de la variante: O(2^n·n·r). Indica si hay una cota menos ajustada pero también válida y si se menciona.
 4. **Tamaño de entrada.** Se aclara en qué se mide (n y B; n y r) y que B ocupa log₂B bits, por lo que O(n·B) es pseudo-polinomial (exponencial en el tamaño real de la entrada).
 5. **Espacio.** Se menciona la memoria cuando es relevante (tabla de (n+1)×(B+1) en la DP).

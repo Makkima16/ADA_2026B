@@ -2,7 +2,7 @@
 
 import pytest
 
-from ruta.lectura import ErrorDeLectura, leer_casos, leer_instancia
+from auditoria.lectura import ErrorDeLectura, leer_casos, leer_instancia
 
 
 def _escribir(tmp_path, nombre, contenido):
@@ -97,7 +97,7 @@ def test_txt_sigue_sin_etiquetas(tmp_path):
 
 
 def test_json_y_txt_equivalentes_dan_la_misma_solucion(tmp_path):
-    from ruta.resolver import resolver_caso
+    from auditoria.resolver import resolver_caso
     a = leer_instancia(_escribir_json(tmp_path, _json_base()))
     b = leer_instancia(_escribir(tmp_path, "t.txt", "4 3\n1 2\n2 3\n4\n"))
     assert resolver_caso(a).J == resolver_caso(b).J == [1, 2, 3]

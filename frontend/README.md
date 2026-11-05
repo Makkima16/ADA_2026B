@@ -1,11 +1,11 @@
 # Visor del voraz (Parte 2)
 
 Herramienta de apoyo para la **Parte 2 (cobertura mínima de auditoría)**. Permite cargar un caso, ejecutar el
-voraz de la entrega y los enfoques de `src/enfoques/`, y ver paso a paso cómo decide cada uno y por qué.
+voraz de la entrega y los enfoques de `src/auditoria/enfoques/`, y ver paso a paso cómo decide cada uno y por qué.
 Sirve para explicar y defender el algoritmo con lenguaje entendible para cualquier persona.
 
 El visor **no es un entregable** ni reemplaza las evidencias: las evidencias de la entrega salen de
-`resolver_caso` y de la traza de `src/ruta/`. Está en el repositorio como herramienta de demostración.
+`resolver_caso` y de la traza de `src/auditoria/`. Está en el repositorio como herramienta de demostración.
 
 ## Cómo se ejecuta
 
@@ -26,7 +26,7 @@ para cambiar de puerto y `--no-abrir` para no abrir el navegador. Se detiene con
   con casillas los riesgos que revisa. Sirve para transcribir un caso venga como venga.
 - **Desde texto:** pegar el caso. Si el texto empieza con `{` se lee como JSON; si no, como el formato `.txt`.
 
-La lectura es la de `src/ruta/lectura.py`: si un caso viene mal escrito, el mensaje de error es el del lector del
+La lectura es la de `src/auditoria/lectura.py`: si un caso viene mal escrito, el mensaje de error es el del lector del
 proyecto. Los riesgos se numeran del 1 al r.
 
 ## Qué muestra
@@ -66,7 +66,7 @@ En cada paso hay un recuadro con la razón concreta de la elección:
 ## Decisiones
 
 - **No duplica la lógica de los algoritmos.** El navegador le habla al servidor local (`servidor.py`, `http.server`),
-  que importa `leer_instancia` y `resolver_caso` de `src/ruta/` y las combinaciones de `src/enfoques/`
+  que importa `leer_instancia` y `resolver_caso` de `src/auditoria/` y las combinaciones de `src/auditoria/enfoques/`
   (`comparar_caso`, vía `voraz_ablacion_traza`). Lo que se ve es lo que calculan esos módulos.
 - **Los textos de las explicaciones son plantillas.** Están escritas en `estatico/app.js` (funciones
   `razonEleccion`, `explicacionPaso`, `introMetodo` y `dibujarCosto`) y se rellenan con los datos reales de la traza.
@@ -75,7 +75,7 @@ En cada paso hay un recuadro con la razón concreta de la elección:
   se recuerda siempre, haya o no empate) y el visor no recalcula "ninguna otra pareja revisa más": se apoya en el
   algoritmo.
 - **Lenguaje no técnico en pantalla** (riesgos, interacciones) y notación formal en el costo y la vista técnica.
-- **Formato de la profesora:** si cambia, se adapta únicamente `src/ruta/lectura.py` y el visor sigue funcionando.
+- **Formato de la profesora:** si cambia, se adapta únicamente `src/auditoria/lectura.py` y el visor sigue funcionando.
 - **Sin dependencias nuevas:** nada que registrar en `requirements.txt`. Requiere un navegador.
 
 ## Archivos
@@ -98,7 +98,7 @@ python3 frontend/fuerza_bruta_demo.py ruta/al/caso.txt
 
 Acepta uno o varios archivos `.json` o `.txt`. Para cada caso con n ≤ 12 muestra, por tamaño de combinación, cuántas se
 probaron, el mínimo real, cuántas combinaciones revisó de 2^n, el tiempo y la comparación con el voraz. Con n > 12 o un
-caso no factible avisa y no ejecuta. No reimplementa el algoritmo: llama a `fuerza_bruta` de `src/ruta/auditoria.py` y
+caso no factible avisa y no ejecuta. No reimplementa el algoritmo: llama a `fuerza_bruta` de `src/auditoria/auditoria.py` y
 solo cuenta lo que revisó.
 
 ## Limitaciones

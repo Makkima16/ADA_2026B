@@ -1,6 +1,6 @@
 # Enfoques sobre el voraz (Parte 2)
 
-Algoritmos voraces **aparte** del voraz base (`src/ruta/auditoria.py`, función `voraz`), que sigue siendo la
+Algoritmos voraces **aparte** del voraz base (`src/auditoria/auditoria.py`, función `voraz`), que sigue siendo la
 solución de la entrega y no se modifica. Sirven para estudiar qué pasa si el voraz "mira" un poco más
 allá del paso actual y para medir qué tan lejos queda del óptimo.
 
@@ -22,5 +22,5 @@ qué se justifica) están en `docs/` (documento "Enfoques sobre el voraz").
 Se ejecuta desde la raíz del proyecto:
 
 ```
-python3 src/enfoques/comparacion/experimento.py --instancias 3000 --semilla 2026
+python3 src/auditoria/enfoques/comparacion/experimento.py --instancias 3000 --semilla 2026
 ```

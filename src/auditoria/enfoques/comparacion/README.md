@@ -14,7 +14,7 @@ Secciones de la salida:
 6. Contribución de cada ingrediente (`ablacion.py`): las 8 combinaciones de esenciales, rareza y parejas, con cuántos casos no óptimos deja cada una.
 
 ```
-python3 src/enfoques/comparacion/experimento.py --instancias 3000 --semilla 2026
+python3 src/auditoria/enfoques/comparacion/experimento.py --instancias 3000 --semilla 2026
 ```
 
 La función `comparar_caso` también la usa el visor local (`frontend/`). Tarda unos 20 s con 3000 instancias por familia.

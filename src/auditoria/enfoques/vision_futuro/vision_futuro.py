@@ -1,6 +1,6 @@
 """Enfoque B — voraz con vista al futuro de profundidad 2 (Parte 2, auditoría).
 
-NO reemplaza al voraz base de `ruta.auditoria.voraz`: es un algoritmo aparte
+NO reemplaza al voraz base de `auditoria.auditoria.voraz`: es un algoritmo aparte
 para compararlo con él.
 
 Idea: en cada paso no se mira solo "qué interacción cubre más ahora", sino qué
@@ -30,7 +30,7 @@ aplica. Se evalúa solo de forma empírica (ver `comparacion/`).
 from dataclasses import dataclass
 from typing import List, Sequence, Set, Tuple
 
-from ruta.auditoria import Paso, verificar_factibilidad
+from auditoria.auditoria import Paso, verificar_factibilidad
 
 
 @dataclass(frozen=True)

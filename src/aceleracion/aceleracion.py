@@ -7,7 +7,6 @@ Eso equivale a maximizar el ahorro sum(d_i) con sum(c_i) <= B.
 
 Eficiencia: T(n, B) = O(n * B) en tiempo y espacio (pseudo-polinomial).
 """
-import random
 
 
 def llenar_tabla(c, d, B):
@@ -46,51 +45,3 @@ def resolver(t, c, d, B):
         "duracion_final": sum(t) - ahorro,
         "tabla": DP,
     }
-
-
-def imprimir_resultado(res):
-    print("Etapas aceleradas:", res["aceleradas"])
-    print("Costo usado:", res["costo"])
-    print("Ahorro:", res["ahorro"])
-    print("Duración final:", res["duracion_final"])
-
-
-def fuerza_bruta(t, c, d, B):
-    """Prueba los 2^n subconjuntos. Solo para comprobar la DP (n <= 12)."""
-    n = len(c)
-    if n > 12:
-        raise ValueError("La fuerza bruta solo se usa con n <= 12")
-    mejor_ahorro = 0
-    for mascara in range(1 << n):
-        costo = ahorro = 0
-        for i in range(n):
-            if mascara >> i & 1:
-                costo += c[i]
-                ahorro += d[i]
-        if costo <= B and ahorro > mejor_ahorro:
-            mejor_ahorro = ahorro
-    return {"ahorro": mejor_ahorro, "duracion_final": sum(t) - mejor_ahorro}
-
-
-def generar_instancia(n, semilla=42, max_t=20, max_c=10):
-    """Instancia aleatoria reproducible: con la misma semilla sale siempre igual."""
-    rng = random.Random(semilla)
-    t = [rng.randint(1, max_t) for _ in range(n)]
-    c = [rng.randint(1, max_c) for _ in range(n)]
-    d = [rng.randint(0, ti) for ti in t]      # cumple 0 <= d_i <= t_i
-    B = sum(c) // 2                           # presupuesto: la mitad del costo total
-    return t, c, d, B
-
-
-if __name__ == "__main__":
-    # Ejemplo de 4 etapas y B = 5 (el mismo del ejemplo a mano)
-    t = [4, 3, 5, 2]
-    c = [2, 3, 4, 1]
-    d = [3, 2, 4, 1]
-    B = 5
-
-    res = resolver(t, c, d, B)
-    print("Tabla DP:")
-    for fila in res["tabla"]:
-        print(fila)
-    imprimir_resultado(res)
