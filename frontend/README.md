@@ -1,6 +1,8 @@
-# Visor del voraz (Parte 2)
+# Visor del proyecto: aceleración (Parte 1) y voraz (Parte 2)
 
-Herramienta de apoyo para la **Parte 2 (cobertura mínima de auditoría)**. Permite cargar un caso, ejecutar el
+Herramienta de apoyo con una **página de inicio** y un visor por parte: **Parte 1 (aceleración de la cadena, programación dinámica)** y **Parte 2 (cobertura mínima de auditoría, voraz)**. Más abajo, la sección de la Parte 1; lo que sigue de esta introducción describe la Parte 2.
+
+La Parte 2 permite Permite cargar un caso, ejecutar el
 voraz de la entrega y los enfoques de `src/auditoria/enfoques/`, y ver paso a paso cómo decide cada uno y por qué.
 Sirve para explicar y defender el algoritmo con lenguaje entendible para cualquier persona.
 
@@ -15,7 +17,7 @@ Desde la raíz del proyecto (solo librería estándar de Python, sin instalar na
 python3 frontend/servidor.py
 ```
 
-Abre `http://127.0.0.1:8765` en el navegador. Solo escucha en `127.0.0.1` (esta máquina). Opciones: `--puerto N`
+Abre `http://127.0.0.1:8765` en el navegador, en la página de inicio, desde donde se entra a la aceleración (`/aceleracion`) o a la auditoría (`/auditoria`); arriba de cada visor hay un selector para cambiar de parte. Solo escucha en `127.0.0.1` (esta máquina). Opciones: `--puerto N`
 para cambiar de puerto y `--no-abrir` para no abrir el navegador. Se detiene con `Ctrl+C`.
 
 ## Cómo se carga un caso
@@ -63,10 +65,31 @@ En cada paso hay un recuadro con la razón concreta de la elección:
 - **Rareza:** el puntaje de cada interacción (o de cada pareja); cada riesgo pendiente vale 1 dividido entre cuántas
   interacciones lo revisan.
 
+## Parte 1: aceleración de la cadena (`/aceleracion`)
+
+Mismo esquema y misma paleta que el visor de la Parte 2: primero se carga el caso y luego se ve el resultado paso a paso.
+
+- **Cargar el caso:** subir o arrastrar un `.json` (formato de la profesora, lo lee `src/aceleracion/lectura.py`), crear el
+  caso a mano (cantidad de etapas, presupuesto B y, por etapa, duración t, costo c y ahorro d, con validación de
+  d ≤ t) o pegar el JSON. La vista previa avisa si el presupuesto alcanza para acelerarlo todo, si alguna etapa cuesta
+  más que B o no ahorra nada, y ordena las etapas por ahorro por unidad de costo.
+- **Resultado:** etapas aceleradas, presupuesto usado, ahorro, duración final, tiempo de la DP y validación; el cuadro de
+  costo total con los números del caso (celdas de la tabla, por qué es Θ(n·B), memoria y por qué es pseudo-polinomial);
+  y la comprobación por fuerza bruta (n ≤ 12) o el motivo por el que no se corre.
+- **Paso a paso:** primero se llena la tabla fila por fila (una celda verde es donde conviene acelerar) y luego se recorre
+  hacia atrás: cada paso muestra la decisión de una etapa, el presupuesto restante y marca el camino de la solución.
+  Se puede tocar cualquier celda ya calculada para ver cómo salió (qué vale no acelerar, qué vale acelerar y cuál gana)
+  y de qué celdas viene. Debajo de la tabla, la cadena de etapas se va coloreando con cada decisión.
+- **Tabla grande:** se dibuja (con desplazamiento) hasta 20 000 celdas, es decir (n+1)·(B+1) ≤ 20 000. Con más, solo se
+  muestran las decisiones de la reconstrucción y se avisa. Con B tan grande que la tabla no cabe en memoria, el error es
+  el del propio algoritmo (`MAX_CELDAS_TABLA`).
+- Rutas: `POST /api/aceleracion/previsualizar` (solo lee) y `POST /api/aceleracion/resolver` (lee y resuelve con
+  `resolver_caso`). Las decisiones de la reconstrucción se leen de la tabla ya calculada; no se reimplementa la DP.
+
 ## Decisiones
 
 - **No duplica la lógica de los algoritmos.** El navegador le habla al servidor local (`servidor.py`, `http.server`),
-  que importa `leer_instancia` y `resolver_caso` de `src/auditoria/` y las combinaciones de `src/auditoria/enfoques/`
+  que importa `leer_instancia` y `resolver_caso` de `src/auditoria/` (y los equivalentes de `src/aceleracion/` para la Parte 1) y las combinaciones de `src/auditoria/enfoques/`
   (`comparar_caso`, vía `voraz_ablacion_traza`). Lo que se ve es lo que calculan esos módulos.
 - **Los textos de las explicaciones son plantillas.** Están escritas en `estatico/app.js` (funciones
   `razonEleccion`, `explicacionPaso`, `introMetodo` y `dibujarCosto`) y se rellenan con los datos reales de la traza.
@@ -82,12 +105,14 @@ En cada paso hay un recuadro con la razón concreta de la elección:
 
 ```
 frontend/
-    servidor.py             servidor local (API: /api/resolver y /api/previsualizar) y archivos estáticos
-    fuerza_bruta_demo.py    demostración de la fuerza bruta: módulo del servidor y comando de terminal
+    servidor.py             servidor local (páginas, API de la Parte 2: /api/resolver y /api/previsualizar,
+                            API de la Parte 1: /api/aceleracion/resolver y /api/aceleracion/previsualizar)
+    fuerza_bruta_demo.py    demostración de la fuerza bruta (Parte 2): módulo del servidor y comando de terminal
     estatico/
-        index.html          estructura de la página
-        app.js              lógica de la página y plantillas de las explicaciones
-        estilos.css         diseño (tema claro "Arena y oliva")
+        inicio.html, inicio.css            página de inicio (elegir la parte)
+        aceleracion.html, .js, .css        visor de la Parte 1 (tabla de la DP)
+        index.html, app.js                 visor de la Parte 2 (voraz; se sirve en /auditoria)
+        estilos.css                        diseño común (tema claro "Arena y oliva")
 ```
 
 ## Demostración de la fuerza bruta por terminal
@@ -108,6 +133,7 @@ solo cuenta lo que revisó.
 - Las explicaciones dicen por qué se eligió una interacción según la regla del método; no dicen si fue la mejor
   decisión global (para eso están el mínimo real y la comparación).
 - Las listas de candidatas muestran las 10 mejores y un "… y N más".
-- Solo cubre la Parte 2 (voraz base y enfoques). La variante ponderada y la Parte 1 no están incluidas.
-- Herramienta local: no tiene pruebas automáticas propias (se probó con un barrido de casos aleatorios en el
-  navegador); la lógica de los algoritmos sí está cubierta por `tests/`.
+- Cubre la Parte 1 (DP base) y la Parte 2 (voraz base y enfoques). La variante ponderada no está incluida.
+- Las páginas y las rutas de la Parte 1 se prueban en `tests/test_frontend_aceleracion.py` (levanta el servidor en un
+  puerto libre y compara contra la DP y la fuerza bruta). El dibujo en el navegador no tiene pruebas automáticas; el visor
+  de la Parte 2 se probó con un barrido de casos aleatorios en el navegador. La lógica de los algoritmos está cubierta por `tests/`.

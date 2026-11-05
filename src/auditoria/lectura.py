@@ -57,134 +57,134 @@ class ErrorDeLectura(ValueError):
 
 def _lineas_utiles(camino: Path) -> List[tuple]:
     """(número de línea, texto) sin comentarios ni líneas vacías."""
-    utiles: List[tuple] = []                                  # C (1): lista vacía
-    with open(camino, encoding="utf-8") as f:                 # C: abrir el archivo (una vez)
-        for num, cruda in enumerate(f, start=1):              # L+1 pruebas de ciclo; L = líneas del archivo
-            texto = cruda.split("#", 1)[0].strip()            # C (4) por línea: split, indexar, strip -> O(L)
-            if texto:                                         # C (1) por línea -> O(L)
-                utiles.append((num, texto))                   # C (1) cuando la línea es útil -> O(L)
-    return utiles                                             # O(L): la lista de líneas útiles
+    utiles: List[tuple] = []
+    with open(camino, encoding="utf-8") as f:
+        for num, cruda in enumerate(f, start=1):
+            texto = cruda.split("#", 1)[0].strip()
+            if texto:
+                utiles.append((num, texto))
+    return utiles
 
 
 def _lista_de(datos: dict, clave: str, nombre: str) -> list:
     """Campo obligatorio que debe ser una lista no vacía."""
-    valor = datos.get(clave)                                  # C (1)
-    if not isinstance(valor, list) or not valor:              # C (2)
+    valor = datos.get(clave)
+    if not isinstance(valor, list) or not valor:
         raise ErrorDeLectura("%s: falta '%s' o no es una lista con elementos" % (nombre, clave))
-    return valor                                              # C (1)
+    return valor
 
 
 def _leer_json(camino: Path, nombre: str) -> Instancia:
     """Lee el formato JSON de la profesora.  T = O(n·r)."""
-    try:                                                      # C: inicio del bloque
-        with open(camino, encoding="utf-8") as f:             # C: abrir el archivo (una vez)
-            datos = json.load(f)                              # O(L): leer y analizar L caracteres
-    except json.JSONDecodeError as e:                         # C: solo si el JSON está mal escrito
+    try:
+        with open(camino, encoding="utf-8") as f:
+            datos = json.load(f)
+    except json.JSONDecodeError as e:
         raise ErrorDeLectura("%s: JSON inválido (línea %d, columna %d): %s"
                              % (nombre, e.lineno, e.colno, e.msg))
-    except UnicodeDecodeError:                                # C: solo si no es UTF-8
+    except UnicodeDecodeError:
         raise ErrorDeLectura("%s: el archivo no está en UTF-8" % nombre)
-    if not isinstance(datos, dict):                           # C (1)
+    if not isinstance(datos, dict):
         raise ErrorDeLectura("%s: el JSON debe ser un objeto con 'categorias_riesgo' y 'etapas'" % nombre)
 
-    categorias = _lista_de(datos, "categorias_riesgo", nombre)    # C (1)
-    etapas = _lista_de(datos, "etapas", nombre)               # C (1)
-    ids_cat: List[str] = []                                   # C (1)
-    nombres_cat: List[str] = []                               # C (1)
-    importancias: List[int] = []                              # C (1)
-    for k, c in enumerate(categorias, start=1):               # r+1 pruebas de ciclo -> O(r)
-        if not isinstance(c, dict) or not isinstance(c.get("id"), str):   # C (3)
+    categorias = _lista_de(datos, "categorias_riesgo", nombre)
+    etapas = _lista_de(datos, "etapas", nombre)
+    ids_cat: List[str] = []
+    nombres_cat: List[str] = []
+    importancias: List[int] = []
+    for k, c in enumerate(categorias, start=1):
+        if not isinstance(c, dict) or not isinstance(c.get("id"), str):
             raise ErrorDeLectura("%s: la categoría número %d no tiene 'id' de texto" % (nombre, k))
-        ids_cat.append(c["id"])                               # C (1) amortizado
-        nombres_cat.append(str(c.get("categoria", "")))       # C (2)
-        importancias.append(c.get("importancia"))             # C (1)
-    if len(set(ids_cat)) != len(ids_cat):                     # C (3): conjunto de r ids -> O(r)
+        ids_cat.append(c["id"])
+        nombres_cat.append(str(c.get("categoria", "")))
+        importancias.append(c.get("importancia"))
+    if len(set(ids_cat)) != len(ids_cat):
         raise ErrorDeLectura("%s: hay ids de categoría repetidos" % nombre)
-    numero = {cid: k for k, cid in enumerate(ids_cat, start=1)}   # O(r): id -> número 1..r
-    r = len(ids_cat)                                          # C (1)
+    numero = {cid: k for k, cid in enumerate(ids_cat, start=1)}
+    r = len(ids_cat)
 
-    ids_int: List[str] = []                                   # C (1)
-    S: List[Set[int]] = []                                    # C (1)
-    for k, e in enumerate(etapas, start=1):                   # n+1 pruebas de ciclo -> O(n)
-        if not isinstance(e, dict) or not isinstance(e.get("id"), str):   # C (3)
+    ids_int: List[str] = []
+    S: List[Set[int]] = []
+    for k, e in enumerate(etapas, start=1):
+        if not isinstance(e, dict) or not isinstance(e.get("id"), str):
             raise ErrorDeLectura("%s: la etapa número %d no tiene 'id' de texto" % (nombre, k))
-        eid = e["id"]                                         # C (1)
-        riesgos = e.get("riesgos_cubiertos_auditoria_completa")   # C (1)
-        if not isinstance(riesgos, list):                     # C (1)
+        eid = e["id"]
+        riesgos = e.get("riesgos_cubiertos_auditoria_completa")
+        if not isinstance(riesgos, list):
             raise ErrorDeLectura("%s, etapa %s: falta 'riesgos_cubiertos_auditoria_completa'" % (nombre, eid))
-        desconocidos = [x for x in riesgos if x not in numero]    # O(r): ids que no existen
-        if desconocidos:                                      # C (1)
+        desconocidos = [x for x in riesgos if x not in numero]
+        if desconocidos:
             raise ErrorDeLectura("%s, etapa %s: categorías no definidas: %s" % (nombre, eid, desconocidos))
-        s = {numero[x] for x in riesgos}                      # O(r): números 1..r
-        if len(s) != len(riesgos):                            # C (2)
+        s = {numero[x] for x in riesgos}
+        if len(s) != len(riesgos):
             raise ErrorDeLectura("%s, etapa %s: hay categorías repetidas" % (nombre, eid))
-        ids_int.append(eid)                                   # C (1) amortizado
-        S.append(s)                                           # C (1) amortizado -> O(n)
-    if len(set(ids_int)) != len(ids_int):                     # O(n): ids de etapa repetidos
+        ids_int.append(eid)
+        S.append(s)
+    if len(set(ids_int)) != len(ids_int):
         raise ErrorDeLectura("%s: hay ids de etapa repetidos" % nombre)
 
-    parametros = datos.get("parametros")                      # C (1)
-    if isinstance(parametros, dict):                          # C (1): coherencia opcional con las listas
-        for clave, real in (("numero_etapas", len(S)), ("numero_categorias_riesgo", r)):   # C (2)
-            declarado = parametros.get(clave)                 # C (1)
-            if declarado is not None and declarado != real:   # C (2)
+    parametros = datos.get("parametros")
+    if isinstance(parametros, dict):
+        for clave, real in (("numero_etapas", len(S)), ("numero_categorias_riesgo", r)):
+            declarado = parametros.get(clave)
+            if declarado is not None and declarado != real:
                 raise ErrorDeLectura("%s: '%s' dice %s pero hay %d" % (nombre, clave, declarado, real))
 
-    todas = all(isinstance(x, int) and not isinstance(x, bool) for x in importancias)   # O(r)
+    todas = all(isinstance(x, int) and not isinstance(x, bool) for x in importancias)
     return Instancia(nombre, r, S, tuple(ids_int), tuple(ids_cat), tuple(nombres_cat),
-                     tuple(importancias) if todas else None)  # O(n + r): armar la instancia
+                     tuple(importancias) if todas else None)
 
 
 def leer_instancia(ruta: Union[str, Path]) -> Instancia:
     """Lee un archivo de caso (.json o .txt) y devuelve una `Instancia`.  T = O(n·r)."""
-    camino = Path(ruta)                                       # C (1)
-    nombre = camino.stem                                      # C (1): nombre del caso = archivo sin extensión
-    if camino.suffix.lower() == ".json":                      # C (2): formato según la extensión
-        return _leer_json(camino, nombre)                     # O(n·r): lector JSON
-    lineas = _lineas_utiles(camino)                           # O(L): leer y limpiar el archivo
-    if not lineas:                                            # C (1): comparación
-        raise ErrorDeLectura("%s: el archivo no tiene datos" % nombre)   # C: solo si está vacío
+    camino = Path(ruta)
+    nombre = camino.stem
+    if camino.suffix.lower() == ".json":
+        return _leer_json(camino, nombre)
+    lineas = _lineas_utiles(camino)
+    if not lineas:
+        raise ErrorDeLectura("%s: el archivo no tiene datos" % nombre)
 
-    num_cab, cab = lineas[0]                                  # C (2): línea de cabecera
-    campos = cab.split()                                      # C (1) amortizado
-    if len(campos) != 2:                                      # C (1): comparación
-        raise ErrorDeLectura("%s, línea %d: se esperaba 'r n'" % (nombre, num_cab))  # C: formato roto
-    try:                                                      # C: inicio del bloque
-        r, n = int(campos[0]), int(campos[1])                 # C (2): conversión a entero
-    except ValueError:                                        # C: solo si no son enteros
+    num_cab, cab = lineas[0]
+    campos = cab.split()
+    if len(campos) != 2:
+        raise ErrorDeLectura("%s, línea %d: se esperaba 'r n'" % (nombre, num_cab))
+    try:
+        r, n = int(campos[0]), int(campos[1])
+    except ValueError:
         raise ErrorDeLectura("%s, línea %d: r y n deben ser enteros" % (nombre, num_cab))
-    if r < 1 or n < 1:                                        # C (2): comparaciones
-        raise ErrorDeLectura("%s: se exige r >= 1 y n >= 1" % nombre)    # C: valores inválidos
+    if r < 1 or n < 1:
+        raise ErrorDeLectura("%s: se exige r >= 1 y n >= 1" % nombre)
 
-    cuerpo = lineas[1:]                                       # O(1): rebanado (vista, no copia)
-    if len(cuerpo) != n:                                      # C (1): comparación
+    cuerpo = lineas[1:]
+    if len(cuerpo) != n:
         raise ErrorDeLectura(
             "%s: se esperaban %d interacciones y llegaron %d" % (nombre, n, len(cuerpo))
-        )                                                     # C: conteo de líneas incorrecto
+        )
 
-    S: List[Set[int]] = []                                    # C (1): lista vacía
-    for num, texto in cuerpo:                                 # n+1 pruebas de ciclo -> O(n)
-        try:                                                  # C: inicio del bloque
-            valores = [int(x) for x in texto.split()]         # O(r): convertir a lo sumo r enteros por línea -> O(n·r)
-        except ValueError:                                    # C: solo si hay un token no entero
+    S: List[Set[int]] = []
+    for num, texto in cuerpo:
+        try:
+            valores = [int(x) for x in texto.split()]
+        except ValueError:
             raise ErrorDeLectura("%s, línea %d: las categorías deben ser enteros" % (nombre, num))
-        s = set(valores)                                      # O(r): conjunto de a lo sumo r categorías
-        if len(s) != len(valores):                            # C (2): dos len() y una comparación
-            raise ErrorDeLectura("%s, línea %d: hay categorías repetidas" % (nombre, num))  # C: repetidas
-        malas = [c for c in s if c < 1 or c > r]              # O(r): filtrar fuera de rango
-        if malas:                                             # C (1): comparación
+        s = set(valores)
+        if len(s) != len(valores):
+            raise ErrorDeLectura("%s, línea %d: hay categorías repetidas" % (nombre, num))
+        malas = [c for c in s if c < 1 or c > r]
+        if malas:
             raise ErrorDeLectura(
                 "%s, línea %d: categorías fuera de 1..%d: %s" % (nombre, num, r, sorted(malas))
-            )                                                 # C: índices inválidos
-        S.append(s)                                           # C (1) amortizado -> O(n)
-    return Instancia(nombre, r, S)                            # C (1): armar la instancia
+            )
+        S.append(s)
+    return Instancia(nombre, r, S)
 
 
 def leer_casos(directorio: Union[str, Path]) -> List[Instancia]:
     """Lee todos los .txt y .json de un directorio, ordenados por nombre.  T = O(casos·n·r)."""
-    dirp = Path(directorio)                                   # C (1)
-    if not dirp.is_dir():                                     # C (1): comparación
-        raise ErrorDeLectura("%s no es un directorio" % directorio)   # C: ruta inválida
+    dirp = Path(directorio)
+    if not dirp.is_dir():
+        raise ErrorDeLectura("%s no es un directorio" % directorio)
     archivos = sorted(p for p in dirp.iterdir()
-                      if p.suffix.lower() in (".txt", ".json"))    # O(casos log casos): listar y ordenar
-    return [leer_instancia(p) for p in archivos]              # O(casos · n · r): leer cada caso
+                      if p.suffix.lower() in (".txt", ".json"))
+    return [leer_instancia(p) for p in archivos]

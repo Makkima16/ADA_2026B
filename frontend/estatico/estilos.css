@@ -462,3 +462,25 @@ footer { font-size: 13px; color: var(--texto-3); text-align: center; }
 .btn-ing.activo { background: var(--primario); color: #fff; box-shadow: 0 6px 16px rgba(var(--sp), .3); }
 .nombre-combinacion { display: inline-block; min-height: 44px; line-height: 44px; font-size: 18px; font-weight: 750; color: var(--texto); }
 .tabla-cmp tr.fila-elegida td { background: var(--acento-suave); font-weight: 700; }
+
+/* Selector de parte (inicio · Parte 1 · Parte 2), común a las tres páginas */
+.acciones-cab { display: flex; flex-wrap: wrap; align-items: center; justify-content: flex-end; gap: 10px 14px; }
+.selector-parte { display: flex; gap: 4px; padding: 5px; background: var(--panel-2); border-radius: 999px; }
+.selector-parte a {
+  padding: 8px 16px; border-radius: 999px; font: 700 15px var(--sans); color: var(--texto-2);
+  text-decoration: none; white-space: nowrap; transition: background .15s, color .15s;
+}
+.selector-parte a:hover { color: var(--texto); background: var(--primario-suave); }
+.selector-parte a[aria-current="page"] { background: var(--panel); color: var(--tinta-int); box-shadow: 0 2px 8px rgba(60, 55, 25, .1); }
+.selector-parte a:focus-visible { outline: 3px solid var(--foco); outline-offset: 2px; }
+
+/* Ilustración de la Parte 1: un pedazo de tabla de la DP */
+.mini-tabla { display: grid; grid-template-columns: repeat(5, 40px); gap: 5px; }
+.mini-tabla i {
+  height: 34px; border-radius: 9px; display: flex; align-items: center; justify-content: center;
+  font: 800 16px var(--mono); font-style: normal;
+}
+.mini-tabla .n0 { background: var(--primario-suave); color: var(--texto-2); }
+.mini-tabla .n1 { background: var(--primario-suave); color: var(--texto-2); }
+.mini-tabla .nv { background: var(--acento); color: var(--acento-tinta); box-shadow: 0 3px 8px rgba(var(--sa), .35); }
+.mini-tabla .p { background: #fff; border: 2px dashed var(--punteado); color: var(--texto-3); }
