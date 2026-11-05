@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>¿Qué conviene auditar? — Visor del método voraz</title>
+  <link rel="stylesheet" href="/estatico/estilos.css">
+</head>
+<body>
+<div class="pagina">
+
+  <header class="cabecera">
+    <div class="marca-titulo">
+      <div class="logo" aria-hidden="true"><span class="l1"></span><span class="l2"></span><span class="l3"></span><span class="l4"></span></div>
+      <div>
+        <h1>¿Qué conviene auditar?</h1>
+        <p class="subtitulo">Visor del algoritmo voraz de Set Cover · Análisis y Diseño de Algoritmos · Universidad de Caldas</p>
+      </div>
+    </div>
+    <div class="pildora"><i class="punto" aria-hidden="true"></i>Funcionando en este equipo <span class="mono" id="direccion"></span></div>
+  </header>
+
+  <!-- ============ 1. Cargar el caso ============ -->
+  <section class="panel" id="panel-ingreso" aria-labelledby="titulo-carga">
+    <div class="panel-cab">
+      <div class="encabezado-seccion">
+        <span class="num-paso" aria-hidden="true">1</span>
+        <div>
+          <h2 id="titulo-carga">Cargar el caso</h2>
+          <p class="ayuda-corta">Qué interacciones hay y qué riesgos revisa cada una</p>
+        </div>
+      </div>
+      <div class="tabs" id="tabs" role="tablist" aria-label="Forma de cargar el caso">
+        <button class="tab activa" role="tab" aria-selected="true" data-tab="archivo">Subir archivo</button>
+        <button class="tab" role="tab" aria-selected="false" data-tab="manual">Crear el caso</button>
+        <button class="tab" role="tab" aria-selected="false" data-tab="pegar">Desde texto</button>
+      </div>
+    </div>
+
+    <!-- ---- Subir archivo ---- -->
+    <div id="tab-archivo" class="contenido-tab">
+      <div class="fila-archivo">
+        <label class="zona-archivo" id="zona-archivo" for="entrada-archivo">
+          <span class="icono-subir" aria-hidden="true">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16V4"/><path d="M7 9l5-5 5 5"/><path d="M4 16v3a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-3"/></svg>
+          </span>
+          <span class="zona-titulo" id="texto-archivo">Elige o arrastra tu archivo aquí</span>
+          <span class="zona-ayuda">Acepta .json (formato de la profesora) o .txt</span>
+          <input type="file" id="entrada-archivo" class="solo-lectores" accept=".json,.txt,application/json,text/plain">
+        </label>
+
+        <div class="vista-previa oculto" id="vista-previa">
+          <div class="vp-izquierda">
+            <div class="vp-archivo">
+              <span class="vp-nombre mono" id="vp-nombre"></span>
+              <span class="insignia ok">leído correctamente</span>
+            </div>
+            <div class="cifras" id="vp-cifras"></div>
+            <div class="avisos" id="vp-avisos"></div>
+            <div class="empuje"></div>
+            <button class="btn primario grande" id="btn-analizar-archivo" disabled>Analizar archivo</button>
+          </div>
+          <div class="vp-listas">
+            <div class="lista-caja">
+              <h3>Cada interacción revisa…</h3>
+              <ul class="desplazable" id="vp-interacciones"></ul>
+            </div>
+            <div class="lista-caja">
+              <h3>Cada riesgo lo revisan…</h3>
+              <ul class="desplazable" id="vp-riesgos"></ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ---- Crear el caso ---- -->
+    <div id="tab-manual" class="contenido-tab oculto">
+      <div class="fila-manual-cab">
+        <div class="manual-izq">
+          <p class="ayuda">
+            Indica cuántos <strong>tipos de riesgo</strong> hay y cuántas <strong>interacciones</strong>
+            se pueden auditar. Los riesgos se numeran del 1 hasta esa cantidad. Después, en cada
+            interacción, marca qué riesgos revisa.
+          </p>
+          <div class="campos-manuales">
+            <label>¿Cuántos riesgos?
+              <input type="number" id="manual-r" min="1" max="200" value="6">
+            </label>
+            <label>¿Cuántas interacciones?
+              <input type="number" id="manual-n" min="1" max="200" value="3">
+            </label>
+          </div>
+          <button class="btn" id="btn-generar-filas">Preparar filas</button>
+          <div class="estado-cobertura" id="estado-cobertura" role="status"></div>
+          <details class="plegable">
+            <summary>Ver el caso como archivo de texto</summary>
+            <pre class="desplazable" id="texto-previsualizacion"></pre>
+          </details>
+          <button class="btn primario grande" id="btn-analizar">Analizar este caso</button>
+        </div>
+        <div class="manual-der">
+          <div class="manual-titulo">
+            <h3>Marca qué riesgos revisa cada interacción</h3>
+            <span class="nota">Con más de 40 riesgos, cada fila se escribe como texto</span>
+          </div>
+          <div class="filas-manuales desplazable" id="filas-manuales"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ---- Desde texto ---- -->
+    <div id="tab-pegar" class="contenido-tab oculto">
+      <label for="entrada-texto" class="etiqueta-texto">
+        Pega el caso en JSON o en formato .txt <span class="nota">· opción avanzada</span>
+      </label>
+      <textarea id="entrada-texto" spellcheck="false"
+        placeholder='{&#10;  "categorias_riesgo": [ {"id": "R01", "categoria": "sesgo"}, ... ],&#10;  "etapas": [ {"id": "E01", "riesgos_cubiertos_auditoria_completa": ["R01", "R02"]}, ... ]&#10;}&#10;&#10;o, en formato .txt:  "riesgos interacciones" en la primera línea y una línea de riesgos por interacción'></textarea>
+      <button class="btn primario grande" id="btn-resolver-texto">Analizar texto</button>
+    </div>
+
+    <div class="banner-error oculto" id="banner-error" role="alert">
+      <span class="icono-error" aria-hidden="true">!</span>
+      <div class="cuerpo-error">
+        <div class="titulo-error">No pudimos leer el caso</div>
+        <div id="mensaje-error"></div>
+        <details class="detalle-tecnico oculto" id="detalle-error">
+          <summary>Detalle técnico</summary>
+          <pre id="detalle-error-texto"></pre>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 2. Resultado ============ -->
+  <section id="panel-resultado" aria-labelledby="titulo-resultado">
+    <div class="encabezado-seccion">
+      <span class="num-paso verde" aria-hidden="true">2</span>
+      <div>
+        <h2 id="titulo-resultado">Resultado y decisión, paso a paso</h2>
+        <p class="ayuda-corta">Cómo el algoritmo elige qué auditar hasta revisar todos los riesgos</p>
+      </div>
+    </div>
+
+    <div class="vacio" id="vacio">
+      <div class="mini-matriz" aria-hidden="true"><i class="m-nuevo"></i><i class="m-cubierto"></i><i class="m-pend"></i><i class="m-pend"></i><i class="m-nuevo"></i><i class="m-cubierto"></i></div>
+      <div class="vacio-titulo">Todavía no hay nada que mostrar</div>
+      <div class="vacio-texto">Carga un caso arriba y pulsa <strong>Analizar</strong>. Aquí verás, paso a paso, qué decide el algoritmo y por qué.</div>
+    </div>
+
+    <div class="tarjeta-grande oculto" id="no-factible" role="alert">
+      <div class="nf-cab">
+        <span class="icono-error grande" aria-hidden="true">!</span>
+        <div class="nf-titulo">Este caso no tiene solución</div>
+      </div>
+      <div id="texto-no-factible"></div>
+    </div>
+
+    <div class="oculto" id="salida">
+      <div class="resumen" id="resumen"></div>
+
+      <div class="tarjeta costo" id="tarjeta-costo"></div>
+
+      <div class="tarjeta fuerza-bruta" id="tarjeta-fb"></div>
+
+      <div class="tarjeta comparacion" id="tarjeta-comparacion"></div>
+
+      <div class="barra-metodo">
+        <div class="grupo-voraz">
+          <span class="rotulo">Voraz normal</span>
+          <button class="btn-voraz activo" id="btn-voraz" type="button" aria-pressed="true">Voraz normal</button>
+        </div>
+        <span class="sep-metodo" aria-hidden="true"></span>
+        <div class="grupo-ing">
+          <span class="rotulo">Sumarle ingredientes (se combinan)</span>
+          <div id="ingredientes" role="group" aria-label="Ingredientes">
+            <button class="btn-ing" type="button" data-ing="e" aria-pressed="false">Esenciales</button>
+            <button class="btn-ing" type="button" data-ing="r" aria-pressed="false">Rareza</button>
+            <button class="btn-ing" type="button" data-ing="p" aria-pressed="false">Parejas</button>
+          </div>
+        </div>
+        <div class="grupo-nombre">
+          <span class="rotulo">Mostrando</span>
+          <span class="nombre-combinacion" id="nombre-combinacion">Voraz normal</span>
+        </div>
+      </div>
+
+      <div class="escenario">
+        <div class="tarjeta-paso">
+          <div class="paso-cab">
+            <span class="paso-titulo" id="titulo-paso" aria-live="polite"></span>
+            <div class="controles" role="group" aria-label="Reproducción">
+              <button class="btn redondo" id="btn-inicio" aria-label="Ir al inicio">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 5v14"/><path d="M18 6l-8 6 8 6z"/></svg>
+              </button>
+              <button class="btn redondo" id="btn-anterior" aria-label="Paso anterior">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>
+              </button>
+              <button class="btn primario reproducir" id="btn-auto">Reproducir</button>
+              <button class="btn redondo" id="btn-siguiente" aria-label="Paso siguiente">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg>
+              </button>
+              <button class="btn redondo" id="btn-final" aria-label="Ir al final">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 5v14"/><path d="M6 6l8 6-8 6z"/></svg>
+              </button>
+            </div>
+          </div>
+
+          <div class="hitos" id="hitos"></div>
+          <div class="deslizador">
+            <input type="range" id="slider-paso" min="0" max="0" value="0" aria-label="Paso">
+            <span class="nota">también con ← →</span>
+          </div>
+
+          <div class="frase" id="frase-paso"></div>
+          <div class="explicacion" id="explicacion-paso"></div>
+          <div class="fila-chips oculto" id="fila-nuevos"><span class="rotulo">Se revisan ahora</span><span class="chips" id="chips-nuevos"></span></div>
+          <div class="fila-chips"><span class="rotulo">Todavía faltan</span><span class="chips" id="chips-faltan"></span></div>
+
+          <div class="progreso">
+            <span class="rotulo">Riesgos revisados</span>
+            <span class="progreso-num" id="progreso-num"></span>
+            <div class="barra" id="barra-riesgos" aria-hidden="true"></div>
+            <span class="por-que" id="por-que"></span>
+          </div>
+        </div>
+
+        <div class="columna-matriz">
+          <div class="tarjeta">
+            <div class="matriz-cab">
+              <div>
+                <h3>Quién revisa qué</h3>
+                <p class="nota">Filas: interacciones · Columnas: riesgos</p>
+              </div>
+              <ul class="leyenda" aria-label="Leyenda">
+                <li><span class="celda c-nuevo">+</span>se revisa en este paso</li>
+                <li><span class="celda c-cubierto"></span>ya revisado</li>
+                <li><span class="celda c-pendiente">·</span>pendiente</li>
+                <li><span class="celda c-vacio borde"></span>no lo revisa</li>
+              </ul>
+            </div>
+            <div class="zona-matriz desplazable" id="zona-matriz" role="table" aria-label="Matriz de interacciones por riesgos"></div>
+          </div>
+
+          <div class="cobertura-final oculto" id="cobertura-final">
+            <h3>Así queda: cada riesgo y quién lo revisa</h3>
+            <div class="cobertura" id="tabla-cobertura"></div>
+          </div>
+        </div>
+      </div>
+
+      <details class="tarjeta evidencia">
+        <summary>Vista técnica · evidencia</summary>
+        <pre class="desplazable" id="texto-evidencia"></pre>
+      </details>
+    </div>
+  </section>
+
+  <footer>
+    Herramienta de apoyo local para la sustentación. Los cálculos los hace el mismo código del proyecto
+    que produce las evidencias; esta página solo los muestra. No es parte de la entrega.
+  </footer>
+</div>
+
+<script src="/estatico/app.js"></script>
+</body>
+</html>

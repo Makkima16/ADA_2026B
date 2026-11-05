@@ -3,7 +3,16 @@
 Proyecto semestral de Análisis y Diseño de Algoritmos, Universidad de Caldas.
 Equipo de 3 personas. Idioma de trabajo: **español** (código en inglés o español, pero comentarios, informe y manual en español).
 
-El enunciado completo está en @context/Proyecto_ADAG3.md. Léelo antes de tocar algoritmos o escribir pruebas formales.
+## Fuentes y orden de prioridad (en `context/`)
+
+Si dos fuentes se contradicen, manda la de mayor prioridad:
+
+1. `Guia_Primera_Entrega_ADAG_2026B_Resumen.md` (también existe el .docx): la guía de la primera entrega.
+2. `Proyecto-2026B.md`.
+3. `Proyecto ADA Grupo 3 — Tareas por integrante (primera entrega).md`: reparto de tareas.
+4. `Proyecto_ADAG3.md`: enunciado completo. Léelo antes de tocar algoritmos o escribir pruebas formales (@context/Proyecto_ADAG3.md).
+
+La documentación del proyecto (informe y, luego, manual técnico) vive en `docs/`.
 
 ## Qué es el proyecto
 
@@ -44,6 +53,8 @@ requirements.txt
 run_all.py            # corre todos los casos y genera evidencias
 context/                 # enunciado, guía de entrega, manual técnico, informe
 src/ruta/             # algoritmos (aceleracion, auditoria, ponderada) + lectura de casos + traza
+src/enfoques/         # enfoques aparte del voraz base (Parte 2) y su experimento; no reemplazan a src/ruta/
+frontend/             # visor local de apoyo (Parte 2); solo importa de src/
 casos/                # casos de la profesora (SOLO LECTURA)
 resultados/           # salida, tiempo y traza por caso (se regenera completo)
 tests/                # pruebas (DP vs fuerza bruta, voraz vs óptimo y cota H(d))

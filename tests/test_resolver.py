@@ -39,3 +39,22 @@ def test_formatear_resultado_incluye_lo_pedido_por_la_guia():
     assert "Tiempo:" in texto
     assert "Óptimo por fuerza bruta: [2, 3] (2)" in texto
     assert "Cota H(d):" in texto
+
+
+def test_traza_con_nombres_cuando_la_instancia_los_trae():
+    inst = Instancia("con_ids", 3, [{1, 2}, {3}],
+                     ids_interaccion=("E01", "E02"),
+                     ids_categoria=("R01", "R02", "R03"),
+                     nombres_categoria=("sesgo", "privacidad", "formato"))
+    texto = formatear_resultado(resolver_caso(inst))
+    assert "interacción 1 (E01)" in texto
+    assert "categorías nuevas {R01, R02}" in texto
+    assert "categoría R03 (formato) -> interacción E02" in texto
+    assert "[1, 2] (2): E01, E02" in texto
+
+
+def test_traza_sin_nombres_no_cambia():
+    texto = formatear_resultado(resolver_caso(CLASICA))
+    assert "Paso 1: interacción 1 | categorías nuevas {1, 2, 4, 5}" in texto
+    assert "categoría 3 -> interacción 2" in texto
+    assert "(E" not in texto
