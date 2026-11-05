@@ -10,12 +10,7 @@ Convención: la instancia se recibe como `r` y una lista `S` de n conjuntos;
 la interacción j es `S[j - 1]`. Todas las funciones devuelven datos puros:
 no leen archivos ni imprimen (eso vive en otros módulos).
 
-Anotación de costos (al final de cada línea):
-    C (k)   línea de costo constante, con k operaciones elementales.
-    n veces la línea corre n veces (cuerpo de un ciclo o de un condicional).
-    O(...)  costo asintótico de la línea o de la función.
-Como los conjuntos tienen a lo sumo r elementos, las operaciones sobre ellos
-(unión, intersección, diferencia, copia) cuestan O(r); len() es O(1).
+Al final del archivo está el costo del voraz y por qué sale ese costo.
 """
 
 from dataclasses import dataclass
@@ -40,11 +35,11 @@ def verificar_factibilidad(r: int, S: Sequence[Set[int]]) -> Tuple[bool, Set[int
 
     T(n, r) = O(n·r): se recorren las n interacciones y se une cada S_j (<= r).
     """
-    cubiertas: Set[int] = set()                       # C (1): conjunto vacío
-    for s in S:                                       # n+1 pruebas de ciclo, C (1) cada una -> O(n)
-        cubiertas |= s                                # n veces · O(r) por la unión -> O(n·r)
-    sin_cubrir = set(range(1, r + 1)) - cubiertas     # O(r): construir {1..r} y restar
-    return (not sin_cubrir, sin_cubrir)               # C (2): negación y tupla
+    cubiertas: Set[int] = set()
+    for s in S:
+        cubiertas |= s
+    sin_cubrir = set(range(1, r + 1)) - cubiertas
+    return (not sin_cubrir, sin_cubrir)
 
 
 def voraz(r: int, S: Sequence[Set[int]]) -> Tuple[List[int], List[Paso]]:
@@ -58,20 +53,20 @@ def voraz(r: int, S: Sequence[Set[int]]) -> Tuple[List[int], List[Paso]]:
     >= 1 categoría nueva y usa una interacción distinta) y cada paso revisa
     n interacciones contando categorías nuevas en O(r).
     """
-    factible, sin_cubrir = verificar_factibilidad(r, S)   # O(n·r): factibilidad previa a todo
-    if not factible:                                      # C (1): comparación
+    factible, sin_cubrir = verificar_factibilidad(r, S)
+    if not factible:
         raise ValueError(
             "instancia no factible: nadie cubre las categorías %s" % sorted(sin_cubrir)
-        )                                                 # C: solo si no es factible (no corre en el caso normal)
+        )
 
-    faltan = set(range(1, r + 1))                         # O(r): categorías por cubrir
-    J: List[int] = []                                     # C (1): lista vacía
-    traza: List[Paso] = []                                # C (1): lista vacía
-    while faltan:                                         # min(n, r)+1 pruebas de ciclo, C (1) cada una -> O(min(n, r))
-        paso = paso_voraz(S, faltan)                      # min(n, r) veces · O(n·r) por paso -> O(n·r·min(n, r))
-        J.append(paso.j)                                  # min(n, r) veces · C (1) amortizado -> O(min(n, r))
-        traza.append(paso)                                # min(n, r) veces · C (1) amortizado -> O(min(n, r))
-    return J, traza                                       # C (2): retorno de tupla
+    faltan = set(range(1, r + 1))
+    J: List[int] = []
+    traza: List[Paso] = []
+    while faltan:
+        paso = paso_voraz(S, faltan)
+        J.append(paso.j)
+        traza.append(paso)
+    return J, traza
 
 
 def paso_voraz(S: Sequence[Set[int]], faltan: Set[int]) -> Paso:
@@ -80,54 +75,113 @@ def paso_voraz(S: Sequence[Set[int]], faltan: Set[int]) -> Paso:
     Modifica `faltan` (le quita las categorías que cubre la elegida).
     Desempate fijo: gana la de menor índice j ('>' estricto).
     """
-    mejor_j, mejor_nuevas = 0, set()                      # C (2): dos asignaciones
-    for j, s in enumerate(S, start=1):                    # n+1 pruebas de ciclo, C (1) cada una -> O(n)
-        nuevas = s & faltan                               # n veces · O(r) por la intersección -> O(n·r)
-        if len(nuevas) > len(mejor_nuevas):               # n veces · C (3): dos len() y una comparación -> O(n)
-            mejor_j, mejor_nuevas = j, nuevas             # C (2) cuando gana; a lo sumo n veces -> O(n)
-    faltan -= mejor_nuevas                                # O(r): quitar las nuevas del pendiente
-    return Paso(mejor_j, frozenset(mejor_nuevas), frozenset(faltan))  # O(r): construir los frozenset
+    mejor_j, mejor_nuevas = 0, set()
+    for j, s in enumerate(S, start=1):
+        nuevas = s & faltan
+        if len(nuevas) > len(mejor_nuevas):
+            mejor_j, mejor_nuevas = j, nuevas
+    faltan -= mejor_nuevas
+    return Paso(mejor_j, frozenset(mejor_nuevas), frozenset(faltan))
 
 
 def cobertura_final(S: Sequence[Set[int]], J: Sequence[int]) -> Dict[int, int]:
     """Para cada categoría, la primera interacción de J (en orden) que la cubre."""
-    cobertura: Dict[int, int] = {}                        # C (1): diccionario vacío
-    for j in J:                                           # |J|+1 pruebas de ciclo; |J| <= min(n, r)
+    cobertura: Dict[int, int] = {}
+    for j in J:
         for c in sorted(S[j - 1]):                        # |S_j|+1 pruebas; sorted cuesta O(|S_j| log |S_j|)
-            cobertura.setdefault(c, j)                    # C (1) por categoría; a lo sumo n·r inserciones en total
-    return cobertura                                      # O(n·r): cada interacción de J aporta <= r categorías
+            cobertura.setdefault(c, j)
+    return cobertura
 
 
 def cubre_todo(r: int, S: Sequence[Set[int]], J: Sequence[int]) -> bool:
     """Comprobación independiente: ¿las interacciones de J cubren U?"""
-    return set(cobertura_final(S, J)) == set(range(1, r + 1))  # O(n·r): cobertura_final más comparar con {1..r}
+    return set(cobertura_final(S, J)) == set(range(1, r + 1))
 
 
 def fuerza_bruta(r: int, S: Sequence[Set[int]]) -> List[int]:
     """Óptimo exacto probando subconjuntos por tamaño creciente. Solo n <= 12."""
-    n = len(S)                                            # C (1)
-    if n > N_MAX_FUERZA_BRUTA:                            # C (1): comparación
+    n = len(S)
+    if n > N_MAX_FUERZA_BRUTA:
         raise ValueError(
             "fuerza bruta solo para verificar: n=%d > %d" % (n, N_MAX_FUERZA_BRUTA)
-        )                                                 # C: solo si n supera el límite
-    factible, sin_cubrir = verificar_factibilidad(r, S)   # O(n·r): factibilidad previa
-    if not factible:                                      # C (1): comparación
+        )
+    factible, sin_cubrir = verificar_factibilidad(r, S)
+    if not factible:
         raise ValueError(
             "instancia no factible: nadie cubre las categorías %s" % sorted(sin_cubrir)
-        )                                                 # C: solo si no es factible
-    for k in range(0, n + 1):                             # n+1 iteraciones, C (1) cada una -> O(n)
-        for J in combinations(range(1, n + 1), k):        # C(n, k) iteraciones; sumadas sobre k dan 2^n -> O(2^n)
-            if cubre_todo(r, S, J):                       # 2^n veces · O(n·r) por comprobación -> O(2^n·n·r)
-                return list(J)                            # C (1): primera cobertura hallada (por tamaño creciente)
-    raise AssertionError("inalcanzable: la instancia es factible")  # C: no debería alcanzarse
+        )
+    for k in range(0, n + 1):
+        for J in combinations(range(1, n + 1), k):
+            if cubre_todo(r, S, J):
+                return list(J)
+    raise AssertionError("inalcanzable: la instancia es factible")
 
 
 def armonico(d: int) -> float:
     """H(d) = 1 + 1/2 + ... + 1/d."""
-    return sum(1.0 / i for i in range(1, d + 1))          # O(d): d términos, C (1) cada uno
+    return sum(1.0 / i for i in range(1, d + 1))
 
 
 def cota_aproximacion(S: Sequence[Set[int]]) -> float:
     """H(d) con d = máx |S_j| (Johnson, 1974; Chvátal, 1979)."""
-    d = max((len(s) for s in S), default=0)               # O(n): recorre las n interacciones; len() es C (1)
-    return armonico(d)                                    # O(d) = O(r): llamada a H(d)
+    d = max((len(s) for s in S), default=0)
+    return armonico(d)
+
+
+# =============================================================================
+# COSTO DEL VORAZ
+# n = interacciones, r = categorías, d = máx |S_j|.
+#
+# verificar_factibilidad -> O(n·r)
+#   Por qué: une los n conjuntos S_j y cada unión cuesta O(r) (a lo sumo r elementos).
+#
+# paso_voraz -> O(n·r)
+#   Por qué: revisa las n interacciones y, en cada una, calcula las categorías nuevas
+#   (intersección con las que faltan), que cuesta O(r).
+#
+# voraz -> T(n, r) = O(n·r·min(n, r))
+#   Por qué: cada paso cubre al menos 1 categoría nueva y usa una interacción distinta,
+#   así que hay a lo sumo min(n, r) pasos; cada paso cuesta O(n·r). La cota más suelta
+#   O(n·r²) también es correcta, pero esta es más ajustada. La factibilidad previa
+#   (O(n·r)) no cambia el orden.
+#
+# cobertura_final / cubre_todo -> O(n·r)
+#   Por qué: recorren las interacciones de J (a lo sumo min(n, r)) y sus categorías.
+#
+# fuerza_bruta -> O(2^n·n·r)
+#   Por qué: prueba los 2^n subconjuntos y cada comprobación (cubre_todo) cuesta O(n·r).
+#   Solo se usa para verificar, con n <= 12.
+#
+# cota_aproximacion -> O(n + r)
+#   Por qué: un recorrido de las n interacciones para hallar d y d términos de H(d), d <= r.
+# =============================================================================
+
+
+# =============================================================================
+# INVARIANTES DE CICLO (inicialización / mantenimiento / finalización)
+#
+# Ojo: demuestran que el resultado es FACTIBLE y que el algoritmo TERMINA, no que sea óptimo.
+# El voraz no garantiza el mínimo; su calidad la da la cota |J| <= H(d)·OPT (Johnson 1974;
+# Chvátal 1979), que se prueba aparte (no es un invariante) y se verifica con la fuerza bruta.
+#
+# voraz, ciclo `while faltan`:
+#   Invariante: antes de cada vuelta, `faltan` = U menos las categorías cubiertas por las
+#   interacciones de J.
+#   - Inicio: J vacío y faltan = {1..r}.
+#   - Mantenimiento: paso_voraz elige una j y le quita a `faltan` lo que cubre; J agrega j.
+#     Como la instancia es factible, siempre existe una j con al menos una categoría nueva,
+#     así que `faltan` baja al menos en 1 por vuelta y el ciclo termina.
+#   - Fin: faltan vacío, o sea J cubre las r categorías.
+#
+# paso_voraz, ciclo `for j`:
+#   Invariante: antes de revisar j, (mejor_j, mejor_nuevas) es la interacción de 1..j-1 con más
+#   categorías nuevas; en empate gana la de menor índice.
+#   - Inicio: no se revisó ninguna (mejor_j = 0, conjunto vacío).
+#   - Mantenimiento: j reemplaza a la mejor solo si cubre estrictamente más (`>`), así el
+#     empate lo gana la de menor índice.
+#   - Fin: es la mejor de las n interacciones.
+#
+# verificar_factibilidad, ciclo `for s`:
+#   Invariante: `cubiertas` es la unión de los S_j ya recorridos. Inicio: vacío. Mantenimiento:
+#   se une el siguiente. Fin: es la unión de todos; la instancia es factible si contiene U.
+# =============================================================================

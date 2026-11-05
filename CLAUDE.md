@@ -55,7 +55,7 @@ context/                 # enunciado, guía de entrega, manual técnico, informe
 src/aceleracion/      # Parte 1 completa: algoritmo (DP), resolver de un caso, fuerza bruta de verificación, lectura de casos y traza
 src/auditoria/        # Parte 2 completa: voraz, fuerza bruta, lectura de casos, resolución, traza y variante ponderada
 src/auditoria/enfoques/  # enfoques aparte del voraz base (Parte 2) y su experimento; no reemplazan a src/auditoria/auditoria.py
-frontend/             # visor local de apoyo (Parte 2); solo importa de src/auditoria/
+frontend/             # visor local de apoyo (inicio, Parte 1 y Parte 2); solo importa de src/aceleracion/ y src/auditoria/
 casos/                # casos de la profesora (SOLO LECTURA)
 resultados/           # salida, tiempo y traza por caso (se regenera completo)
 tests/                # pruebas (DP vs fuerza bruta, voraz vs óptimo y cota H(d))
@@ -69,7 +69,7 @@ tests/                # pruebas (DP vs fuerza bruta, voraz vs óptimo y cota H(d
 - Medir tiempos con `time.perf_counter()`. Cada caso se identifica por nombre en la salida.
 - Fuerza bruta solo para verificar, con n ≤ ~12.
 - Separar siempre algoritmo, lectura de entrada y escritura de traza, para poder reutilizarlos en las variantes.
-- **Costo por línea** (Parte 1, `src/aceleracion/`): modelo del curso. Cada línea lleva al final `# costo: OE × veces` (OE: asignación, comparación, aritmética, acceso a lista, return y llamada = 1; veces en términos de n: la cabecera de un `for` n+1 veces con 3 OE, el cuerpo n veces, un `if` dentro de un `for` se evalúa en todas las vueltas y su cuerpo entre 0 y todas, `while` según su condición). Cada función cierra con el desarrollo de T(n) (suma de costos, expansión, agrupación) y cada archivo con un cuadro de mejor caso, peor caso y promedio y con los **invariantes de ciclo** (inicialización, mantenimiento, finalización). La regla completa está al inicio de `src/aceleracion/aceleracion.py`. Son comentarios: no cambian la lógica.
+- **Costo de los algoritmos** (`src/aceleracion/aceleracion.py` para la DP y `src/auditoria/auditoria.py` para el voraz): sin comentarios de costo línea por línea. Al final de cada uno de esos archivos va un bloque corto con el costo de cada función (T(n, B) o T(n, r)) y **por qué** sale ese costo. Los demás archivos (lectura, traza, verificación) no llevan análisis de costo; `resolver.py` solo una nota breve. Son comentarios: no cambian la lógica.
 - Notación única en todo el proyecto: n, B, r, t_i, c_i, d_i, S_j, a_j (costo de auditar j), A (etapas aceleradas), J (interacciones auditadas).
 
 ## Comandos

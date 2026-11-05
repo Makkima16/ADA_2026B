@@ -1,15 +1,18 @@
 #!/usr/bin/env python3
-"""Servidor local del visor del voraz (Parte 2, auditoría).
+"""Servidor local del visor: inicio, Parte 1 (aceleración, DP) y Parte 2 (auditoría, voraz).
 
 Material de apoyo para la sustentación, en `frontend/` de la raíz (ver su
 README.md). NO es parte de los entregables de la primera entrega.
 
-Sirve una página local para crear casos de la Parte 2 —con un formulario o
-como texto en el formato provisional de src/auditoria/lectura.py— y ver, paso a
-paso, cómo opera el algoritmo voraz. No duplica la lógica: llama a las mismas
-funciones del código base (`leer_instancia` y `resolver_caso`), de modo que
-lo que muestra la página es exactamente lo que produce el proyecto, incluidos
-los errores de formato que detecta la lectura.
+Sirve una página de inicio y dos visores locales:
+  /             inicio: elegir la parte que se quiere explicar
+  /aceleracion  Parte 1: la tabla de la programación dinámica (Mochila 0/1)
+  /auditoria    Parte 2: el algoritmo voraz de Set Cover
+
+No duplica la lógica: llama a las mismas funciones del código base
+(`leer_instancia` y `resolver_caso` de src/aceleracion/ y de src/auditoria/),
+de modo que lo que muestra cada página es exactamente lo que produce el
+proyecto, incluidos los errores de formato que detecta la lectura.
 
 Solo librería estándar. Uso (desde la raíz del proyecto):
 
@@ -23,6 +26,7 @@ import json
 import re
 import sys
 import tempfile
+import time
 import webbrowser
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
@@ -35,14 +39,36 @@ from auditoria.resolver import resolver_caso                   # noqa: E402
 from auditoria.traza import formatear_resultado                # noqa: E402
 from fuerza_bruta_demo import analizar as analizar_fuerza_bruta  # noqa: E402  (mismo directorio)
 from auditoria.enfoques.comparacion.experimento import comparar_caso  # noqa: E402  (enfoques aparte del voraz base)
+from aceleracion.aceleracion import ErrorDeEntrada  # noqa: E402  (Parte 1)
+from aceleracion.lectura import ErrorDeLectura as ErrorDeLecturaAceleracion  # noqa: E402
+from aceleracion.lectura import leer_instancia as leer_instancia_aceleracion  # noqa: E402
+from aceleracion.resolver import resolver_caso as resolver_caso_aceleracion  # noqa: E402
+from aceleracion.traza import formatear_caso as formatear_caso_aceleracion  # noqa: E402
+from aceleracion.verificacion import N_MAX_FUERZA_BRUTA as N_MAX_FB_ACELERACION  # noqa: E402
+from aceleracion.verificacion import fuerza_bruta as fuerza_bruta_aceleracion  # noqa: E402
 
 DIR_ESTATICO = Path(__file__).resolve().parent / "estatico"
 MAX_CUERPO = 1_000_000  # 1 MB: sobra para cualquier caso razonable
+
+# Tope de celdas de la tabla DP que se envían al navegador para dibujarla (con más, solo se envían las decisiones).
+MAX_CELDAS_VISIBLES = 20_000
 
 TIPOS_ESTATICOS = {
     "index.html": "text/html; charset=utf-8",
     "app.js": "application/javascript; charset=utf-8",
     "estilos.css": "text/css; charset=utf-8",
+    "inicio.html": "text/html; charset=utf-8",
+    "inicio.css": "text/css; charset=utf-8",
+    "aceleracion.html": "text/html; charset=utf-8",
+    "aceleracion.js": "application/javascript; charset=utf-8",
+    "aceleracion.css": "text/css; charset=utf-8",
+}
+
+# Páginas: ruta -> archivo estático.
+PAGINAS = {
+    "/": "inicio.html",
+    "/aceleracion": "aceleracion.html",
+    "/auditoria": "index.html",
 }
 
 
@@ -140,6 +166,63 @@ def _instancia_a_json(inst) -> dict:
     }
 
 
+def _instancia_aceleracion_a_json(inst) -> dict:
+    """Serializa solo la composición del caso de la Parte 1 (sin resolverlo)."""
+    return {
+        "nombre": inst.nombre,
+        "n": len(inst.c),
+        "B": inst.B,
+        "ids": list(inst.ids_etapa) if inst.ids_etapa else None,
+        "t": list(inst.t),
+        "c": list(inst.c),
+        "d": list(inst.d),
+    }
+
+
+def _resultado_aceleracion_a_json(rc) -> dict:
+    """Serializa un ResultadoCaso de la Parte 1 para dibujar la DP paso a paso."""
+    inst = rc.instancia
+    n, B, DP = rc.n, rc.B, rc.tabla
+    celdas = (n + 1) * (B + 1)
+    aceleradas = set(rc.aceleradas)
+
+    # Decisiones de la reconstrucción (de la última etapa a la primera), leídas de la tabla ya calculada.
+    decisiones = []
+    b = B
+    for i in range(n, 0, -1):
+        ci, di = inst.c[i - 1], inst.d[i - 1]
+        acelerada = i in aceleradas
+        decisiones.append({
+            "i": i, "b": b, "valor": DP[i][b], "sin": DP[i - 1][b],
+            "con": di + DP[i - 1][b - ci] if ci <= b else None,
+            "acelerada": acelerada, "b_despues": b - ci if acelerada else b,
+        })
+        if acelerada:
+            b -= ci
+
+    fb = None
+    if n <= N_MAX_FB_ACELERACION:
+        t0 = time.perf_counter()
+        optimo = fuerza_bruta_aceleracion(inst.t, inst.c, inst.d, inst.B)["ahorro"]
+        fb = {"ahorro": optimo, "subconjuntos": 2 ** n, "tiempo_s": time.perf_counter() - t0}
+
+    return {
+        **_instancia_aceleracion_a_json(inst),
+        "aceleradas": list(rc.aceleradas),
+        "costo": rc.costo,
+        "ahorro": rc.ahorro,
+        "duracion_original": rc.duracion_original,
+        "duracion_final": rc.duracion_final,
+        "tiempo_s": rc.tiempo_s,
+        "valida": rc.valida,
+        "celdas": celdas,
+        "tabla": DP if celdas <= MAX_CELDAS_VISIBLES else None,
+        "decisiones": decisiones,
+        "fuerza_bruta": fb,
+        "evidencia": formatear_caso_aceleracion(rc),
+    }
+
+
 class Visor(BaseHTTPRequestHandler):
     """Página estática + un endpoint JSON; todo en 127.0.0.1."""
 
@@ -156,7 +239,10 @@ class Visor(BaseHTTPRequestHandler):
         self._responder(codigo, cuerpo, "application/json; charset=utf-8")
 
     def do_GET(self) -> None:  # noqa: N802 (nombre que impone http.server)
-        if self.path == "/" or self.path.startswith("/index"):
+        ruta = self.path.split("?", 1)[0].rstrip("/") or "/"
+        if ruta in PAGINAS:
+            self._servir_estatico(PAGINAS[ruta])
+        elif ruta.startswith("/index"):
             self._servir_estatico("index.html")
         elif self.path.startswith("/estatico/"):
             nombre = self.path[len("/estatico/"):]
@@ -172,6 +258,10 @@ class Visor(BaseHTTPRequestHandler):
             self._api_resolver()
         elif self.path == "/api/previsualizar":
             self._api_previsualizar()
+        elif self.path == "/api/aceleracion/resolver":
+            self._api_aceleracion(resolver=True)
+        elif self.path == "/api/aceleracion/previsualizar":
+            self._api_aceleracion(resolver=False)
         else:
             self._json(404, {"error": "recurso desconocido"})
 
@@ -197,11 +287,8 @@ class Visor(BaseHTTPRequestHandler):
         if inst is not None:
             self._json(200, _instancia_a_json(inst))
 
-    def _cargar_instancia(self):
-        """Recibe {texto, nombre}, lo lee con `leer_instancia` y devuelve la Instancia.
-
-        Si algo falla ya respondió el error al navegador y devuelve None.
-        """
+    def _leer_pedido(self):
+        """Lee el cuerpo {texto, nombre}. Si algo falla ya respondió el error y devuelve None."""
         try:
             largo = int(self.headers.get("Content-Length", "0"))
         except ValueError:
@@ -219,6 +306,48 @@ class Visor(BaseHTTPRequestHandler):
         except (KeyError, ValueError, UnicodeDecodeError):
             self._json(400, {"error": "se esperaba JSON con el campo 'texto'"})
             return None
+        return texto, nombre
+
+    def _api_aceleracion(self, resolver: bool) -> None:
+        """Parte 1: lee el caso con la lectura del proyecto y, si se pide, lo resuelve con la DP."""
+        pedido = self._leer_pedido()
+        if pedido is None:
+            return
+        texto, nombre = pedido
+        # La lectura trabaja sobre archivos: se escribe uno temporario y se usa leer_instancia tal cual.
+        directorio = Path(tempfile.gettempdir()) / "frontend_aceleracion_casos"
+        directorio.mkdir(parents=True, exist_ok=True)
+        camino = directorio / ("%s.json" % _nombre_seguro(nombre))
+        try:
+            camino.write_text(texto, encoding="utf-8")
+            inst = leer_instancia_aceleracion(camino)
+        except ErrorDeLecturaAceleracion as e:
+            self._json(400, {"error": str(e)})
+            return
+        except OSError as e:
+            self._json(500, {"error": "no se pudo guardar el caso: %s" % e})
+            return
+        finally:
+            camino.unlink(missing_ok=True)
+        if not resolver:
+            self._json(200, _instancia_aceleracion_a_json(inst))
+            return
+        try:
+            rc = resolver_caso_aceleracion(inst)
+        except ErrorDeEntrada as e:
+            self._json(400, {"error": str(e)})
+            return
+        self._json(200, _resultado_aceleracion_a_json(rc))
+
+    def _cargar_instancia(self):
+        """Parte 2: recibe {texto, nombre}, lo lee con `leer_instancia` y devuelve la Instancia.
+
+        Si algo falla ya respondió el error al navegador y devuelve None.
+        """
+        pedido = self._leer_pedido()
+        if pedido is None:
+            return None
+        texto, nombre = pedido
 
         # La lectura del proyecto trabaja sobre archivos: se escribe uno
         # temporario con el texto recibido y se usa leer_instancia tal cual.
@@ -246,7 +375,7 @@ class Visor(BaseHTTPRequestHandler):
 
 def main(argv=None) -> int:
     parser = argparse.ArgumentParser(
-        description="Visor local del voraz (Parte 2): ingreso de casos y traza paso a paso."
+        description="Visor local: inicio, Parte 1 (programación dinámica) y Parte 2 (voraz), con ingreso de casos y traza paso a paso."
     )
     parser.add_argument("--puerto", type=int, default=8765, help="puerto local (por defecto 8765)")
     parser.add_argument("--no-abrir", action="store_true", help="no abrir el navegador")
@@ -254,7 +383,7 @@ def main(argv=None) -> int:
 
     servidor = ThreadingHTTPServer(("127.0.0.1", args.puerto), Visor)
     url = "http://127.0.0.1:%d" % args.puerto
-    print("Visor del voraz (Parte 2) en %s  (Ctrl+C para detener)" % url)
+    print("Visor del proyecto (inicio, Parte 1 y Parte 2) en %s  (Ctrl+C para detener)" % url)
     if not args.no_abrir:
         webbrowser.open(url)
     try:

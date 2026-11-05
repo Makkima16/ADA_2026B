@@ -3,9 +3,6 @@
 No lee archivos ni escribe nada: recibe una `Instancia` ya construida (la
 lectura de los casos de la profesora debe producir objetos `Instancia`) y
 devuelve un `ResultadoCaso` con datos puros. La escritura vive en `traza.py`.
-
-Anotación de costos: C (k) es una línea de costo constante con k operaciones
-elementales; O(...) es el costo asintótico de la línea o de la función.
 """
 
 import time
@@ -40,11 +37,11 @@ class Instancia:
 
     def etiqueta_interaccion(self, j: int) -> str:
         """Nombre de la interacción j (1..n): su id si existe, si no el número."""
-        return self.ids_interaccion[j - 1] if self.ids_interaccion else str(j)   # C (2)
+        return self.ids_interaccion[j - 1] if self.ids_interaccion else str(j)
 
     def etiqueta_categoria(self, c: int) -> str:
         """Nombre de la categoría c (1..r): su id si existe, si no el número."""
-        return self.ids_categoria[c - 1] if self.ids_categoria else str(c)       # C (2)
+        return self.ids_categoria[c - 1] if self.ids_categoria else str(c)
 
 
 @dataclass(frozen=True)
@@ -70,20 +67,24 @@ def resolver_caso(inst: Instancia, comparar_con_optimo: bool = True) -> Resultad
     Si la instancia no es factible no corre el voraz: informa las categorías
     sin cubrir (la guía pide detenerse en ese caso).
     """
-    n = len(inst.S)                                                  # C (1)
-    factible, sin_cubrir = verificar_factibilidad(inst.r, inst.S)    # O(n·r): factibilidad previa
-    cota = cota_aproximacion(inst.S)                                 # O(n + r): máximo |S_j| y H(d)
-    if not factible:                                                 # C (1): comparación
+    n = len(inst.S)
+    factible, sin_cubrir = verificar_factibilidad(inst.r, inst.S)
+    cota = cota_aproximacion(inst.S)
+    if not factible:
         return ResultadoCaso(inst.nombre, n, inst.r, False, frozenset(sin_cubrir),
-                             [], [], {}, False, 0.0, cota, None, inst)  # C: se detiene sin ejecutar el voraz
+                             [], [], {}, False, 0.0, cota, None, inst)
 
-    t0 = time.perf_counter()                                         # C (1): marca de tiempo
-    J, pasos = voraz(inst.r, inst.S)                                 # O(n·r·min(n, r)): el algoritmo, dentro de la medición
-    tiempo = time.perf_counter() - t0                                # C (1): tiempo transcurrido
+    t0 = time.perf_counter()
+    J, pasos = voraz(inst.r, inst.S)
+    tiempo = time.perf_counter() - t0
 
-    optimo = None                                                    # C (1)
-    if comparar_con_optimo and n <= N_MAX_FUERZA_BRUTA:              # C (2): comparación y umbral
-        optimo = fuerza_bruta(inst.r, inst.S)                        # O(2^n·n·r) solo si n <= 12
+    optimo = None
+    if comparar_con_optimo and n <= N_MAX_FUERZA_BRUTA:
+        optimo = fuerza_bruta(inst.r, inst.S)
     return ResultadoCaso(inst.nombre, n, inst.r, True, frozenset(), J, pasos,
                          cobertura_final(inst.S, J), cubre_todo(inst.r, inst.S, J),
-                         tiempo, cota, optimo, inst)                 # O(n·r): cobertura_final + cubre_todo al armar el resultado
+                         tiempo, cota, optimo, inst)
+
+
+# Costo de resolver_caso: lo domina el voraz, O(n·r·min(n, r)); la factibilidad y la cota son
+# O(n·r). La fuerza bruta (n <= 12) queda fuera de la medición de tiempo.

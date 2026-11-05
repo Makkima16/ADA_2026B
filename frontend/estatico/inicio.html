@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Proyecto ADA · Grupo 3 — Visor de apoyo</title>
+  <link rel="stylesheet" href="/estatico/estilos.css">
+  <link rel="stylesheet" href="/estatico/inicio.css">
+</head>
+<body>
+<div class="pagina">
+
+  <header class="cabecera">
+    <div class="marca-titulo">
+      <div class="logo" aria-hidden="true"><span class="l1"></span><span class="l2"></span><span class="l3"></span><span class="l4"></span></div>
+      <div>
+        <h1>Proyecto ADA 2026-B · Grupo 3</h1>
+        <p class="subtitulo">Ruta crítica y auditoría · Análisis y Diseño de Algoritmos · Universidad de Caldas</p>
+      </div>
+    </div>
+    <div class="pildora"><i class="punto" aria-hidden="true"></i>Funcionando en este equipo <span class="mono" id="direccion"></span></div>
+  </header>
+
+  <section class="presentacion" aria-labelledby="titulo-inicio">
+    <h2 id="titulo-inicio">¿Qué quieres explicar hoy?</h2>
+    <p>Dos problemas, dos algoritmos. Elige uno, carga un caso y míralo decidir paso a paso, con palabras sencillas.</p>
+  </section>
+
+  <main class="portales">
+
+    <a class="portal" href="/aceleracion" aria-labelledby="p1-titulo">
+      <div class="portal-cab">
+        <span class="etiqueta-parte">Parte 1</span>
+        <span class="tecnica">Programación dinámica · Mochila 0/1</span>
+      </div>
+      <div class="ilustracion" aria-hidden="true">
+        <div class="mini-tabla">
+          <i class="n0">0</i><i class="n0">0</i><i class="n0">0</i><i class="n0">0</i><i class="n0">0</i>
+          <i class="n1">0</i><i class="n1">0</i><i class="n1">4</i><i class="n1">4</i><i class="n1">4</i>
+          <i class="n1">0</i><i class="nv">3</i><i class="nv">4</i><i class="nv">7</i><i class="nv">7</i>
+          <i class="p">·</i><i class="p">·</i><i class="p">·</i><i class="p">·</i><i class="p">·</i>
+        </div>
+      </div>
+      <h3 id="p1-titulo">¿Qué conviene acelerar?</h3>
+      <p class="portal-texto">Una cadena de etapas en serie y un presupuesto limitado: ¿qué etapas aceleramos para que el proceso dure lo menos posible?</p>
+      <ul class="portal-lista">
+        <li>Sube o crea la cadena de etapas y el presupuesto B</li>
+        <li>Mira cómo se llena la tabla, fila por fila</li>
+        <li>Sigue el camino hacia atrás que decide qué etapas acelerar</li>
+      </ul>
+      <span class="portal-entrar">Entrar a la aceleración
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg>
+      </span>
+    </a>
+
+    <a class="portal" href="/auditoria" aria-labelledby="p2-titulo">
+      <div class="portal-cab">
+        <span class="etiqueta-parte">Parte 2</span>
+        <span class="tecnica">Algoritmo voraz · Cobertura de conjuntos</span>
+      </div>
+      <div class="ilustracion" aria-hidden="true">
+        <div class="mini-matriz"><i class="m-nuevo"></i><i class="m-cubierto"></i><i class="m-pend"></i><i class="m-pend"></i><i class="m-nuevo"></i><i class="m-cubierto"></i></div>
+      </div>
+      <h3 id="p2-titulo">¿Qué conviene auditar?</h3>
+      <p class="portal-texto">Varias interacciones que revisan distintos riesgos: ¿cuál es la menor cantidad que hay que auditar para no dejar ningún riesgo sin revisar?</p>
+      <ul class="portal-lista">
+        <li>Sube, crea o pega un caso de interacciones y riesgos</li>
+        <li>Mira qué decide el voraz en cada paso y por qué</li>
+        <li>Compáralo con el mínimo real por fuerza bruta</li>
+      </ul>
+      <span class="portal-entrar">Entrar a la auditoría
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg>
+      </span>
+    </a>
+
+  </main>
+
+  <footer>
+    Herramienta de apoyo local para la sustentación. Los cálculos los hace el mismo código del proyecto
+    que produce las evidencias; estas páginas solo los muestran. No es parte de la entrega.
+  </footer>
+</div>
+<script>document.getElementById("direccion").textContent = location.host || "127.0.0.1";</script>
+</body>
+</html>
