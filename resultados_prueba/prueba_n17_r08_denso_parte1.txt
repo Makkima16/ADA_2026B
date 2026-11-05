@@ -1,0 +1,50 @@
+Versión del código: 97a6e43 (con cambios sin commit) | Generado: 2026-11-05 15:31:26 | Archivo: prueba_n17_r08_denso.json
+==============================================================================
+Caso: prueba_n17_r08_denso   (n = 17 etapas, B = 22)
+
+Etapas aceleradas: [2, 3, 6, 7, 12, 13, 17]   (E02, E03, E06, E07, E12, E13, E17)
+Costo usado: 22 de B = 22
+Ahorro: 40
+Duración final: 70 (original 110)
+Tiempo de la DP: 0.000151 s
+Solución válida (costo <= B y sumas coherentes): sí
+Fuerza bruta: no se corre (n > 12)
+
+Decisiones (de la última etapa a la primera):
+Etapa 17 (E17): acelerada, costo 2, ahorro 6; presupuesto restante 22 -> 20
+Etapa 16 (E16): no se acelera (DP[16][20] = DP[15][20] = 34)
+Etapa 15 (E15): no se acelera (DP[15][20] = DP[14][20] = 34)
+Etapa 14 (E14): no se acelera (DP[14][20] = DP[13][20] = 34)
+Etapa 13 (E13): acelerada, costo 3, ahorro 4; presupuesto restante 20 -> 17
+Etapa 12 (E12): acelerada, costo 1, ahorro 3; presupuesto restante 17 -> 16
+Etapa 11 (E11): no se acelera (DP[11][16] = DP[10][16] = 27)
+Etapa 10 (E10): no se acelera (DP[10][16] = DP[9][16] = 27)
+Etapa 9 (E09): no se acelera (DP[9][16] = DP[8][16] = 27)
+Etapa 8 (E08): no se acelera (DP[8][16] = DP[7][16] = 27)
+Etapa 7 (E07): acelerada, costo 1, ahorro 4; presupuesto restante 16 -> 15
+Etapa 6 (E06): acelerada, costo 6, ahorro 8; presupuesto restante 15 -> 9
+Etapa 5 (E05): no se acelera (DP[5][9] = DP[4][9] = 15)
+Etapa 4 (E04): no se acelera (DP[4][9] = DP[3][9] = 15)
+Etapa 3 (E03): acelerada, costo 6, ahorro 7; presupuesto restante 9 -> 3
+Etapa 2 (E02): acelerada, costo 3, ahorro 8; presupuesto restante 3 -> 0
+Etapa 1 (E01): no se acelera (DP[1][0] = DP[0][0] = 0)
+
+Tabla DP (ahorro máximo; fila i = primeras i etapas, columna b = presupuesto b):
+i=0: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+i=1: [0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
+i=2: [0, 0, 0, 8, 8, 8, 8, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9]
+i=3: [0, 0, 0, 8, 8, 8, 8, 9, 9, 15, 15, 15, 15, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16]
+i=4: [0, 0, 0, 8, 8, 8, 8, 14, 14, 15, 15, 15, 15, 21, 21, 21, 21, 22, 22, 22, 22, 22, 22]
+i=5: [0, 0, 0, 8, 8, 8, 8, 14, 14, 15, 15, 15, 16, 21, 21, 21, 21, 22, 23, 23, 23, 23, 24]
+i=6: [0, 0, 0, 8, 8, 8, 8, 14, 14, 16, 16, 16, 16, 22, 22, 23, 23, 23, 24, 29, 29, 29, 29]
+i=7: [0, 4, 4, 8, 12, 12, 12, 14, 18, 18, 20, 20, 20, 22, 26, 26, 27, 27, 27, 29, 33, 33, 33]
+i=8: [0, 4, 4, 8, 12, 12, 12, 14, 18, 18, 20, 20, 20, 22, 26, 26, 27, 27, 28, 29, 33, 33, 33]
+i=9: [0, 4, 4, 8, 12, 12, 12, 14, 18, 18, 20, 20, 20, 22, 26, 26, 27, 27, 28, 29, 33, 33, 33]
+i=10: [0, 4, 4, 8, 12, 12, 12, 14, 18, 18, 20, 20, 22, 22, 26, 26, 27, 27, 30, 30, 33, 33, 33]
+i=11: [0, 4, 4, 8, 12, 12, 12, 14, 18, 18, 20, 20, 22, 22, 26, 26, 27, 27, 30, 30, 33, 33, 33]
+i=12: [0, 4, 7, 8, 12, 15, 15, 15, 18, 21, 21, 23, 23, 25, 26, 29, 29, 30, 30, 33, 33, 36, 36]
+i=13: [0, 4, 7, 8, 12, 15, 15, 16, 19, 21, 21, 23, 25, 25, 27, 29, 29, 30, 33, 33, 34, 36, 37]
+i=14: [0, 4, 7, 8, 12, 15, 15, 16, 19, 21, 21, 23, 25, 25, 27, 29, 29, 30, 33, 33, 34, 36, 37]
+i=15: [0, 4, 7, 8, 12, 15, 15, 16, 19, 21, 21, 23, 25, 25, 27, 29, 29, 30, 33, 33, 34, 36, 37]
+i=16: [0, 4, 7, 8, 12, 15, 15, 16, 19, 21, 21, 23, 25, 25, 27, 29, 29, 30, 33, 33, 34, 36, 37]
+i=17: [0, 4, 7, 10, 13, 15, 18, 21, 21, 22, 25, 27, 27, 29, 31, 31, 33, 35, 35, 36, 39, 39, 40]

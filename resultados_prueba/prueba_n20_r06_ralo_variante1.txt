@@ -1,0 +1,21 @@
+Versión del código: 97a6e43 (con cambios sin commit) | Generado: 2026-11-05 15:31:26 | Archivo: prueba_n20_r06_ralo.json
+==============================================================================
+Caso: prueba_n20_r06_ralo
+Voraz ponderado — traza de elecciones
+  Paso 1: interacción 1 (E01) | costo 1 | categorías nuevas {R04} (1) | costo por categoría 1.0000 | acumulado 1 | faltan {R01, R02, R03, R05, R06}
+  Paso 2: interacción 10 (E10) | costo 1 | categorías nuevas {R03} (1) | costo por categoría 1.0000 | acumulado 2 | faltan {R01, R02, R05, R06}
+  Paso 3: interacción 11 (E11) | costo 1 | categorías nuevas {R05} (1) | costo por categoría 1.0000 | acumulado 3 | faltan {R01, R02, R06}
+  Paso 4: interacción 19 (E19) | costo 4 | categorías nuevas {R01, R06} (2) | costo por categoría 2.0000 | acumulado 7 | faltan {R02}
+  Paso 5: interacción 12 (E12) | costo 4 | categorías nuevas {R02} (1) | costo por categoría 4.0000 | acumulado 11 | faltan {}
+Cobertura final (categoría -> interacción):
+  categoría R01 (sesgo) -> interacción E19
+  categoría R02 (privacidad) -> interacción E12
+  categoría R03 (formato) -> interacción E10
+  categoría R04 (toxicidad) -> interacción E01
+  categoría R05 (alucinacion) -> interacción E11
+  categoría R06 (seguridad) -> interacción E19
+Interacciones auditadas: [1, 10, 11, 19, 12] (5): E01, E10, E11, E19, E12
+Costo total: 11
+Cubre todas las categorías: sí
+Tiempo: 0.000036 s
+Cota H(d): 1.8333

@@ -1,0 +1,27 @@
+Versión del código: 97a6e43 (con cambios sin commit) | Generado: 2026-11-05 15:31:26 | Archivo: prueba_n15_r11_ralo.json
+==============================================================================
+Caso: prueba_n15_r11_ralo
+Voraz ponderado — traza de elecciones
+  Paso 1: interacción 7 (E07) | costo 3 | categorías nuevas {R03, R05, R07, R11} (4) | costo por categoría 0.7500 | acumulado 3 | faltan {R01, R02, R04, R06, R08, R09, R10}
+  Paso 2: interacción 1 (E01) | costo 1 | categorías nuevas {R04} (1) | costo por categoría 1.0000 | acumulado 4 | faltan {R01, R02, R06, R08, R09, R10}
+  Paso 3: interacción 13 (E13) | costo 1 | categorías nuevas {R10} (1) | costo por categoría 1.0000 | acumulado 5 | faltan {R01, R02, R06, R08, R09}
+  Paso 4: interacción 10 (E10) | costo 3 | categorías nuevas {R01, R09} (2) | costo por categoría 1.5000 | acumulado 8 | faltan {R02, R06, R08}
+  Paso 5: interacción 15 (E15) | costo 7 | categorías nuevas {R02, R08} (2) | costo por categoría 3.5000 | acumulado 15 | faltan {R06}
+  Paso 6: interacción 4 (E04) | costo 15 | categorías nuevas {R06} (1) | costo por categoría 15.0000 | acumulado 30 | faltan {}
+Cobertura final (categoría -> interacción):
+  categoría R01 (sesgo) -> interacción E10
+  categoría R02 (privacidad) -> interacción E15
+  categoría R03 (formato) -> interacción E07
+  categoría R04 (toxicidad) -> interacción E01
+  categoría R05 (alucinacion) -> interacción E07
+  categoría R06 (seguridad) -> interacción E04
+  categoría R07 (derechos_autor) -> interacción E07
+  categoría R08 (fuga_datos) -> interacción E15
+  categoría R09 (suplantacion) -> interacción E10
+  categoría R10 (desinformacion) -> interacción E13
+  categoría R11 (discriminacion) -> interacción E07
+Interacciones auditadas: [7, 1, 13, 10, 15, 4] (6): E07, E01, E13, E10, E15, E04
+Costo total: 30
+Cubre todas las categorías: sí
+Tiempo: 0.000043 s
+Cota H(d): 2.2833

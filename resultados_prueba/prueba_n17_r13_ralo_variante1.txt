@@ -1,0 +1,30 @@
+Versión del código: 97a6e43 (con cambios sin commit) | Generado: 2026-11-05 15:31:26 | Archivo: prueba_n17_r13_ralo.json
+==============================================================================
+Caso: prueba_n17_r13_ralo
+Voraz ponderado — traza de elecciones
+  Paso 1: interacción 3 (E03) | costo 1 | categorías nuevas {R07, R11, R13} (3) | costo por categoría 0.3333 | acumulado 1 | faltan {R01, R02, R03, R04, R05, R06, R08, R09, R10, R12}
+  Paso 2: interacción 8 (E08) | costo 5 | categorías nuevas {R03, R04, R05, R08} (4) | costo por categoría 1.2500 | acumulado 6 | faltan {R01, R02, R06, R09, R10, R12}
+  Paso 3: interacción 2 (E02) | costo 5 | categorías nuevas {R02} (1) | costo por categoría 5.0000 | acumulado 11 | faltan {R01, R06, R09, R10, R12}
+  Paso 4: interacción 10 (E10) | costo 10 | categorías nuevas {R06, R10} (2) | costo por categoría 5.0000 | acumulado 21 | faltan {R01, R09, R12}
+  Paso 5: interacción 7 (E07) | costo 6 | categorías nuevas {R09} (1) | costo por categoría 6.0000 | acumulado 27 | faltan {R01, R12}
+  Paso 6: interacción 11 (E11) | costo 8 | categorías nuevas {R01} (1) | costo por categoría 8.0000 | acumulado 35 | faltan {R12}
+  Paso 7: interacción 14 (E14) | costo 15 | categorías nuevas {R12} (1) | costo por categoría 15.0000 | acumulado 50 | faltan {}
+Cobertura final (categoría -> interacción):
+  categoría R01 (sesgo) -> interacción E11
+  categoría R02 (privacidad) -> interacción E02
+  categoría R03 (formato) -> interacción E08
+  categoría R04 (toxicidad) -> interacción E08
+  categoría R05 (alucinacion) -> interacción E08
+  categoría R06 (seguridad) -> interacción E10
+  categoría R07 (derechos_autor) -> interacción E03
+  categoría R08 (fuga_datos) -> interacción E08
+  categoría R09 (suplantacion) -> interacción E07
+  categoría R10 (desinformacion) -> interacción E10
+  categoría R11 (discriminacion) -> interacción E03
+  categoría R12 (manipulacion) -> interacción E14
+  categoría R13 (salud) -> interacción E03
+Interacciones auditadas: [3, 8, 2, 10, 7, 11, 14] (7): E03, E08, E02, E10, E07, E11, E14
+Costo total: 50
+Cubre todas las categorías: sí
+Tiempo: 0.000049 s
+Cota H(d): 2.4500

@@ -1,0 +1,6 @@
+Commit: 97a6e43
+Cambios sin commit en src/ o run_all.py: sí
+Fecha: 2026-11-05 15:31:26
+Python: 3.12.10
+Comando: python3 run_all.py --casos casos_prueba/ --salida resultados_prueba/
+Casos: 22

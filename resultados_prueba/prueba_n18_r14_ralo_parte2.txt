@@ -1,0 +1,28 @@
+Versión del código: 97a6e43 (con cambios sin commit) | Generado: 2026-11-05 15:31:26 | Archivo: prueba_n18_r14_ralo.json
+==============================================================================
+Caso: prueba_n18_r14_ralo
+Voraz — traza de elecciones
+  Paso 1: interacción 5 (E05) | categorías nuevas {R05, R06, R09, R11, R13, R14} | faltan {R01, R02, R03, R04, R07, R08, R10, R12}
+  Paso 2: interacción 6 (E06) | categorías nuevas {R01, R04, R07} | faltan {R02, R03, R08, R10, R12}
+  Paso 3: interacción 13 (E13) | categorías nuevas {R08, R10, R12} | faltan {R02, R03}
+  Paso 4: interacción 9 (E09) | categorías nuevas {R03} | faltan {R02}
+  Paso 5: interacción 15 (E15) | categorías nuevas {R02} | faltan {}
+Cobertura final (categoría -> interacción):
+  categoría R01 (sesgo) -> interacción E06
+  categoría R02 (privacidad) -> interacción E15
+  categoría R03 (formato) -> interacción E09
+  categoría R04 (toxicidad) -> interacción E06
+  categoría R05 (alucinacion) -> interacción E05
+  categoría R06 (seguridad) -> interacción E05
+  categoría R07 (derechos_autor) -> interacción E06
+  categoría R08 (fuga_datos) -> interacción E13
+  categoría R09 (suplantacion) -> interacción E05
+  categoría R10 (desinformacion) -> interacción E13
+  categoría R11 (discriminacion) -> interacción E05
+  categoría R12 (manipulacion) -> interacción E13
+  categoría R13 (salud) -> interacción E05
+  categoría R14 (legal) -> interacción E05
+Interacciones auditadas: [5, 6, 13, 9, 15] (5): E05, E06, E13, E09, E15
+Cubre todas las categorías: sí
+Tiempo: 0.000035 s
+Cota H(d): 2.4500

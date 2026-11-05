@@ -1,0 +1,44 @@
+Versión del código: 97a6e43 (con cambios sin commit) | Generado: 2026-11-05 15:31:26 | Archivo: prueba_n14_r10_ralo.json
+==============================================================================
+Caso: prueba_n14_r10_ralo   (n = 14 etapas, B = 22)
+
+Etapas aceleradas: [2, 5, 7, 11, 12, 14]   (E02, E05, E07, E11, E12, E14)
+Costo usado: 21 de B = 22
+Ahorro: 33
+Duración final: 53 (original 86)
+Tiempo de la DP: 0.000069 s
+Solución válida (costo <= B y sumas coherentes): sí
+Fuerza bruta: no se corre (n > 12)
+
+Decisiones (de la última etapa a la primera):
+Etapa 14 (E14): acelerada, costo 5, ahorro 5; presupuesto restante 22 -> 17
+Etapa 13 (E13): no se acelera (DP[13][17] = DP[12][17] = 28)
+Etapa 12 (E12): acelerada, costo 1, ahorro 7; presupuesto restante 17 -> 16
+Etapa 11 (E11): acelerada, costo 1, ahorro 5; presupuesto restante 16 -> 15
+Etapa 10 (E10): no se acelera (DP[10][15] = DP[9][15] = 16)
+Etapa 9 (E09): no se acelera (DP[9][15] = DP[8][15] = 16)
+Etapa 8 (E08): no se acelera (DP[8][15] = DP[7][15] = 16)
+Etapa 7 (E07): acelerada, costo 8, ahorro 10; presupuesto restante 15 -> 7
+Etapa 6 (E06): no se acelera (DP[6][7] = DP[5][7] = 6)
+Etapa 5 (E05): acelerada, costo 5, ahorro 2; presupuesto restante 7 -> 2
+Etapa 4 (E04): no se acelera (DP[4][2] = DP[3][2] = 4)
+Etapa 3 (E03): no se acelera (DP[3][2] = DP[2][2] = 4)
+Etapa 2 (E02): acelerada, costo 1, ahorro 4; presupuesto restante 2 -> 1
+Etapa 1 (E01): no se acelera (DP[1][1] = DP[0][1] = 0)
+
+Tabla DP (ahorro máximo; fila i = primeras i etapas, columna b = presupuesto b):
+i=0: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+i=1: [0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
+i=2: [0, 4, 4, 4, 4, 4, 4, 4, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5]
+i=3: [0, 4, 4, 4, 4, 4, 4, 4, 5, 7, 7, 7, 7, 7, 7, 7, 8, 8, 8, 8, 8, 8, 8]
+i=4: [0, 4, 4, 4, 4, 4, 4, 4, 5, 7, 7, 7, 7, 7, 7, 7, 8, 8, 8, 8, 8, 8, 8]
+i=5: [0, 4, 4, 4, 4, 4, 6, 6, 6, 7, 7, 7, 7, 7, 9, 9, 9, 9, 9, 9, 9, 10, 10]
+i=6: [0, 4, 4, 4, 5, 5, 6, 6, 6, 7, 7, 7, 8, 8, 9, 9, 9, 10, 10, 10, 10, 10, 10]
+i=7: [0, 4, 4, 4, 5, 5, 6, 6, 10, 14, 14, 14, 15, 15, 16, 16, 16, 17, 17, 17, 18, 18, 19]
+i=8: [0, 4, 4, 4, 5, 5, 6, 6, 10, 14, 14, 14, 15, 15, 16, 16, 16, 17, 17, 17, 18, 18, 19]
+i=9: [0, 4, 4, 4, 5, 5, 6, 6, 10, 14, 14, 14, 15, 15, 16, 16, 16, 17, 17, 17, 18, 18, 19]
+i=10: [0, 4, 4, 4, 5, 5, 6, 6, 10, 14, 14, 14, 15, 15, 16, 16, 16, 17, 17, 17, 18, 18, 19]
+i=11: [0, 5, 9, 9, 9, 10, 10, 11, 11, 15, 19, 19, 19, 20, 20, 21, 21, 21, 22, 22, 22, 23, 23]
+i=12: [0, 7, 12, 16, 16, 16, 17, 17, 18, 18, 22, 26, 26, 26, 27, 27, 28, 28, 28, 29, 29, 29, 30]
+i=13: [0, 7, 12, 16, 16, 16, 17, 18, 18, 18, 22, 26, 26, 26, 27, 28, 28, 28, 29, 29, 30, 30, 30]
+i=14: [0, 7, 12, 16, 16, 16, 17, 18, 21, 21, 22, 26, 26, 26, 27, 28, 31, 31, 31, 32, 33, 33, 33]

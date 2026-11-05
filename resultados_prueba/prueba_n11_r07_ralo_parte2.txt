@@ -1,0 +1,21 @@
+Versión del código: 97a6e43 (con cambios sin commit) | Generado: 2026-11-05 15:31:26 | Archivo: prueba_n11_r07_ralo.json
+==============================================================================
+Caso: prueba_n11_r07_ralo
+Voraz — traza de elecciones
+  Paso 1: interacción 1 (E01) | categorías nuevas {R01, R03, R04, R05} | faltan {R02, R06, R07}
+  Paso 2: interacción 6 (E06) | categorías nuevas {R06, R07} | faltan {R02}
+  Paso 3: interacción 5 (E05) | categorías nuevas {R02} | faltan {}
+Cobertura final (categoría -> interacción):
+  categoría R01 (sesgo) -> interacción E01
+  categoría R02 (privacidad) -> interacción E05
+  categoría R03 (formato) -> interacción E01
+  categoría R04 (toxicidad) -> interacción E01
+  categoría R05 (alucinacion) -> interacción E01
+  categoría R06 (seguridad) -> interacción E06
+  categoría R07 (derechos_autor) -> interacción E06
+Interacciones auditadas: [1, 6, 5] (3): E01, E06, E05
+Cubre todas las categorías: sí
+Tiempo: 0.000013 s
+Óptimo por fuerza bruta: [1, 5, 6] (3): E01, E05, E06
+Razón voraz / óptimo: 1.0000
+Cota H(d): 2.0833

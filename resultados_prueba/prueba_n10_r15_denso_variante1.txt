@@ -1,0 +1,30 @@
+Versión del código: 97a6e43 (con cambios sin commit) | Generado: 2026-11-05 15:31:26 | Archivo: prueba_n10_r15_denso.json
+==============================================================================
+Caso: prueba_n10_r15_denso
+Voraz ponderado — traza de elecciones
+  Paso 1: interacción 7 (E07) | costo 5 | categorías nuevas {R02, R04, R06, R07, R15} (5) | costo por categoría 1.0000 | acumulado 5 | faltan {R01, R03, R05, R08, R09, R10, R11, R12, R13, R14}
+  Paso 2: interacción 8 (E08) | costo 11 | categorías nuevas {R01, R03, R05, R08, R09, R10, R13, R14} (8) | costo por categoría 1.3750 | acumulado 16 | faltan {R11, R12}
+  Paso 3: interacción 4 (E04) | costo 13 | categorías nuevas {R11, R12} (2) | costo por categoría 6.5000 | acumulado 29 | faltan {}
+Cobertura final (categoría -> interacción):
+  categoría R01 (sesgo) -> interacción E08
+  categoría R02 (privacidad) -> interacción E07
+  categoría R03 (formato) -> interacción E08
+  categoría R04 (toxicidad) -> interacción E07
+  categoría R05 (alucinacion) -> interacción E08
+  categoría R06 (seguridad) -> interacción E07
+  categoría R07 (derechos_autor) -> interacción E07
+  categoría R08 (fuga_datos) -> interacción E08
+  categoría R09 (suplantacion) -> interacción E08
+  categoría R10 (desinformacion) -> interacción E08
+  categoría R11 (discriminacion) -> interacción E04
+  categoría R12 (manipulacion) -> interacción E04
+  categoría R13 (salud) -> interacción E08
+  categoría R14 (legal) -> interacción E08
+  categoría R15 (financiero) -> interacción E07
+Interacciones auditadas: [7, 8, 4] (3): E07, E08, E04
+Costo total: 29
+Cubre todas las categorías: sí
+Tiempo: 0.000028 s
+Óptimo por fuerza bruta: costo 29 con [4, 7, 8]: E04, E07, E08
+Razón voraz / óptimo: 1.0000
+Cota H(d): 3.0199

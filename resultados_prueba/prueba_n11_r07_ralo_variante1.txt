@@ -1,0 +1,24 @@
+Versión del código: 97a6e43 (con cambios sin commit) | Generado: 2026-11-05 15:31:26 | Archivo: prueba_n11_r07_ralo.json
+==============================================================================
+Caso: prueba_n11_r07_ralo
+Voraz ponderado — traza de elecciones
+  Paso 1: interacción 2 (E02) | costo 1 | categorías nuevas {R04} (1) | costo por categoría 1.0000 | acumulado 1 | faltan {R01, R02, R03, R05, R06, R07}
+  Paso 2: interacción 9 (E09) | costo 1 | categorías nuevas {R03} (1) | costo por categoría 1.0000 | acumulado 2 | faltan {R01, R02, R05, R06, R07}
+  Paso 3: interacción 10 (E10) | costo 3 | categorías nuevas {R05, R06, R07} (3) | costo por categoría 1.0000 | acumulado 5 | faltan {R01, R02}
+  Paso 4: interacción 5 (E05) | costo 3 | categorías nuevas {R02} (1) | costo por categoría 3.0000 | acumulado 8 | faltan {R01}
+  Paso 5: interacción 1 (E01) | costo 9 | categorías nuevas {R01} (1) | costo por categoría 9.0000 | acumulado 17 | faltan {}
+Cobertura final (categoría -> interacción):
+  categoría R01 (sesgo) -> interacción E01
+  categoría R02 (privacidad) -> interacción E05
+  categoría R03 (formato) -> interacción E09
+  categoría R04 (toxicidad) -> interacción E02
+  categoría R05 (alucinacion) -> interacción E10
+  categoría R06 (seguridad) -> interacción E10
+  categoría R07 (derechos_autor) -> interacción E10
+Interacciones auditadas: [2, 9, 10, 5, 1] (5): E02, E09, E10, E05, E01
+Costo total: 17
+Cubre todas las categorías: sí
+Tiempo: 0.000026 s
+Óptimo por fuerza bruta: costo 15 con [1, 5, 10]: E01, E05, E10
+Razón voraz / óptimo: 1.1333
+Cota H(d): 2.0833

@@ -1,0 +1,22 @@
+Versión del código: 97a6e43 (con cambios sin commit) | Generado: 2026-11-05 15:31:26 | Archivo: prueba_n18_r07_denso.json
+==============================================================================
+Caso: prueba_n18_r07_denso
+Voraz ponderado — traza de elecciones
+  Paso 1: interacción 1 (E01) | costo 2 | categorías nuevas {R02, R07} (2) | costo por categoría 1.0000 | acumulado 2 | faltan {R01, R03, R04, R05, R06}
+  Paso 2: interacción 2 (E02) | costo 1 | categorías nuevas {R01} (1) | costo por categoría 1.0000 | acumulado 3 | faltan {R03, R04, R05, R06}
+  Paso 3: interacción 3 (E03) | costo 4 | categorías nuevas {R04, R05} (2) | costo por categoría 2.0000 | acumulado 7 | faltan {R03, R06}
+  Paso 4: interacción 9 (E09) | costo 2 | categorías nuevas {R03} (1) | costo por categoría 2.0000 | acumulado 9 | faltan {R06}
+  Paso 5: interacción 17 (E17) | costo 4 | categorías nuevas {R06} (1) | costo por categoría 4.0000 | acumulado 13 | faltan {}
+Cobertura final (categoría -> interacción):
+  categoría R01 (sesgo) -> interacción E02
+  categoría R02 (privacidad) -> interacción E01
+  categoría R03 (formato) -> interacción E09
+  categoría R04 (toxicidad) -> interacción E03
+  categoría R05 (alucinacion) -> interacción E03
+  categoría R06 (seguridad) -> interacción E17
+  categoría R07 (derechos_autor) -> interacción E01
+Interacciones auditadas: [1, 2, 3, 9, 17] (5): E01, E02, E03, E09, E17
+Costo total: 13
+Cubre todas las categorías: sí
+Tiempo: 0.000054 s
+Cota H(d): 2.0833

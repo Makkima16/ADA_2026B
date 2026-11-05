@@ -1,0 +1,25 @@
+Versión del código: 97a6e43 (con cambios sin commit) | Generado: 2026-11-05 15:31:26 | Archivo: prueba_n14_r11_denso.json
+==============================================================================
+Caso: prueba_n14_r11_denso
+Voraz ponderado — traza de elecciones
+  Paso 1: interacción 5 (E05) | costo 2 | categorías nuevas {R06, R09, R11} (3) | costo por categoría 0.6667 | acumulado 2 | faltan {R01, R02, R03, R04, R05, R07, R08, R10}
+  Paso 2: interacción 1 (E01) | costo 5 | categorías nuevas {R04, R07, R08} (3) | costo por categoría 1.6667 | acumulado 7 | faltan {R01, R02, R03, R05, R10}
+  Paso 3: interacción 3 (E03) | costo 10 | categorías nuevas {R01, R02, R10} (3) | costo por categoría 3.3333 | acumulado 17 | faltan {R03, R05}
+  Paso 4: interacción 9 (E09) | costo 20 | categorías nuevas {R03, R05} (2) | costo por categoría 10.0000 | acumulado 37 | faltan {}
+Cobertura final (categoría -> interacción):
+  categoría R01 (sesgo) -> interacción E03
+  categoría R02 (privacidad) -> interacción E03
+  categoría R03 (formato) -> interacción E09
+  categoría R04 (toxicidad) -> interacción E01
+  categoría R05 (alucinacion) -> interacción E09
+  categoría R06 (seguridad) -> interacción E05
+  categoría R07 (derechos_autor) -> interacción E01
+  categoría R08 (fuga_datos) -> interacción E01
+  categoría R09 (suplantacion) -> interacción E05
+  categoría R10 (desinformacion) -> interacción E03
+  categoría R11 (discriminacion) -> interacción E05
+Interacciones auditadas: [5, 1, 3, 9] (4): E05, E01, E03, E09
+Costo total: 37
+Cubre todas las categorías: sí
+Tiempo: 0.000032 s
+Cota H(d): 2.7179

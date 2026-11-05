@@ -1,0 +1,36 @@
+Versión del código: 97a6e43 (con cambios sin commit) | Generado: 2026-11-05 15:31:26 | Archivo: prueba_n10_r06_ralo.json
+==============================================================================
+Caso: prueba_n10_r06_ralo   (n = 10 etapas, B = 24)
+
+Etapas aceleradas: [2, 3, 4, 7]   (E02, E03, E04, E07)
+Costo usado: 24 de B = 24
+Ahorro: 27
+Duración final: 55 (original 82)
+Tiempo de la DP: 0.000058 s
+Solución válida (costo <= B y sumas coherentes): sí
+Ahorro por fuerza bruta: 27 (coincide)
+
+Decisiones (de la última etapa a la primera):
+Etapa 10 (E10): no se acelera (DP[10][24] = DP[9][24] = 27)
+Etapa 9 (E09): no se acelera (DP[9][24] = DP[8][24] = 27)
+Etapa 8 (E08): no se acelera (DP[8][24] = DP[7][24] = 27)
+Etapa 7 (E07): acelerada, costo 7, ahorro 4; presupuesto restante 24 -> 17
+Etapa 6 (E06): no se acelera (DP[6][17] = DP[5][17] = 23)
+Etapa 5 (E05): no se acelera (DP[5][17] = DP[4][17] = 23)
+Etapa 4 (E04): acelerada, costo 8, ahorro 7; presupuesto restante 17 -> 9
+Etapa 3 (E03): acelerada, costo 1, ahorro 9; presupuesto restante 9 -> 8
+Etapa 2 (E02): acelerada, costo 8, ahorro 7; presupuesto restante 8 -> 0
+Etapa 1 (E01): no se acelera (DP[1][0] = DP[0][0] = 0)
+
+Tabla DP (ahorro máximo; fila i = primeras i etapas, columna b = presupuesto b):
+i=0: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+i=1: [0, 0, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3]
+i=2: [0, 0, 3, 3, 3, 3, 3, 3, 7, 7, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10]
+i=3: [0, 9, 9, 12, 12, 12, 12, 12, 12, 16, 16, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19]
+i=4: [0, 9, 9, 12, 12, 12, 12, 12, 12, 16, 16, 19, 19, 19, 19, 19, 19, 23, 23, 26, 26, 26, 26, 26, 26]
+i=5: [0, 9, 9, 12, 12, 12, 12, 12, 12, 16, 16, 19, 19, 19, 19, 19, 19, 23, 23, 26, 26, 26, 26, 26, 26]
+i=6: [0, 9, 9, 12, 12, 12, 12, 12, 12, 16, 16, 19, 19, 19, 19, 19, 19, 23, 23, 26, 26, 26, 26, 26, 26]
+i=7: [0, 9, 9, 12, 12, 12, 12, 12, 13, 16, 16, 19, 19, 19, 19, 19, 20, 23, 23, 26, 26, 26, 26, 26, 27]
+i=8: [0, 9, 9, 12, 12, 12, 12, 12, 13, 16, 16, 19, 19, 19, 19, 19, 20, 23, 23, 26, 26, 26, 26, 26, 27]
+i=9: [0, 9, 9, 12, 12, 12, 12, 12, 13, 16, 16, 19, 19, 19, 19, 19, 20, 23, 23, 26, 26, 26, 26, 26, 27]
+i=10: [0, 9, 9, 12, 12, 12, 12, 13, 13, 16, 16, 19, 19, 19, 19, 20, 20, 23, 23, 26, 26, 26, 26, 27, 27]
