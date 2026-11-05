@@ -2,7 +2,7 @@
 """Demostración de la fuerza bruta (Parte 2, auditoría) para la sustentación.
 
 Material de apoyo local, en `frontend/` (no es parte de la entrega). No
-reimplementa el algoritmo: llama a `fuerza_bruta` de `src/ruta/auditoria.py`
+reimplementa el algoritmo: llama a `fuerza_bruta` de `src/auditoria/auditoria.py`
 y solo agrega el recuento de cuántos subconjuntos se revisaron.
 
 Uso como comando (desde la raíz del proyecto):
@@ -24,9 +24,9 @@ from pathlib import Path
 RAIZ = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(RAIZ / "src"))
 
-from ruta.auditoria import N_MAX_FUERZA_BRUTA, cubre_todo, fuerza_bruta, voraz  # noqa: E402
-from ruta.lectura import ErrorDeLectura, leer_instancia                         # noqa: E402
-from ruta.resolver import Instancia                                              # noqa: E402
+from auditoria.auditoria import N_MAX_FUERZA_BRUTA, cubre_todo, fuerza_bruta, voraz  # noqa: E402
+from auditoria.lectura import ErrorDeLectura, leer_instancia                         # noqa: E402
+from auditoria.resolver import Instancia                                              # noqa: E402
 
 
 def analizar(inst: Instancia) -> dict:

@@ -16,11 +16,11 @@ import random
 import time
 from typing import Dict, List, Optional, Sequence, Set, Tuple
 
-from enfoques.combinado.combinado import paso_parejas_rareza
-from enfoques.rareza.rareza import frecuencias, paso_rareza
-from enfoques.esenciales.esenciales import interacciones_esenciales
-from enfoques.vision_futuro.vision_futuro import paso_futuro
-from ruta.auditoria import Paso, paso_voraz, verificar_factibilidad
+from auditoria.enfoques.combinado.combinado import paso_parejas_rareza
+from auditoria.enfoques.rareza.rareza import frecuencias, paso_rareza
+from auditoria.enfoques.esenciales.esenciales import interacciones_esenciales
+from auditoria.enfoques.vision_futuro.vision_futuro import paso_futuro
+from auditoria.auditoria import Paso, paso_voraz, verificar_factibilidad
 
 # (nombre, esenciales, rareza, parejas)
 COMBINACIONES = [
@@ -91,7 +91,7 @@ def correr_combinacion(r: int, S: Sequence[Set[int]], esenciales: bool, rareza: 
 
 def ablacion(cantidad: int, semilla: int) -> Dict[str, dict]:
     """Por familia (ralo, medio, denso) y en total: cuántas veces cada combinación no llega al óptimo."""
-    from enfoques.comparacion.experimento import FAMILIAS, TAMANOS, instancia_aleatoria, optimo_de
+    from auditoria.enfoques.comparacion.experimento import FAMILIAS, TAMANOS, instancia_aleatoria, optimo_de
     (n_min, n_max), (r_min, r_max) = TAMANOS["pequenos"]
     salida: Dict[str, dict] = {}
     for fam, p in FAMILIAS.items():

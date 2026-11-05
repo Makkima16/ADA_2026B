@@ -5,7 +5,7 @@ Material de apoyo para la sustentación, en `frontend/` de la raíz (ver su
 README.md). NO es parte de los entregables de la primera entrega.
 
 Sirve una página local para crear casos de la Parte 2 —con un formulario o
-como texto en el formato provisional de src/ruta/lectura.py— y ver, paso a
+como texto en el formato provisional de src/auditoria/lectura.py— y ver, paso a
 paso, cómo opera el algoritmo voraz. No duplica la lógica: llama a las mismas
 funciones del código base (`leer_instancia` y `resolver_caso`), de modo que
 lo que muestra la página es exactamente lo que produce el proyecto, incluidos
@@ -30,11 +30,11 @@ from pathlib import Path
 RAIZ = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(RAIZ / "src"))
 
-from ruta.lectura import ErrorDeLectura, leer_instancia  # noqa: E402
-from ruta.resolver import resolver_caso                   # noqa: E402
-from ruta.traza import formatear_resultado                # noqa: E402
+from auditoria.lectura import ErrorDeLectura, leer_instancia  # noqa: E402
+from auditoria.resolver import resolver_caso                   # noqa: E402
+from auditoria.traza import formatear_resultado                # noqa: E402
 from fuerza_bruta_demo import analizar as analizar_fuerza_bruta  # noqa: E402  (mismo directorio)
-from enfoques.comparacion.experimento import comparar_caso  # noqa: E402  (enfoques aparte del voraz base)
+from auditoria.enfoques.comparacion.experimento import comparar_caso  # noqa: E402  (enfoques aparte del voraz base)
 
 DIR_ESTATICO = Path(__file__).resolve().parent / "estatico"
 MAX_CUERPO = 1_000_000  # 1 MB: sobra para cualquier caso razonable

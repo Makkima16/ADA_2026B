@@ -1,6 +1,6 @@
 """Enfoque D — todo junto: esenciales + rareza + parejas (Parte 2, auditoría).
 
-NO reemplaza al voraz base de `ruta.auditoria.voraz`: es un algoritmo aparte
+NO reemplaza al voraz base de `auditoria.auditoria.voraz`: es un algoritmo aparte
 para compararlo con él. Junta los tres ingredientes estudiados:
 
   1. Primero las interacciones **esenciales** (la única que cubre alguna
@@ -32,10 +32,10 @@ empata, por cantidad de categorías nuevas.
 from dataclasses import dataclass
 from typing import List, Sequence, Set, Tuple
 
-from enfoques.esenciales.esenciales import interacciones_esenciales
-from enfoques.rareza.rareza import frecuencias
-from enfoques.vision_futuro.vision_futuro import PasoFuturo
-from ruta.auditoria import Paso, verificar_factibilidad
+from auditoria.enfoques.esenciales.esenciales import interacciones_esenciales
+from auditoria.enfoques.rareza.rareza import frecuencias
+from auditoria.enfoques.vision_futuro.vision_futuro import PasoFuturo
+from auditoria.auditoria import Paso, verificar_factibilidad
 
 
 @dataclass(frozen=True)

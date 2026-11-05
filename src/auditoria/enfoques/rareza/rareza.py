@@ -1,6 +1,6 @@
 """Enfoque C — voraz por rareza de las categorías (Parte 2, auditoría).
 
-NO reemplaza al voraz base de `ruta.auditoria.voraz`: es un algoritmo aparte
+NO reemplaza al voraz base de `auditoria.auditoria.voraz`: es un algoritmo aparte
 para compararlo con él.
 
 Idea: no todas las categorías valen lo mismo. Una categoría que solo cubren
@@ -28,7 +28,7 @@ el resultado no dependa del orden en que se suman los decimales.
 from dataclasses import dataclass
 from typing import List, Sequence, Set, Tuple
 
-from ruta.auditoria import Paso, verificar_factibilidad
+from auditoria.auditoria import Paso, verificar_factibilidad
 
 
 @dataclass(frozen=True)

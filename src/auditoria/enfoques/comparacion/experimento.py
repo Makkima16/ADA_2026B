@@ -2,7 +2,7 @@
 """Comparación de los enfoques con el voraz base (Parte 2, auditoría).
 
 Compara, sobre las mismas instancias:
-    voraz           el voraz base de `ruta.auditoria` (el de la entrega).
+    voraz           el voraz base de `auditoria.auditoria` (el de la entrega).
     esenciales      Enfoque A: primero las interacciones esenciales.
     vision_futuro   Enfoque B: vista al futuro de profundidad 2 (parejas).
     rareza          Enfoque C: puntúa cada categoría por 1/(cuántas la cubren).
@@ -11,7 +11,7 @@ contra el óptimo exacto calculado por fuerza bruta (solo con n <= 12). Todo con
 
 Uso (desde la raíz del proyecto):
 
-    python3 src/enfoques/comparacion/experimento.py [--instancias 3000] [--semilla 2026]
+    python3 src/auditoria/enfoques/comparacion/experimento.py [--instancias 3000] [--semilla 2026]
 
 El mismo módulo lo usa el visor local (`frontend/servidor.py`).
 """
@@ -24,16 +24,16 @@ from math import comb
 from pathlib import Path
 from typing import Callable, Dict, List, Optional, Sequence, Set, Tuple
 
-SRC = Path(__file__).resolve().parents[2]
+SRC = Path(__file__).resolve().parents[3]
 if str(SRC) not in sys.path:
     sys.path.insert(0, str(SRC))
 
-from enfoques.combinado.combinado import voraz_combinado                      # noqa: E402
-from enfoques.comparacion.ablacion import COMBINACIONES, clave, correr_combinacion  # noqa: E402
-from enfoques.esenciales.esenciales import voraz_esenciales                    # noqa: E402
-from enfoques.rareza.rareza import voraz_rareza                                # noqa: E402
-from enfoques.vision_futuro.vision_futuro import voraz_futuro                  # noqa: E402
-from ruta.auditoria import N_MAX_FUERZA_BRUTA, cota_aproximacion, fuerza_bruta, voraz  # noqa: E402
+from auditoria.enfoques.combinado.combinado import voraz_combinado                      # noqa: E402
+from auditoria.enfoques.comparacion.ablacion import COMBINACIONES, clave, correr_combinacion  # noqa: E402
+from auditoria.enfoques.esenciales.esenciales import voraz_esenciales                    # noqa: E402
+from auditoria.enfoques.rareza.rareza import voraz_rareza                                # noqa: E402
+from auditoria.enfoques.vision_futuro.vision_futuro import voraz_futuro                  # noqa: E402
+from auditoria.auditoria import N_MAX_FUERZA_BRUTA, cota_aproximacion, fuerza_bruta, voraz  # noqa: E402
 
 Instancia = Tuple[int, List[Set[int]]]    # (r, S)
 
@@ -295,7 +295,7 @@ def main(argv=None) -> int:
               (f["n"], f["r"], f["pasos"], f["voraz"], f["esenciales"], f["vision_futuro"], f["rareza"], f["combinado"],
                f["combinado"] / max(f["voraz"], 1e-9)))
     print("\n== 6. Contribución de cada ingrediente (casos no óptimos de %d por familia) ==" % args.instancias)
-    from enfoques.comparacion.ablacion import ablacion
+    from auditoria.enfoques.comparacion.ablacion import ablacion
     ab = ablacion(args.instancias, args.semilla)
     print("  %-24s %6s %6s %6s | %7s" % ("combinación", "ralo", "medio", "denso", "total"))
     for nombre, *_ in COMBINACIONES:

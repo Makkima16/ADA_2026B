@@ -1,8 +1,8 @@
 """Pruebas de la salida por caso (resolver + formato de la evidencia)."""
 
-from ruta.auditoria import N_MAX_FUERZA_BRUTA
-from ruta.resolver import Instancia, resolver_caso
-from ruta.traza import formatear_resultado
+from auditoria.auditoria import N_MAX_FUERZA_BRUTA
+from auditoria.resolver import Instancia, resolver_caso
+from auditoria.traza import formatear_resultado
 
 CLASICA = Instancia("clasica", 6, [{1, 2, 4, 5}, {1, 2, 3}, {4, 5, 6}])
 

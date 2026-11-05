@@ -50,11 +50,12 @@ Entregables: informe, repositorio, manual técnico y evidencias. Todo debe corre
 CLAUDE.md
 README.md
 requirements.txt
-run_all.py            # corre todos los casos y genera evidencias
+run_all.py            # corre todos los casos y genera evidencias (lo crea el integrante 3; aún no está en el repo)
 context/                 # enunciado, guía de entrega, manual técnico, informe
-src/ruta/             # algoritmos (aceleracion, auditoria, ponderada) + lectura de casos + traza
-src/enfoques/         # enfoques aparte del voraz base (Parte 2) y su experimento; no reemplazan a src/ruta/
-frontend/             # visor local de apoyo (Parte 2); solo importa de src/
+src/aceleracion/      # Parte 1 completa: algoritmo (DP), fuerza bruta de verificación, lectura de casos y traza
+src/auditoria/        # Parte 2 completa: voraz, fuerza bruta, lectura de casos, resolución, traza y variante ponderada
+src/auditoria/enfoques/  # enfoques aparte del voraz base (Parte 2) y su experimento; no reemplazan a src/auditoria/auditoria.py
+frontend/             # visor local de apoyo (Parte 2); solo importa de src/auditoria/
 casos/                # casos de la profesora (SOLO LECTURA)
 resultados/           # salida, tiempo y traza por caso (se regenera completo)
 tests/                # pruebas (DP vs fuerza bruta, voraz vs óptimo y cota H(d))
@@ -77,7 +78,11 @@ python3 run_all.py --casos casos/ --salida resultados/    # todas las evidencias
 python3 -m pytest tests/                                   # pruebas
 ```
 
-Si un comando no existe todavía, créalo siguiendo esta convención en vez de inventar otra.
+Si un comando no existe todavía, créalo siguiendo esta convención en vez de inventar otra. **Excepción: `run_all.py`.** Lo está creando el integrante 3 y todavía no está en el repositorio; los demás integrantes no deben crear su propia versión. Cuando llegue, debe cumplir esto:
+- Usa solo las funciones públicas de cada parte: `src/aceleracion/` (`resolver`, `traza`) y `src/auditoria/` (`leer_casos`, `resolver_caso`, `formatear_resultado`). No reimplementa algoritmos ni lectura.
+- Recibe `--casos` (directorio de entrada, solo lectura) y `--salida` (directorio donde regenera **todo** `resultados/`).
+- Por caso escribe resultado, tiempo y traza, identificados por nombre de caso. Parte 1 y Parte 2 (y la variante ponderada) deben quedar en la misma versión.
+- Mientras no exista, las pruebas (`python3 -m pytest tests/`) son el único comando de verificación del repo.
 
 ## Cosas que el profesor revisa (no fallar)
 

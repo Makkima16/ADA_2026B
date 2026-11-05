@@ -1,4 +1,4 @@
-"""Pruebas de los enfoques sobre el voraz (src/enfoques/): esenciales, parejas (vista al futuro) y ambas.
+"""Pruebas de los enfoques sobre el voraz (src/auditoria/enfoques/): esenciales, parejas (vista al futuro) y ambas.
 
 El voraz base no se toca; estos enfoques se prueban aparte y se comparan contra él.
 """
@@ -7,13 +7,13 @@ import random
 
 import pytest
 
-from enfoques.comparacion.experimento import experimento, instancia_aleatoria, instancia_cebos
-from enfoques.combinado.combinado import PasoCombinado, voraz_combinado
-from enfoques.comparacion.ablacion import COMBINACIONES, clave, voraz_ablacion, voraz_ablacion_traza
-from enfoques.esenciales.esenciales import interacciones_esenciales, voraz_esenciales
-from enfoques.rareza.rareza import PasoRareza, frecuencias, voraz_rareza
-from enfoques.vision_futuro.vision_futuro import PasoFuturo, voraz_futuro
-from ruta.auditoria import cota_aproximacion, cubre_todo, fuerza_bruta, voraz
+from auditoria.enfoques.comparacion.experimento import experimento, instancia_aleatoria, instancia_cebos
+from auditoria.enfoques.combinado.combinado import PasoCombinado, voraz_combinado
+from auditoria.enfoques.comparacion.ablacion import COMBINACIONES, clave, voraz_ablacion, voraz_ablacion_traza
+from auditoria.enfoques.esenciales.esenciales import interacciones_esenciales, voraz_esenciales
+from auditoria.enfoques.rareza.rareza import PasoRareza, frecuencias, voraz_rareza
+from auditoria.enfoques.vision_futuro.vision_futuro import PasoFuturo, voraz_futuro
+from auditoria.auditoria import cota_aproximacion, cubre_todo, fuerza_bruta, voraz
 
 R_MALA = 6
 S_MALA = [{1, 2, 4, 5}, {1, 2, 3}, {4, 5, 6}]  # G, P, Q: el voraz base usa 3, el óptimo 2

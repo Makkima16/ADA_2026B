@@ -1,6 +1,6 @@
 """Enfoque A — voraz con interacciones esenciales (Parte 2, auditoría).
 
-NO reemplaza al voraz base de `ruta.auditoria.voraz`: es un algoritmo aparte
+NO reemplaza al voraz base de `auditoria.auditoria.voraz`: es un algoritmo aparte
 para compararlo con él.
 
 Idea: una interacción es **esencial** si es la única que cubre alguna categoría.
@@ -22,7 +22,7 @@ faltan). Total: |J| ≤ |E| + H(d)·(OPT − |E|) ≤ H(d)·OPT, porque H(d) ≥
 
 from typing import List, Sequence, Set, Tuple
 
-from ruta.auditoria import Paso, paso_voraz, verificar_factibilidad
+from auditoria.auditoria import Paso, paso_voraz, verificar_factibilidad
 
 
 def interacciones_esenciales(r: int, S: Sequence[Set[int]]) -> List[int]:
