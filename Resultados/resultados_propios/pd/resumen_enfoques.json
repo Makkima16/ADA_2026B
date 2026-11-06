@@ -1,0 +1,237 @@
+{
+ "version": "e42e041 (con cambios sin commit)",
+ "fecha": "2026-11-06 17:39:58",
+ "casos": 20,
+ "parte1": {
+  "parametros": {
+   "instancias": 20
+  },
+  "hechas": 20,
+  "detenido_por_tiempo": false,
+  "recomendado": {
+   "presupuesto": 11,
+   "valor": 6,
+   "empate": 2,
+   "ninguna": 1
+  },
+  "ambas": {
+   "corridas": 14,
+   "coinciden": 14
+  },
+  "fuerza_bruta": {
+   "comparadas": 8,
+   "presupuesto_ok": 6,
+   "valor_ok": 8
+  },
+  "no_corridas": {
+   "presupuesto": 6,
+   "valor": 1
+  },
+  "regiones": {
+   "B menor que D": {
+    "casos": 11,
+    "corridas": 11,
+    "celdas_presupuesto": 182109,
+    "celdas_valor": 787803,
+    "tiempo_presupuesto": 0.06656794500304386,
+    "tiempo_valor": 0.15910999503103085,
+    "regla_mas_rapida": 10,
+    "regla_valida": 11
+   },
+   "B igual a D": {
+    "casos": 2,
+    "corridas": 2,
+    "celdas_presupuesto": 7434,
+    "celdas_valor": 7434,
+    "tiempo_presupuesto": 0.0023260199959622696,
+    "tiempo_valor": 0.001262681995285675,
+    "regla_mas_rapida": 0,
+    "regla_valida": 0
+   },
+   "B mayor que D": {
+    "casos": 7,
+    "corridas": 1,
+    "celdas_presupuesto": 762817,
+    "celdas_valor": 4154,
+    "tiempo_presupuesto": 0.2477358249889221,
+    "tiempo_valor": 0.0007324759935727343,
+    "regla_mas_rapida": 1,
+    "regla_valida": 1
+   }
+  },
+  "limite_celdas": 10000000,
+  "solo_valor": 5,
+  "ninguna_cabe": 1
+ },
+ "parte2": {
+  "Voraz base": {
+   "clave": "",
+   "no_optimo": 0,
+   "mejora": 0,
+   "igual": 0,
+   "peor": 0,
+   "razon_max": 1.0,
+   "viola_cota": 0,
+   "tiempo_medio_s": 4.4804997742176056e-05
+  },
+  "Esenciales": {
+   "clave": "e",
+   "no_optimo": 0,
+   "mejora": 0,
+   "igual": 1,
+   "peor": 0,
+   "razon_max": 1.0,
+   "viola_cota": 0,
+   "tiempo_medio_s": 5.2167990361340344e-05
+  },
+  "Rareza": {
+   "clave": "r",
+   "no_optimo": 0,
+   "mejora": 0,
+   "igual": 1,
+   "peor": 0,
+   "razon_max": 1.0,
+   "viola_cota": 0,
+   "tiempo_medio_s": 0.00016910799604374915
+  },
+  "Parejas": {
+   "clave": "p",
+   "no_optimo": 0,
+   "mejora": 0,
+   "igual": 1,
+   "peor": 0,
+   "razon_max": 1.0,
+   "viola_cota": 0,
+   "tiempo_medio_s": 0.0002587369963293895
+  },
+  "Esenciales + rareza": {
+   "clave": "er",
+   "no_optimo": 0,
+   "mejora": 0,
+   "igual": 1,
+   "peor": 0,
+   "razon_max": 1.0,
+   "viola_cota": 0,
+   "tiempo_medio_s": 0.0001630670012673363
+  },
+  "Esenciales + parejas": {
+   "clave": "ep",
+   "no_optimo": 0,
+   "mejora": 0,
+   "igual": 1,
+   "peor": 0,
+   "razon_max": 1.0,
+   "viola_cota": 0,
+   "tiempo_medio_s": 0.0002459019888192415
+  },
+  "Rareza + parejas": {
+   "clave": "rp",
+   "no_optimo": 0,
+   "mejora": 0,
+   "igual": 1,
+   "peor": 0,
+   "razon_max": 1.0,
+   "viola_cota": 0,
+   "tiempo_medio_s": 0.0010123819956788793
+  },
+  "Los tres (enfoque D)": {
+   "clave": "erp",
+   "no_optimo": 0,
+   "mejora": 0,
+   "igual": 1,
+   "peor": 0,
+   "razon_max": 1.0,
+   "viola_cota": 0,
+   "tiempo_medio_s": 0.0009761340043041855
+  },
+  "instancias": 1,
+  "con_optimo": 1,
+  "por_familia": {
+   "ralo": {
+    "Voraz base": 0,
+    "Esenciales": 0,
+    "Rareza": 0,
+    "Parejas": 0,
+    "Esenciales + rareza": 0,
+    "Esenciales + parejas": 0,
+    "Rareza + parejas": 0,
+    "Los tres (enfoque D)": 0
+   },
+   "medio": {
+    "Voraz base": 0,
+    "Esenciales": 0,
+    "Rareza": 0,
+    "Parejas": 0,
+    "Esenciales + rareza": 0,
+    "Esenciales + parejas": 0,
+    "Rareza + parejas": 0,
+    "Los tres (enfoque D)": 0
+   },
+   "denso": {
+    "Voraz base": 0,
+    "Esenciales": 0,
+    "Rareza": 0,
+    "Parejas": 0,
+    "Esenciales + rareza": 0,
+    "Esenciales + parejas": 0,
+    "Rareza + parejas": 0,
+    "Los tres (enfoque D)": 0
+   }
+  },
+  "casos_por_familia": {
+   "ralo": 0,
+   "medio": 1,
+   "denso": 0
+  },
+  "fallan_cobertura": 0,
+  "ejemplos": {}
+ },
+ "variante": {
+  "casos": 1,
+  "con_parcial": 0,
+  "con_depuracion": 0,
+  "con_optimo": 1,
+  "optimo_ok": 0,
+  "razon_max": 1.0384615384615385,
+  "viola_cota": 0,
+  "mas_barata": 1,
+  "igual": 0,
+  "mas_cara": 0,
+  "ahorro_medio_pct": 6.896551724137931
+ },
+ "variante_parcial": {
+  "casos": 1,
+  "con_parcial": 1,
+  "con_depuracion": 0,
+  "con_optimo": 1,
+  "optimo_ok": 0,
+  "razon_max": 1.0833333333333333,
+  "viola_cota": 0,
+  "mas_barata": 1,
+  "igual": 0,
+  "mas_cara": 0,
+  "ahorro_medio_pct": 3.7037037037037033
+ },
+ "sin_parte1": [],
+ "sin_parte2": [
+  "01_b_cero",
+  "03_nada_cabe",
+  "07_empates",
+  "11_limite_n12",
+  "12_n13_sin_fuerza_bruta",
+  "13_n20_b_moderado",
+  "15_n50_b_un_tercio",
+  "17_n200_b_enorme_base_no_cabe",
+  "19_n400_ninguna_tabla_cabe",
+  "20_valor_gana_n8_costos_enormes",
+  "21_valor_gana_n12_presupuesto_en_millones",
+  "24_valor_gana_n60_ahorro_unitario",
+  "26_valor_gana_n150_base_no_cabe",
+  "28_cruce_empate_b_igual_d",
+  "29_presupuesto_gana_n10",
+  "31_presupuesto_gana_n40_b_un_cuarto",
+  "33_presupuesto_gana_n150",
+  "35_mezcla_d_cero_y_c_cero",
+  "40_valor_gana_base_si_cabe_n30"
+ ]
+}

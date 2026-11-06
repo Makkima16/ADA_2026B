@@ -22,6 +22,7 @@
         <a href="/">Inicio</a>
         <a href="/aceleracion">Parte 1 · Aceleración</a>
         <a href="/auditoria" aria-current="page">Parte 2 · Auditoría</a>
+        <a href="/aleatorios">Casos aleatorios</a>
       </nav>
       <div class="pildora"><i class="punto" aria-hidden="true"></i>Funcionando en este equipo <span class="mono" id="direccion"></span></div>
     </div>
@@ -461,64 +462,6 @@
     </div>
   </section>
 
-  <!-- ============ 4. Crear tus propias pruebas ============ -->
-  <section class="panel panel-pruebas" id="panel-pruebas" aria-labelledby="titulo-pruebas">
-    <div class="encabezado-seccion">
-      <span class="num-paso" aria-hidden="true">4</span>
-      <div>
-        <h2 id="titulo-pruebas">Crear tus propias pruebas</h2>
-        <p class="ayuda-corta">Genera casos al azar y mira cuántas veces cada método llega al mínimo y en cuántos empeora</p>
-      </div>
-    </div>
-
-    <div class="intro-explicacion">
-      <p><strong>Qué hace.</strong> Crea casos de prueba al azar y, para cada uno, corre los <b>ocho métodos</b> (el voraz normal y las combinaciones de
-        ingredientes). Luego los compara con el <b>mínimo real</b>, que se calcula probando todas las combinaciones. Por eso los casos son pequeños
-        (hasta 12 interacciones y 14 riesgos). Al final cuenta, por método, en cuántos casos <b>llegó al mínimo</b>, en cuántos fue <b>mejor, igual o peor
-        que el voraz normal</b> y cuánto se alejó del mínimo en el peor caso.</p>
-      <p><strong>Qué es la densidad.</strong> Es cuántos riesgos revisa cada interacción: <em>ralo</em> revisa pocos (cerca del 10 %), <em>medio</em> cerca del 25 % y
-        <em>denso</em> cerca del 45 %. Con la misma semilla siempre salen los mismos casos, así que el resultado se puede repetir.</p>
-    </div>
-
-    <div class="form-pruebas">
-      <label>Casos por densidad
-        <input type="number" id="pv-instancias" min="1" max="5000" value="500">
-      </label>
-      <label>Semilla
-        <input type="number" id="pv-semilla" value="2026">
-      </label>
-      <fieldset class="densidades">
-        <legend>Densidades a probar</legend>
-        <label><input type="checkbox" class="pv-familia" value="ralo" checked> Ralo</label>
-        <label><input type="checkbox" class="pv-familia" value="medio" checked> Medio</label>
-        <label><input type="checkbox" class="pv-familia" value="denso" checked> Denso</label>
-      </fieldset>
-      <button class="btn primario grande" id="pv-correr" type="button">Correr la prueba</button>
-    </div>
-    <p class="nota" id="pv-nota">Hasta 5.000 casos por densidad. Con 500 por densidad tarda un par de segundos; con 5.000, cerca de diez.</p>
-
-    <div class="banner-error oculto" id="pv-error" role="alert">
-      <span class="icono-error" aria-hidden="true">!</span>
-      <div class="cuerpo-error"><div class="titulo-error">No se pudo correr la prueba</div><div id="pv-mensaje-error"></div></div>
-    </div>
-
-    <div class="oculto" id="pv-resultado">
-      <p class="resumen-pruebas" id="pv-resumen"></p>
-      <div style="overflow-x:auto">
-        <table class="tabla-cmp tabla-pruebas" id="pv-tabla"></table>
-      </div>
-      <p class="nota-cmp">Cómo leerla: <b>Llega al mínimo</b> es en cuántos casos el método usó tantas interacciones como el mínimo real. <b>Mejor / Igual / Peor</b> comparan
-        contra el voraz normal, caso por caso. <b>Razón máxima</b> es cuántas veces el mínimo llegó a usar en su peor caso (1,00 = nunca se alejó).
-        <b>Pasa H(d)</b> cuenta los casos que superaron la cota teórica del voraz normal. La fila resaltada es la que más veces llegó al mínimo.</p>
-
-      <h3 class="subtitulo-pruebas">Cuántas veces no llegó al mínimo, según la densidad</h3>
-      <div style="overflow-x:auto"><table class="tabla-cmp tabla-pruebas" id="pv-tabla-familias"></table></div>
-
-      <h3 class="subtitulo-pruebas">Casos donde un método empeoró al voraz normal</h3>
-      <p class="nota-cmp" id="pv-ejemplos-nota"></p>
-      <div id="pv-ejemplos"></div>
-    </div>
-  </section>
 
   <footer>
     Herramienta de apoyo local para la sustentación. Los cálculos los hace el mismo código del proyecto
@@ -528,7 +471,6 @@
 
 <script src="/estatico/explicacion.js"></script>
 <script src="/estatico/combinador.js"></script>
-<script src="/estatico/pruebas.js"></script>
 <script src="/estatico/app.js"></script>
 </body>
 </html>

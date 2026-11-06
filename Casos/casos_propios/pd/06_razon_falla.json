@@ -1,0 +1,9 @@
+{
+  "descripcion": "Tomar siempre lo que más ahorra por unidad de costo NO es óptimo: toma E01 (ahorra 8) y ya no caben las otras dos, que juntas ahorran 12. Celdas de la tabla: por presupuesto 44, por valor 84. Enfoque recomendado: presupuesto. Resultado: ahorro 12, costo 10 de B = 10, 2 etapas aceleradas, duración final 20 de 32. Fuerza bruta: ahorro 12.",
+  "parametros": {"numero_etapas": 3, "presupuesto_aceleracion_B": 10},
+  "etapas": [
+    {"id": "E01", "duracion_normal": 12, "costo_aceleracion": 6, "reduccion_tiempo_si_acelera": 8},
+    {"id": "E02", "duracion_normal": 10, "costo_aceleracion": 5, "reduccion_tiempo_si_acelera": 6},
+    {"id": "E03", "duracion_normal": 10, "costo_aceleracion": 5, "reduccion_tiempo_si_acelera": 6}
+  ]
+}

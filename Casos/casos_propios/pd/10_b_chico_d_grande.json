@@ -1,0 +1,18 @@
+{
+  "descripcion": "Presupuesto chico y ahorros grandes (B pequeño, D grande): la tabla por presupuesto es la más chica. Celdas de la tabla: por presupuesto 338, por valor 29939. Enfoque recomendado: presupuesto. Resultado: ahorro 1541, costo 25 de B = 25, 7 etapas aceleradas, duración final 881 de 2422. Fuerza bruta: ahorro 1541.",
+  "parametros": {"numero_etapas": 12, "presupuesto_aceleracion_B": 25},
+  "etapas": [
+    {"id": "E01", "duracion_normal": 245, "costo_aceleracion": 10, "reduccion_tiempo_si_acelera": 233},
+    {"id": "E02", "duracion_normal": 238, "costo_aceleracion": 1, "reduccion_tiempo_si_acelera": 225},
+    {"id": "E03", "duracion_normal": 192, "costo_aceleracion": 7, "reduccion_tiempo_si_acelera": 183},
+    {"id": "E04", "duracion_normal": 127, "costo_aceleracion": 8, "reduccion_tiempo_si_acelera": 119},
+    {"id": "E05", "duracion_normal": 177, "costo_aceleracion": 10, "reduccion_tiempo_si_acelera": 163},
+    {"id": "E06", "duracion_normal": 295, "costo_aceleracion": 1, "reduccion_tiempo_si_acelera": 290},
+    {"id": "E07", "duracion_normal": 201, "costo_aceleracion": 4, "reduccion_tiempo_si_acelera": 192},
+    {"id": "E08", "duracion_normal": 122, "costo_aceleracion": 8, "reduccion_tiempo_si_acelera": 111},
+    {"id": "E09", "duracion_normal": 211, "costo_aceleracion": 8, "reduccion_tiempo_si_acelera": 207},
+    {"id": "E10", "duracion_normal": 149, "costo_aceleracion": 5, "reduccion_tiempo_si_acelera": 135},
+    {"id": "E11", "duracion_normal": 261, "costo_aceleracion": 3, "reduccion_tiempo_si_acelera": 254},
+    {"id": "E12", "duracion_normal": 204, "costo_aceleracion": 1, "reduccion_tiempo_si_acelera": 190}
+  ]
+}

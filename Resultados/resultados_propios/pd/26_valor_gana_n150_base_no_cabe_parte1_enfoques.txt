@@ -1,0 +1,12 @@
+Versión del código: e42e041 (con cambios sin commit) | Generado: 2026-11-06 17:39:58 | Archivo: 26_valor_gana_n150_base_no_cabe.json
+==============================================================================
+Caso: 26_valor_gana_n150_base_no_cabe   (n = 150 etapas, B = 28419849, D = suma de ahorros = 357)
+
+Límite de celdas por tabla: 10000000
+
+DP por presupuesto (base): 4291397350 celdas, NO CABE (no se corrió)
+DP por valor: 54058 celdas, cabe
+    etapas aceleradas [2, 4, 5, 8, 9, 13, 14, 17, 18, 19, 24, 26, 30, 34, 38, 43, 45, 46, 47, 48, 49, 55, 57, 64, 67, 71, 72, 74, 76, 78, 79, 80, 81, 82, 83, 84, 86, 87, 89, 90, 92, 96, 98, 99, 100, 101, 103, 108, 109, 111, 113, 115, 116, 117, 118, 119, 121, 124, 126, 127, 129, 131, 133, 134, 135, 137, 138, 139, 142, 143, 144, 149] | costo 28301223 de B = 28419849 | ahorro 225 | duración 763 -> 538 | tiempo 9.678 ms | válida: sí
+
+Solo se corrió la tabla por valor; la otra no cabe, así que no hay comparación entre las dos.
+Solución del caso (la que se reporta en la evidencia de la Parte 1): DP por valor.

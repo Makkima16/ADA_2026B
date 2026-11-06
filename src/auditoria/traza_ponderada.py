@@ -61,7 +61,7 @@ def formatear_resultado_ponderado(res: ResultadoPonderado) -> str:
     lineas.append("Cubre todas las categorías: %s" % ("sí" if res.cubre else "NO"))   # C (1)
     lineas.append("Tiempo: %.6f s" % res.tiempo_s)                   # C (1)
     if res.optimo_costo is not None:                                 # C (1)
-        lineas.append("Óptimo por fuerza bruta: costo %s con %s" % (_num(res.optimo_costo), res.optimo_J) +
+        lineas.append("Óptimo (%s): costo %s con %s" % (res.optimo_metodo or "fuerza bruta", _num(res.optimo_costo), res.optimo_J) +
                       (": " + ", ".join(etq_j(j) for j in res.optimo_J) if con_ids else ""))
         lineas.append("Razón voraz / óptimo: %.4f" % (res.costo / res.optimo_costo))
     lineas.append("Cota H(d): %.4f" % res.cota)                      # C (1)

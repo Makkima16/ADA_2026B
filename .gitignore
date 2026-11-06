@@ -1,8 +1,6 @@
 # --- Material personal del integrante 2 (no se entrega ni se publica) ---
 notas_integrante2/
 NOTAS_COSTOS_E_INVARIANTES.md
-resultados/
-casos_propios/
 
 # --- Python ---
 __pycache__/
@@ -27,3 +25,7 @@ env/
 
 # --- Claude Code (configuración local) ---
 .claude/settings.local.json
+
+# --- Casos y resultados aleatorios del visor y de probar_aleatorios.py (se regeneran; no se suben) ---
+casos_temporales/
+resultados_temporales/

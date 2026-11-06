@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Pruebas aleatorias — Visor del proyecto</title>
+  <link rel="stylesheet" href="/estatico/estilos.css">
+  <link rel="stylesheet" href="/estatico/aceleracion.css">
+</head>
+<body>
+<div class="pagina">
+
+  <header class="cabecera">
+    <div class="marca-titulo">
+      <div class="logo logo-escalera" aria-hidden="true"><span class="l1"></span><span class="l2"></span><span class="l3"></span><span class="l4"></span></div>
+      <div>
+        <h1>Pruebas aleatorias</h1>
+        <p class="subtitulo">Generar casos, probarlos y comparar todos los enfoques · Análisis y Diseño de Algoritmos · Universidad de Caldas</p>
+      </div>
+    </div>
+    <div class="acciones-cab">
+      <nav class="selector-parte" aria-label="Cambiar de parte">
+        <a href="/">Inicio</a>
+        <a href="/aceleracion">Parte 1 · Aceleración</a>
+        <a href="/auditoria">Parte 2 · Auditoría</a>
+        <a href="/aleatorios" aria-current="page">Pruebas aleatorias</a>
+      </nav>
+      <div class="pildora"><i class="punto" aria-hidden="true"></i>Funcionando en este equipo <span class="mono" id="direccion"></span></div>
+    </div>
+  </header>
+
+  <!-- ============ 1. Qué probar ============ -->
+  <section class="panel panel-pruebas" aria-labelledby="titulo-modo">
+    <div class="encabezado-seccion">
+      <span class="num-paso" aria-hidden="true">1</span>
+      <div>
+        <h2 id="titulo-modo">¿Qué quieres probar?</h2>
+        <p class="ayuda-corta">Las dos partes juntas, o solo una para poder correr muchos más casos</p>
+      </div>
+    </div>
+    <div class="modos" role="radiogroup" aria-labelledby="titulo-modo">
+      <label class="modo"><input type="radio" name="modo" value="completo" checked>
+        <b>Las dos partes y la variante</b>
+        <span>Hasta <b id="lim-completo">500</b> casos. Cada caso se guarda como archivo y se prueba con <span class="mono">run_all.py</span>: queda su resultado, tiempo y traza.</span></label>
+      <label class="modo"><input type="radio" name="modo" value="pd">
+        <b>Solo Parte 1 (DP)</b>
+        <span>Hasta <b id="lim-pd">500</b> casos, en memoria. Compara la DP por presupuesto con la DP por valor.</span></label>
+      <label class="modo"><input type="radio" name="modo" value="voraz">
+        <b>Solo Parte 2 (voraz)</b>
+        <span>Hasta <b id="lim-voraz">5.000</b> casos por densidad, en memoria. Compara los ocho enfoques del voraz con el mínimo real.</span></label>
+    </div>
+    <div class="intro-explicacion" id="explica-modo"></div>
+  </section>
+
+  <!-- ============ 2. Parámetros ============ -->
+  <section class="panel panel-pruebas" aria-labelledby="titulo-parametros">
+    <div class="encabezado-seccion">
+      <span class="num-paso" aria-hidden="true">2</span>
+      <div>
+        <h2 id="titulo-parametros">Parámetros</h2>
+        <p class="ayuda-corta">Con la misma semilla y los mismos valores salen siempre los mismos casos</p>
+      </div>
+    </div>
+
+    <!-- completo -->
+    <div id="form-completo">
+      <div class="form-pruebas">
+        <label>Casos<input type="number" id="al-cantidad" min="1" max="500" value="20"></label>
+        <label>Semilla<input type="number" id="al-semilla" value="2026"></label>
+        <label>Etapas n (mín.)<input type="number" id="al-nmin" min="1" max="100" value="8"></label>
+        <label>Etapas n (máx.)<input type="number" id="al-nmax" min="1" max="100" value="16"></label>
+        <label>Categorías r (mín.)<input type="number" id="al-rmin" min="1" max="60" value="6"></label>
+        <label>Categorías r (máx.)<input type="number" id="al-rmax" min="1" max="60" value="15"></label>
+        <fieldset class="densidades">
+          <legend>Densidad (cuánto cubre cada interacción)</legend>
+          <label><input type="checkbox" name="densidad" value="ralo" checked> ralo</label>
+          <label><input type="checkbox" name="densidad" value="medio" checked> medio</label>
+          <label><input type="checkbox" name="densidad" value="denso" checked> denso</label>
+        </fieldset>
+        <button class="btn grande" id="al-generar" type="button">Generar casos</button>
+        <button class="btn primario grande" id="al-probar" type="button" disabled>Probar los casos</button>
+      </div>
+      <p class="nota">Se compara además contra el mínimo real: por fuerza bruta con n ≤ 12 y, si no, por subconjuntos de categorías con r ≤ 16. Los casos se escriben en <span class="mono">Casos/casos_temporales/</span> y las evidencias en <span class="mono">Resultados/resultados_temporales/</span>; las dos carpetas se vacían en cada corrida y no se suben a git.</p>
+
+      <div class="subida" id="zona-subida">
+        <h3 class="subtitulo-pruebas">¿Tienes tus propios casos? (por ejemplo, los de la profesora)</h3>
+        <p>Cada archivo <span class="mono">.json</span> debería traer <b>las dos partes en el mismo archivo</b>, como el ejemplo <span class="mono">entrada_G3_mochila_20_nodos.json</span>:
+          las etapas con su duración, costo de aceleración y reducción, el presupuesto B, las categorías de riesgo, los riesgos que cubre cada etapa y sus variaciones de auditoría (completa y parcial).
+          Si un archivo trae <b>solo la Parte 1 o solo la Parte 2</b>, se analiza únicamente la parte que aplica y la otra figura como «no aplica» (no es un error).
+          Elige los archivos o arrástralos aquí (hasta 200); reemplazan lo que haya en <span class="mono">Casos/casos_temporales/</span>.</p>
+        <div class="form-pruebas">
+          <label>Archivos .json<input type="file" id="al-archivos" accept=".json,application/json" multiple></label>
+          <button class="btn" id="al-subir" type="button">Usar estos casos</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- solo PD -->
+    <div id="form-pd" class="oculto">
+      <div class="presets-pruebas">
+        <span class="rotulo">Ejemplos de parámetros</span>
+        <button class="btn mini pd-preset" type="button" data-preset="parecidos">Costos y ahorros parecidos</button>
+        <button class="btn mini pd-preset" type="button" data-preset="costosgrandes">Costos grandes, ahorros chicos</button>
+        <button class="btn mini pd-preset" type="button" data-preset="cruce">Cerca del cruce (B ≈ D)</button>
+      </div>
+      <div class="form-pruebas form-pd">
+        <label>Casos<input type="number" id="pd-instancias" min="1" max="500" value="200"></label>
+        <label>Semilla<input type="number" id="pd-semilla" value="2026"></label>
+        <label>Etapas (mín.)<input type="number" id="pd-nmin" min="1" max="400" value="5"></label>
+        <label>Etapas (máx.)<input type="number" id="pd-nmax" min="1" max="400" value="30"></label>
+        <label>Costo (mín.)<input type="number" id="pd-cmin" min="0" value="1"></label>
+        <label>Costo (máx.)<input type="number" id="pd-cmax" min="0" value="30"></label>
+        <label>Ahorro (mín.)<input type="number" id="pd-dmin" min="0" value="1"></label>
+        <label>Ahorro (máx.)<input type="number" id="pd-dmax" min="0" value="30"></label>
+        <label>Presupuesto B, % del costo total<input type="number" id="pd-pct" min="0" max="500" value="50"></label>
+        <button class="btn primario grande" id="pd-correr" type="button">Correr la prueba</button>
+      </div>
+      <p class="nota">Cada caso se genera con costos y ahorros al azar entre los rangos; B es el porcentaje indicado del costo total. Una tabla de más de 1.500.000 celdas no se corre en esta prueba, y el cálculo se corta a los 25 segundos.</p>
+    </div>
+
+    <!-- solo voraz -->
+    <div id="form-voraz" class="oculto">
+      <div class="form-pruebas">
+        <label>Casos por densidad<input type="number" id="pv-instancias" min="1" max="5000" value="3000"></label>
+        <label>Semilla<input type="number" id="pv-semilla" value="2026"></label>
+        <fieldset class="densidades">
+          <legend>Densidad</legend>
+          <label><input type="checkbox" class="pv-familia" value="ralo" checked> ralo</label>
+          <label><input type="checkbox" class="pv-familia" value="medio" checked> medio</label>
+          <label><input type="checkbox" class="pv-familia" value="denso" checked> denso</label>
+        </fieldset>
+        <button class="btn primario grande" id="pv-correr" type="button">Correr la prueba</button>
+      </div>
+      <p class="nota">Los casos tienen n ≤ 12 y r ≤ 14, para tener siempre el mínimo real por fuerza bruta y medir cuántas veces llega cada enfoque. Con 3.000 por densidad son 9.000 casos (unos 5 segundos).</p>
+    </div>
+
+    <div class="banner-error oculto" id="al-error" role="alert">
+      <span class="icono-error" aria-hidden="true">!</span>
+      <div class="cuerpo-error"><div class="titulo-error">No se pudo completar</div><div id="al-mensaje-error"></div></div>
+    </div>
+  </section>
+
+  <!-- ============ 3. Resultados ============ -->
+  <section class="panel panel-pruebas oculto" id="panel-resultados" aria-labelledby="titulo-resultados">
+    <div class="encabezado-seccion">
+      <span class="num-paso" aria-hidden="true">3</span>
+      <div>
+        <h2 id="titulo-resultados">Resultados</h2>
+        <p class="ayuda-corta" id="res-subtitulo"></p>
+      </div>
+    </div>
+    <p class="resumen-pruebas" id="res-resumen"></p>
+
+    <div id="res-p1" class="bloque-parte oculto">
+      <h3 class="subtitulo-parte"><span class="etiqueta-parte">Parte 1</span> Aceleración de la cadena: DP por presupuesto y DP por valor</h3>
+      <div class="resumen" id="p1-stats"></div>
+      <h4 class="subtitulo-pruebas">Según la relación entre B y D (la suma de los ahorros)</h4>
+      <div style="overflow-x:auto"><table class="tabla-cmp tabla-pruebas" id="p1-tabla"></table></div>
+      <p class="nota-cmp">Los promedios son solo de los casos en que se corrieron las dos tablas. <b>La de menos celdas fue más rápida</b> cuenta en cuántos casos la tabla más chica también tardó menos (se ignoran los empates de tamaño). Cerca del cruce las constantes pesan y puede fallar: el criterio es contar celdas, no medir tiempo.</p>
+      <ul class="lista-explicacion" id="p1-lecturas"></ul>
+    </div>
+
+    <div id="res-p2" class="bloque-parte oculto">
+      <h3 class="subtitulo-parte"><span class="etiqueta-parte">Parte 2</span> Cobertura de auditoría: los ocho enfoques del voraz</h3>
+      <div class="resumen" id="p2-stats"></div>
+      <h4 class="subtitulo-pruebas">Cada enfoque contra el mínimo real y contra el voraz normal</h4>
+      <div style="overflow-x:auto"><table class="tabla-cmp tabla-pruebas" id="p2-tabla"></table></div>
+      <h4 class="subtitulo-pruebas">Cuántas veces no llegó al mínimo, según la densidad</h4>
+      <div style="overflow-x:auto"><table class="tabla-cmp tabla-pruebas" id="p2-familias"></table></div>
+      <h4 class="subtitulo-pruebas">Casos donde un enfoque empeoró al voraz normal</h4>
+      <p class="nota-cmp" id="p2-ejemplos-nota"></p>
+      <div id="p2-ejemplos"></div>
+    </div>
+
+    <div id="res-var" class="bloque-parte oculto">
+      <h3 class="subtitulo-parte"><span class="etiqueta-parte">Variante 1</span> Auditoría ponderada por costo · solo completas (versión principal)</h3>
+      <p class="nota-cmp">Un costo a_j por interacción: la definición de la variante. Con n ≤ 12 el mínimo real sale por fuerza bruta; con n mayor y r ≤ 16, por subconjuntos de categorías.</p>
+      <div class="resumen" id="var-stats"></div>
+    </div>
+
+    <div id="res-varp" class="bloque-parte oculto">
+      <h3 class="subtitulo-parte"><span class="etiqueta-parte">Variante 1</span> Con las opciones parcial y completa (extensión)</h3>
+      <p class="nota-cmp">Cada variación de auditoría es una opción con su costo. Se mide aparte porque ningún documento del curso define «parcial»; se compara contra la versión solo completas del mismo caso.</p>
+      <div class="resumen" id="varp-stats"></div>
+    </div>
+
+    <div id="res-selector" class="bloque-parte oculto">
+      <h3 class="subtitulo-parte"><span class="etiqueta-parte">Un caso</span> Ver un caso en detalle</h3>
+      <p class="nota-cmp">Elige un caso: aquí ves su resultado en cada parte y puedes abrirlo <b>paso a paso</b> en el visor de la Parte 1 o de la Parte 2.</p>
+      <div class="selector-caso">
+        <button class="btn mini" id="caso-ant" type="button" aria-label="Caso anterior">‹</button>
+        <label class="selector-lista"><span>Caso</span><select id="sel-caso"></select></label>
+        <button class="btn mini" id="caso-sig" type="button" aria-label="Caso siguiente">›</button>
+        <span class="contador-caso" id="caso-contador"></span>
+      </div>
+      <div class="ficha-caso" id="ficha-caso"></div>
+      <div class="oculto" id="al-vista-caso">
+        <h4 class="subtitulo-pruebas" id="al-titulo-caso"></h4>
+        <pre class="mono" id="al-texto-caso" style="max-height:340px;overflow:auto"></pre>
+      </div>
+      <div class="oculto" id="al-vista-traza">
+        <h4 class="subtitulo-pruebas" id="al-titulo-traza"></h4>
+        <pre class="mono" id="al-texto-traza" style="max-height:420px;overflow:auto"></pre>
+      </div>
+    </div>
+
+    <details class="plegable oculto" id="res-comparacion">
+      <summary><b>Tablas de comparación completas</b> (las mismas de <span class="mono">comparacion.md</span>: el resumen y el detalle de todos los casos)</summary>
+      <pre class="mono" id="al-comparacion" style="overflow:auto"></pre>
+    </details>
+  </section>
+
+  <footer>
+    Herramienta de apoyo local para la sustentación. Las pruebas de «las dos partes» las hace el mismo <span class="mono">run_all.py</span> que produce las evidencias;
+    las de «solo una parte» son los experimentos <span class="mono">pruebas_aleatorias.py</span> y <span class="mono">ablacion.py</span>.
+    Desde la terminal: <span class="mono">python3 probar_aleatorios.py</span>. No es parte de la entrega.
+  </footer>
+</div>
+
+<script src="/estatico/aleatorios.js"></script>
+</body>
+</html>

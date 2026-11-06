@@ -1,0 +1,28 @@
+Versión del código: e42e041 (con cambios sin commit) | Generado: 2026-11-06 17:39:58 | Archivo: 07_empates.json
+==============================================================================
+Caso: 07_empates   (n = 6 etapas, B = 5)
+
+Etapas aceleradas: [1, 2]   (E01, E02)
+Costo usado: 4 de B = 5
+Ahorro: 6
+Duración final: 30 (original 36)
+Tiempo de la DP: 0.000029 s
+Solución válida (costo <= B y sumas coherentes): sí
+Ahorro por fuerza bruta: 6 (coincide)
+
+Decisiones (de la última etapa a la primera):
+Etapa 6 (E06): no se acelera (DP[6][5] = DP[5][5] = 6)
+Etapa 5 (E05): no se acelera (DP[5][5] = DP[4][5] = 6)
+Etapa 4 (E04): no se acelera (DP[4][5] = DP[3][5] = 6)
+Etapa 3 (E03): no se acelera (DP[3][5] = DP[2][5] = 6)
+Etapa 2 (E02): acelerada, costo 2, ahorro 3; presupuesto restante 5 -> 3
+Etapa 1 (E01): acelerada, costo 2, ahorro 3; presupuesto restante 3 -> 1
+
+Tabla DP (ahorro máximo; fila i = primeras i etapas, columna b = presupuesto b):
+i=0: [0, 0, 0, 0, 0, 0]
+i=1: [0, 0, 3, 3, 3, 3]
+i=2: [0, 0, 3, 3, 6, 6]
+i=3: [0, 0, 3, 3, 6, 6]
+i=4: [0, 0, 3, 3, 6, 6]
+i=5: [0, 0, 3, 3, 6, 6]
+i=6: [0, 0, 3, 3, 6, 6]

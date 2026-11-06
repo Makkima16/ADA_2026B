@@ -1,0 +1,40 @@
+Versión del código: e42e041 (con cambios sin commit) | Generado: 2026-11-06 17:39:59 | Archivo: 14_n20_r20_ralo.json
+==============================================================================
+Caso: 14_n20_r20_ralo
+Voraz — traza de elecciones
+  Paso 1: interacción 2 (E02) | categorías nuevas {R02, R10, R13, R14, R17} | faltan {R01, R03, R04, R05, R06, R07, R08, R09, R11, R12, R15, R16, R18, R19, R20}
+  Paso 2: interacción 17 (E17) | categorías nuevas {R03, R05, R09, R12} | faltan {R01, R04, R06, R07, R08, R11, R15, R16, R18, R19, R20}
+  Paso 3: interacción 8 (E08) | categorías nuevas {R11, R16} | faltan {R01, R04, R06, R07, R08, R15, R18, R19, R20}
+  Paso 4: interacción 16 (E16) | categorías nuevas {R06, R08} | faltan {R01, R04, R07, R15, R18, R19, R20}
+  Paso 5: interacción 3 (E03) | categorías nuevas {R07} | faltan {R01, R04, R15, R18, R19, R20}
+  Paso 6: interacción 4 (E04) | categorías nuevas {R15} | faltan {R01, R04, R18, R19, R20}
+  Paso 7: interacción 5 (E05) | categorías nuevas {R20} | faltan {R01, R04, R18, R19}
+  Paso 8: interacción 6 (E06) | categorías nuevas {R01} | faltan {R04, R18, R19}
+  Paso 9: interacción 9 (E09) | categorías nuevas {R19} | faltan {R04, R18}
+  Paso 10: interacción 10 (E10) | categorías nuevas {R18} | faltan {R04}
+  Paso 11: interacción 11 (E11) | categorías nuevas {R04} | faltan {}
+Cobertura final (categoría -> interacción):
+  categoría R01 (Riesgo 1) -> interacción E06
+  categoría R02 (Riesgo 2) -> interacción E02
+  categoría R03 (Riesgo 3) -> interacción E17
+  categoría R04 (Riesgo 4) -> interacción E11
+  categoría R05 (Riesgo 5) -> interacción E17
+  categoría R06 (Riesgo 6) -> interacción E16
+  categoría R07 (Riesgo 7) -> interacción E03
+  categoría R08 (Riesgo 8) -> interacción E16
+  categoría R09 (Riesgo 9) -> interacción E17
+  categoría R10 (Riesgo 10) -> interacción E02
+  categoría R11 (Riesgo 11) -> interacción E08
+  categoría R12 (Riesgo 12) -> interacción E17
+  categoría R13 (Riesgo 13) -> interacción E02
+  categoría R14 (Riesgo 14) -> interacción E02
+  categoría R15 (Riesgo 15) -> interacción E04
+  categoría R16 (Riesgo 16) -> interacción E08
+  categoría R17 (Riesgo 17) -> interacción E02
+  categoría R18 (Riesgo 18) -> interacción E10
+  categoría R19 (Riesgo 19) -> interacción E09
+  categoría R20 (Riesgo 20) -> interacción E05
+Interacciones auditadas: [2, 17, 8, 16, 3, 4, 5, 6, 9, 10, 11] (11): E02, E17, E08, E16, E03, E04, E05, E06, E09, E10, E11
+Cubre todas las categorías: sí
+Tiempo: 0.000090 s
+Cota H(d): 2.2833

@@ -1147,3 +1147,17 @@ document.addEventListener("keydown", (e) => {
 });
 
 generarFilas();
+
+/* Si se llega desde «Pruebas aleatorias» (/aleatorios), la dirección trae ?caso=NOMBRE: se pide ese caso al servidor
+   y se resuelve con la misma función `analizar` que usa el resto de la página. */
+(function cargarCasoDeLasPruebasAleatorias() {
+  const nombre = new URLSearchParams(location.search).get("caso");
+  if (!nombre) return;
+  fetch("/api/aleatorios/caso?nombre=" + encodeURIComponent(nombre))
+    .then((r) => r.json().then((d) => ({ ok: r.ok, d: d })))
+    .then(({ ok, d }) => {
+      if (!ok) { mostrarError(d.error || "No se encontró el caso " + nombre + " en las carpetas temporales."); return; }
+      analizar(d.texto, nombre, false);
+    })
+    .catch(() => mostrarError("No se pudo contactar el servidor local. ¿Sigue corriendo?"));
+})();

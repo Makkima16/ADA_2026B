@@ -1,0 +1,13 @@
+Versión del código: e42e041 (con cambios sin commit) | Generado: 2026-11-06 17:39:58 | Archivo: 20_valor_gana_n8_costos_enormes.json
+==============================================================================
+Caso: 20_valor_gana_n8_costos_enormes   (n = 8 etapas, B = 2265815, D = suma de ahorros = 35)
+
+Límite de celdas por tabla: 10000000
+
+DP por presupuesto (base): 20392344 celdas, NO CABE (no se corrió)
+DP por valor: 324 celdas, cabe
+    etapas aceleradas [1, 4, 5, 7] | costo 2243555 de B = 2265815 | ahorro 26 | duración 80 -> 54 | tiempo 0.078 ms | válida: sí
+    fuerza bruta (n <= 12): ahorro 26 (coincide)
+
+Solo se corrió la tabla por valor; la otra no cabe, así que no hay comparación entre las dos.
+Solución del caso (la que se reporta en la evidencia de la Parte 1): DP por valor.

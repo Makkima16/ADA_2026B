@@ -1,0 +1,165 @@
+Versión del código: e42e041 (con cambios sin commit) | Generado: 2026-11-06 17:39:58 | Archivo: 33_presupuesto_gana_n150.json
+==============================================================================
+Caso: 33_presupuesto_gana_n150   (n = 150 etapas, B = 1048)
+
+Etapas aceleradas: [1, 3, 4, 8, 11, 13, 16, 21, 22, 25, 28, 29, 30, 31, 33, 36, 38, 41, 42, 43, 49, 50, 51, 53, 55, 57, 60, 61, 63, 66, 73, 78, 83, 85, 88, 89, 93, 94, 97, 100, 107, 109, 111, 112, 113, 118, 120, 121, 123, 125, 126, 127, 128, 129, 130, 132, 133, 135, 136, 138, 139, 140, 141, 142, 143, 144, 147, 148, 149, 150]   (E01, E03, E04, E08, E11, E13, E16, E21, E22, E25, E28, E29, E30, E31, E33, E36, E38, E41, E42, E43, E49, E50, E51, E53, E55, E57, E60, E61, E63, E66, E73, E78, E83, E85, E88, E89, E93, E94, E97, E100, E107, E109, E111, E112, E113, E118, E120, E121, E123, E125, E126, E127, E128, E129, E130, E132, E133, E135, E136, E138, E139, E140, E141, E142, E143, E144, E147, E148, E149, E150)
+Costo usado: 1047 de B = 1048
+Ahorro: 2970
+Duración final: 2960 (original 5930)
+Tiempo de la DP: 0.058796 s
+Solución válida (costo <= B y sumas coherentes): sí
+Fuerza bruta: no se corre (n > 12)
+
+Decisiones (de la última etapa a la primera):
+Etapa 150 (E150): acelerada, costo 2, ahorro 20; presupuesto restante 1048 -> 1046
+Etapa 149 (E149): acelerada, costo 27, ahorro 59; presupuesto restante 1046 -> 1019
+Etapa 148 (E148): acelerada, costo 10, ahorro 25; presupuesto restante 1019 -> 1009
+Etapa 147 (E147): acelerada, costo 1, ahorro 47; presupuesto restante 1009 -> 1008
+Etapa 146 (E146): no se acelera (DP[146][1008] = DP[145][1008] = 2819)
+Etapa 145 (E145): no se acelera (DP[145][1008] = DP[144][1008] = 2819)
+Etapa 144 (E144): acelerada, costo 28, ahorro 46; presupuesto restante 1008 -> 980
+Etapa 143 (E143): acelerada, costo 37, ahorro 53; presupuesto restante 980 -> 943
+Etapa 142 (E142): acelerada, costo 1, ahorro 55; presupuesto restante 943 -> 942
+Etapa 141 (E141): acelerada, costo 5, ahorro 28; presupuesto restante 942 -> 937
+Etapa 140 (E140): acelerada, costo 5, ahorro 53; presupuesto restante 937 -> 932
+Etapa 139 (E139): acelerada, costo 39, ahorro 57; presupuesto restante 932 -> 893
+Etapa 138 (E138): acelerada, costo 13, ahorro 56; presupuesto restante 893 -> 880
+Etapa 137 (E137): no se acelera (DP[137][880] = DP[136][880] = 2471)
+Etapa 136 (E136): acelerada, costo 13, ahorro 50; presupuesto restante 880 -> 867
+Etapa 135 (E135): acelerada, costo 8, ahorro 13; presupuesto restante 867 -> 859
+Etapa 134 (E134): no se acelera (DP[134][859] = DP[133][859] = 2408)
+Etapa 133 (E133): acelerada, costo 6, ahorro 40; presupuesto restante 859 -> 853
+Etapa 132 (E132): acelerada, costo 38, ahorro 55; presupuesto restante 853 -> 815
+Etapa 131 (E131): no se acelera (DP[131][815] = DP[130][815] = 2313)
+Etapa 130 (E130): acelerada, costo 6, ahorro 49; presupuesto restante 815 -> 809
+Etapa 129 (E129): acelerada, costo 31, ahorro 57; presupuesto restante 809 -> 778
+Etapa 128 (E128): acelerada, costo 15, ahorro 40; presupuesto restante 778 -> 763
+Etapa 127 (E127): acelerada, costo 1, ahorro 25; presupuesto restante 763 -> 762
+Etapa 126 (E126): acelerada, costo 3, ahorro 59; presupuesto restante 762 -> 759
+Etapa 125 (E125): acelerada, costo 33, ahorro 51; presupuesto restante 759 -> 726
+Etapa 124 (E124): no se acelera (DP[124][726] = DP[123][726] = 2032)
+Etapa 123 (E123): acelerada, costo 24, ahorro 34; presupuesto restante 726 -> 702
+Etapa 122 (E122): no se acelera (DP[122][702] = DP[121][702] = 1998)
+Etapa 121 (E121): acelerada, costo 28, ahorro 51; presupuesto restante 702 -> 674
+Etapa 120 (E120): acelerada, costo 28, ahorro 44; presupuesto restante 674 -> 646
+Etapa 119 (E119): no se acelera (DP[119][646] = DP[118][646] = 1903)
+Etapa 118 (E118): acelerada, costo 12, ahorro 55; presupuesto restante 646 -> 634
+Etapa 117 (E117): no se acelera (DP[117][634] = DP[116][634] = 1848)
+Etapa 116 (E116): no se acelera (DP[116][634] = DP[115][634] = 1848)
+Etapa 115 (E115): no se acelera (DP[115][634] = DP[114][634] = 1848)
+Etapa 114 (E114): no se acelera (DP[114][634] = DP[113][634] = 1848)
+Etapa 113 (E113): acelerada, costo 12, ahorro 22; presupuesto restante 634 -> 622
+Etapa 112 (E112): acelerada, costo 7, ahorro 25; presupuesto restante 622 -> 615
+Etapa 111 (E111): acelerada, costo 11, ahorro 42; presupuesto restante 615 -> 604
+Etapa 110 (E110): no se acelera (DP[110][604] = DP[109][604] = 1759)
+Etapa 109 (E109): acelerada, costo 21, ahorro 53; presupuesto restante 604 -> 583
+Etapa 108 (E108): no se acelera (DP[108][583] = DP[107][583] = 1706)
+Etapa 107 (E107): acelerada, costo 2, ahorro 6; presupuesto restante 583 -> 581
+Etapa 106 (E106): no se acelera (DP[106][581] = DP[105][581] = 1700)
+Etapa 105 (E105): no se acelera (DP[105][581] = DP[104][581] = 1700)
+Etapa 104 (E104): no se acelera (DP[104][581] = DP[103][581] = 1700)
+Etapa 103 (E103): no se acelera (DP[103][581] = DP[102][581] = 1700)
+Etapa 102 (E102): no se acelera (DP[102][581] = DP[101][581] = 1700)
+Etapa 101 (E101): no se acelera (DP[101][581] = DP[100][581] = 1700)
+Etapa 100 (E100): acelerada, costo 33, ahorro 49; presupuesto restante 581 -> 548
+Etapa 99 (E99): no se acelera (DP[99][548] = DP[98][548] = 1651)
+Etapa 98 (E98): no se acelera (DP[98][548] = DP[97][548] = 1651)
+Etapa 97 (E97): acelerada, costo 30, ahorro 47; presupuesto restante 548 -> 518
+Etapa 96 (E96): no se acelera (DP[96][518] = DP[95][518] = 1604)
+Etapa 95 (E95): no se acelera (DP[95][518] = DP[94][518] = 1604)
+Etapa 94 (E94): acelerada, costo 6, ahorro 25; presupuesto restante 518 -> 512
+Etapa 93 (E93): acelerada, costo 3, ahorro 39; presupuesto restante 512 -> 509
+Etapa 92 (E92): no se acelera (DP[92][509] = DP[91][509] = 1540)
+Etapa 91 (E91): no se acelera (DP[91][509] = DP[90][509] = 1540)
+Etapa 90 (E90): no se acelera (DP[90][509] = DP[89][509] = 1540)
+Etapa 89 (E89): acelerada, costo 11, ahorro 53; presupuesto restante 509 -> 498
+Etapa 88 (E88): acelerada, costo 21, ahorro 54; presupuesto restante 498 -> 477
+Etapa 87 (E87): no se acelera (DP[87][477] = DP[86][477] = 1433)
+Etapa 86 (E86): no se acelera (DP[86][477] = DP[85][477] = 1433)
+Etapa 85 (E85): acelerada, costo 1, ahorro 16; presupuesto restante 477 -> 476
+Etapa 84 (E84): no se acelera (DP[84][476] = DP[83][476] = 1417)
+Etapa 83 (E83): acelerada, costo 8, ahorro 48; presupuesto restante 476 -> 468
+Etapa 82 (E82): no se acelera (DP[82][468] = DP[81][468] = 1369)
+Etapa 81 (E81): no se acelera (DP[81][468] = DP[80][468] = 1369)
+Etapa 80 (E80): no se acelera (DP[80][468] = DP[79][468] = 1369)
+Etapa 79 (E79): no se acelera (DP[79][468] = DP[78][468] = 1369)
+Etapa 78 (E78): acelerada, costo 1, ahorro 6; presupuesto restante 468 -> 467
+Etapa 77 (E77): no se acelera (DP[77][467] = DP[76][467] = 1363)
+Etapa 76 (E76): no se acelera (DP[76][467] = DP[75][467] = 1363)
+Etapa 75 (E75): no se acelera (DP[75][467] = DP[74][467] = 1363)
+Etapa 74 (E74): no se acelera (DP[74][467] = DP[73][467] = 1363)
+Etapa 73 (E73): acelerada, costo 35, ahorro 48; presupuesto restante 467 -> 432
+Etapa 72 (E72): no se acelera (DP[72][432] = DP[71][432] = 1315)
+Etapa 71 (E71): no se acelera (DP[71][432] = DP[70][432] = 1315)
+Etapa 70 (E70): no se acelera (DP[70][432] = DP[69][432] = 1315)
+Etapa 69 (E69): no se acelera (DP[69][432] = DP[68][432] = 1315)
+Etapa 68 (E68): no se acelera (DP[68][432] = DP[67][432] = 1315)
+Etapa 67 (E67): no se acelera (DP[67][432] = DP[66][432] = 1315)
+Etapa 66 (E66): acelerada, costo 13, ahorro 52; presupuesto restante 432 -> 419
+Etapa 65 (E65): no se acelera (DP[65][419] = DP[64][419] = 1263)
+Etapa 64 (E64): no se acelera (DP[64][419] = DP[63][419] = 1263)
+Etapa 63 (E63): acelerada, costo 18, ahorro 34; presupuesto restante 419 -> 401
+Etapa 62 (E62): no se acelera (DP[62][401] = DP[61][401] = 1229)
+Etapa 61 (E61): acelerada, costo 4, ahorro 12; presupuesto restante 401 -> 397
+Etapa 60 (E60): acelerada, costo 1, ahorro 7; presupuesto restante 397 -> 396
+Etapa 59 (E59): no se acelera (DP[59][396] = DP[58][396] = 1210)
+Etapa 58 (E58): no se acelera (DP[58][396] = DP[57][396] = 1210)
+Etapa 57 (E57): acelerada, costo 6, ahorro 54; presupuesto restante 396 -> 390
+Etapa 56 (E56): no se acelera (DP[56][390] = DP[55][390] = 1156)
+Etapa 55 (E55): acelerada, costo 5, ahorro 34; presupuesto restante 390 -> 385
+Etapa 54 (E54): no se acelera (DP[54][385] = DP[53][385] = 1122)
+Etapa 53 (E53): acelerada, costo 36, ahorro 56; presupuesto restante 385 -> 349
+Etapa 52 (E52): no se acelera (DP[52][349] = DP[51][349] = 1066)
+Etapa 51 (E51): acelerada, costo 3, ahorro 18; presupuesto restante 349 -> 346
+Etapa 50 (E50): acelerada, costo 8, ahorro 29; presupuesto restante 346 -> 338
+Etapa 49 (E49): acelerada, costo 12, ahorro 49; presupuesto restante 338 -> 326
+Etapa 48 (E48): no se acelera (DP[48][326] = DP[47][326] = 970)
+Etapa 47 (E47): no se acelera (DP[47][326] = DP[46][326] = 970)
+Etapa 46 (E46): no se acelera (DP[46][326] = DP[45][326] = 970)
+Etapa 45 (E45): no se acelera (DP[45][326] = DP[44][326] = 970)
+Etapa 44 (E44): no se acelera (DP[44][326] = DP[43][326] = 970)
+Etapa 43 (E43): acelerada, costo 23, ahorro 47; presupuesto restante 326 -> 303
+Etapa 42 (E42): acelerada, costo 1, ahorro 9; presupuesto restante 303 -> 302
+Etapa 41 (E41): acelerada, costo 21, ahorro 34; presupuesto restante 302 -> 281
+Etapa 40 (E40): no se acelera (DP[40][281] = DP[39][281] = 880)
+Etapa 39 (E39): no se acelera (DP[39][281] = DP[38][281] = 880)
+Etapa 38 (E38): acelerada, costo 16, ahorro 40; presupuesto restante 281 -> 265
+Etapa 37 (E37): no se acelera (DP[37][265] = DP[36][265] = 840)
+Etapa 36 (E36): acelerada, costo 8, ahorro 56; presupuesto restante 265 -> 257
+Etapa 35 (E35): no se acelera (DP[35][257] = DP[34][257] = 784)
+Etapa 34 (E34): no se acelera (DP[34][257] = DP[33][257] = 784)
+Etapa 33 (E33): acelerada, costo 14, ahorro 52; presupuesto restante 257 -> 243
+Etapa 32 (E32): no se acelera (DP[32][243] = DP[31][243] = 732)
+Etapa 31 (E31): acelerada, costo 21, ahorro 58; presupuesto restante 243 -> 222
+Etapa 30 (E30): acelerada, costo 4, ahorro 54; presupuesto restante 222 -> 218
+Etapa 29 (E29): acelerada, costo 8, ahorro 43; presupuesto restante 218 -> 210
+Etapa 28 (E28): acelerada, costo 16, ahorro 49; presupuesto restante 210 -> 194
+Etapa 27 (E27): no se acelera (DP[27][194] = DP[26][194] = 528)
+Etapa 26 (E26): no se acelera (DP[26][194] = DP[25][194] = 528)
+Etapa 25 (E25): acelerada, costo 18, ahorro 56; presupuesto restante 194 -> 176
+Etapa 24 (E24): no se acelera (DP[24][176] = DP[23][176] = 472)
+Etapa 23 (E23): no se acelera (DP[23][176] = DP[22][176] = 472)
+Etapa 22 (E22): acelerada, costo 4, ahorro 58; presupuesto restante 176 -> 172
+Etapa 21 (E21): acelerada, costo 32, ahorro 52; presupuesto restante 172 -> 140
+Etapa 20 (E20): no se acelera (DP[20][140] = DP[19][140] = 362)
+Etapa 19 (E19): no se acelera (DP[19][140] = DP[18][140] = 362)
+Etapa 18 (E18): no se acelera (DP[18][140] = DP[17][140] = 362)
+Etapa 17 (E17): no se acelera (DP[17][140] = DP[16][140] = 362)
+Etapa 16 (E16): acelerada, costo 5, ahorro 44; presupuesto restante 140 -> 135
+Etapa 15 (E15): no se acelera (DP[15][135] = DP[14][135] = 318)
+Etapa 14 (E14): no se acelera (DP[14][135] = DP[13][135] = 318)
+Etapa 13 (E13): acelerada, costo 31, ahorro 51; presupuesto restante 135 -> 104
+Etapa 12 (E12): no se acelera (DP[12][104] = DP[11][104] = 267)
+Etapa 11 (E11): acelerada, costo 21, ahorro 50; presupuesto restante 104 -> 83
+Etapa 10 (E10): no se acelera (DP[10][83] = DP[9][83] = 217)
+Etapa 9 (E09): no se acelera (DP[9][83] = DP[8][83] = 217)
+Etapa 8 (E08): acelerada, costo 12, ahorro 50; presupuesto restante 83 -> 71
+Etapa 7 (E07): no se acelera (DP[7][71] = DP[6][71] = 167)
+Etapa 6 (E06): no se acelera (DP[6][71] = DP[5][71] = 167)
+Etapa 5 (E05): no se acelera (DP[5][71] = DP[4][71] = 167)
+Etapa 4 (E04): acelerada, costo 18, ahorro 55; presupuesto restante 71 -> 53
+Etapa 3 (E03): acelerada, costo 15, ahorro 53; presupuesto restante 53 -> 38
+Etapa 2 (E02): no se acelera (DP[2][38] = DP[1][38] = 59)
+Etapa 1 (E01): acelerada, costo 37, ahorro 59; presupuesto restante 38 -> 1
+
+Tabla DP omitida: B = 1048 > 100 (tendría 151 x 1049 celdas).

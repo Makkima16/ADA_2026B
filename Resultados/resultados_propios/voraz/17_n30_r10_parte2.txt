@@ -1,0 +1,25 @@
+Versión del código: e42e041 (con cambios sin commit) | Generado: 2026-11-06 17:39:59 | Archivo: 17_n30_r10.json
+==============================================================================
+Caso: 17_n30_r10
+Voraz — traza de elecciones
+  Paso 1: interacción 4 (E04) | categorías nuevas {R01, R02, R06, R07, R09} | faltan {R03, R04, R05, R08, R10}
+  Paso 2: interacción 6 (E06) | categorías nuevas {R03, R04, R05} | faltan {R08, R10}
+  Paso 3: interacción 1 (E01) | categorías nuevas {R10} | faltan {R08}
+  Paso 4: interacción 16 (E16) | categorías nuevas {R08} | faltan {}
+Cobertura final (categoría -> interacción):
+  categoría R01 (Riesgo 1) -> interacción E04
+  categoría R02 (Riesgo 2) -> interacción E04
+  categoría R03 (Riesgo 3) -> interacción E06
+  categoría R04 (Riesgo 4) -> interacción E06
+  categoría R05 (Riesgo 5) -> interacción E06
+  categoría R06 (Riesgo 6) -> interacción E04
+  categoría R07 (Riesgo 7) -> interacción E04
+  categoría R08 (Riesgo 8) -> interacción E16
+  categoría R09 (Riesgo 9) -> interacción E04
+  categoría R10 (Riesgo 10) -> interacción E01
+Interacciones auditadas: [4, 6, 1, 16] (4): E04, E06, E01, E16
+Cubre todas las categorías: sí
+Tiempo: 0.000043 s
+Óptimo (subconjuntos de categorías): [19, 16, 30, 15] (4): E19, E16, E30, E15
+Razón voraz / óptimo: 1.0000
+Cota H(d): 2.2833

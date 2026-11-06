@@ -1,0 +1,65 @@
+Versión del código: e42e041 (con cambios sin commit) | Generado: 2026-11-06 17:39:58 | Archivo: 15_n50_b_un_tercio.json
+==============================================================================
+Caso: 15_n50_b_un_tercio   (n = 50 etapas, B = 249)
+
+Etapas aceleradas: [1, 2, 3, 5, 6, 8, 9, 10, 14, 17, 18, 19, 22, 23, 27, 31, 33, 35, 36, 37, 39, 40, 42, 46, 48, 49]   (E01, E02, E03, E05, E06, E08, E09, E10, E14, E17, E18, E19, E22, E23, E27, E31, E33, E35, E36, E37, E39, E40, E42, E46, E48, E49)
+Costo usado: 249 de B = 249
+Ahorro: 786
+Duración final: 914 (original 1700)
+Tiempo de la DP: 0.004312 s
+Solución válida (costo <= B y sumas coherentes): sí
+Fuerza bruta: no se corre (n > 12)
+
+Decisiones (de la última etapa a la primera):
+Etapa 50 (E50): no se acelera (DP[50][249] = DP[49][249] = 786)
+Etapa 49 (E49): acelerada, costo 15, ahorro 31; presupuesto restante 249 -> 234
+Etapa 48 (E48): acelerada, costo 3, ahorro 25; presupuesto restante 234 -> 231
+Etapa 47 (E47): no se acelera (DP[47][231] = DP[46][231] = 730)
+Etapa 46 (E46): acelerada, costo 14, ahorro 41; presupuesto restante 231 -> 217
+Etapa 45 (E45): no se acelera (DP[45][217] = DP[44][217] = 689)
+Etapa 44 (E44): no se acelera (DP[44][217] = DP[43][217] = 689)
+Etapa 43 (E43): no se acelera (DP[43][217] = DP[42][217] = 689)
+Etapa 42 (E42): acelerada, costo 8, ahorro 16; presupuesto restante 217 -> 209
+Etapa 41 (E41): no se acelera (DP[41][209] = DP[40][209] = 673)
+Etapa 40 (E40): acelerada, costo 17, ahorro 23; presupuesto restante 209 -> 192
+Etapa 39 (E39): acelerada, costo 24, ahorro 33; presupuesto restante 192 -> 168
+Etapa 38 (E38): no se acelera (DP[38][168] = DP[37][168] = 617)
+Etapa 37 (E37): acelerada, costo 10, ahorro 12; presupuesto restante 168 -> 158
+Etapa 36 (E36): acelerada, costo 8, ahorro 15; presupuesto restante 158 -> 150
+Etapa 35 (E35): acelerada, costo 11, ahorro 33; presupuesto restante 150 -> 139
+Etapa 34 (E34): no se acelera (DP[34][139] = DP[33][139] = 557)
+Etapa 33 (E33): acelerada, costo 12, ahorro 19; presupuesto restante 139 -> 127
+Etapa 32 (E32): no se acelera (DP[32][127] = DP[31][127] = 538)
+Etapa 31 (E31): acelerada, costo 7, ahorro 47; presupuesto restante 127 -> 120
+Etapa 30 (E30): no se acelera (DP[30][120] = DP[29][120] = 491)
+Etapa 29 (E29): no se acelera (DP[29][120] = DP[28][120] = 491)
+Etapa 28 (E28): no se acelera (DP[28][120] = DP[27][120] = 491)
+Etapa 27 (E27): acelerada, costo 12, ahorro 26; presupuesto restante 120 -> 108
+Etapa 26 (E26): no se acelera (DP[26][108] = DP[25][108] = 465)
+Etapa 25 (E25): no se acelera (DP[25][108] = DP[24][108] = 465)
+Etapa 24 (E24): no se acelera (DP[24][108] = DP[23][108] = 465)
+Etapa 23 (E23): acelerada, costo 12, ahorro 32; presupuesto restante 108 -> 96
+Etapa 22 (E22): acelerada, costo 23, ahorro 34; presupuesto restante 96 -> 73
+Etapa 21 (E21): no se acelera (DP[21][73] = DP[20][73] = 399)
+Etapa 20 (E20): no se acelera (DP[20][73] = DP[19][73] = 399)
+Etapa 19 (E19): acelerada, costo 4, ahorro 47; presupuesto restante 73 -> 69
+Etapa 18 (E18): acelerada, costo 8, ahorro 45; presupuesto restante 69 -> 61
+Etapa 17 (E17): acelerada, costo 12, ahorro 40; presupuesto restante 61 -> 49
+Etapa 16 (E16): no se acelera (DP[16][49] = DP[15][49] = 267)
+Etapa 15 (E15): no se acelera (DP[15][49] = DP[14][49] = 267)
+Etapa 14 (E14): acelerada, costo 5, ahorro 9; presupuesto restante 49 -> 44
+Etapa 13 (E13): no se acelera (DP[13][44] = DP[12][44] = 258)
+Etapa 12 (E12): no se acelera (DP[12][44] = DP[11][44] = 258)
+Etapa 11 (E11): no se acelera (DP[11][44] = DP[10][44] = 258)
+Etapa 10 (E10): acelerada, costo 2, ahorro 5; presupuesto restante 44 -> 42
+Etapa 9 (E09): acelerada, costo 1, ahorro 50; presupuesto restante 42 -> 41
+Etapa 8 (E08): acelerada, costo 8, ahorro 26; presupuesto restante 41 -> 33
+Etapa 7 (E07): no se acelera (DP[7][33] = DP[6][33] = 177)
+Etapa 6 (E06): acelerada, costo 6, ahorro 42; presupuesto restante 33 -> 27
+Etapa 5 (E05): acelerada, costo 2, ahorro 45; presupuesto restante 27 -> 25
+Etapa 4 (E04): no se acelera (DP[4][25] = DP[3][25] = 90)
+Etapa 3 (E03): acelerada, costo 17, ahorro 37; presupuesto restante 25 -> 8
+Etapa 2 (E02): acelerada, costo 1, ahorro 29; presupuesto restante 8 -> 7
+Etapa 1 (E01): acelerada, costo 7, ahorro 24; presupuesto restante 7 -> 0
+
+Tabla DP omitida: B = 249 > 100 (tendría 51 x 250 celdas).

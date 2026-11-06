@@ -37,6 +37,33 @@ class ErrorDeLectura(ValueError):
     """Error de formato con el nombre del caso y la etapa donde se rompió."""
 
 
+CAMPOS_PARTE1 = ("duracion_normal", "costo_aceleracion", "reduccion_tiempo_si_acelera")
+
+
+def trae_datos(ruta: Union[str, Path]) -> bool:
+    """¿El archivo trae datos de la Parte 1? Si no, el caso es «no aplica» para esta parte (no es un error).
+
+    Un .json trae la Parte 1 si tiene `parametros.presupuesto_aceleracion_B` o algún campo de aceleración en las
+    etapas (duración, costo o reducción). Un JSON ilegible se deja pasar: `leer_instancia` informa el error de formato.
+    Si trae algunos campos y le faltan otros, tampoco es «no aplica»: `leer_instancia` dice cuáles faltan.
+    """
+    camino = Path(ruta)
+    if camino.suffix.lower() != ".json":
+        return False
+    try:
+        with open(camino, encoding="utf-8") as f:
+            datos = json.load(f)
+    except (OSError, ValueError):
+        return True
+    if not isinstance(datos, dict):
+        return True
+    parametros, etapas = datos.get("parametros"), datos.get("etapas")
+    if isinstance(parametros, dict) and "presupuesto_aceleracion_B" in parametros:
+        return True
+    return isinstance(etapas, list) and any(
+        isinstance(e, dict) and any(c in e for c in CAMPOS_PARTE1) for e in etapas)
+
+
 def _entero(valor, minimo: int = 0) -> bool:
     """True si es un entero (no booleano) mayor o igual que `minimo`."""
     return isinstance(valor, int) and not isinstance(valor, bool) and valor >= minimo

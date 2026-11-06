@@ -1,0 +1,469 @@
+{
+ "version": "e42e041 (con cambios sin commit)",
+ "fecha": "2026-11-06 17:39:59",
+ "casos": 20,
+ "parte1": null,
+ "parte2": {
+  "Voraz base": {
+   "clave": "",
+   "no_optimo": 10,
+   "mejora": 0,
+   "igual": 0,
+   "peor": 0,
+   "razon_max": 2.0,
+   "viola_cota": 0,
+   "tiempo_medio_s": 4.4447791113175054e-05
+  },
+  "Esenciales": {
+   "clave": "e",
+   "no_optimo": 9,
+   "mejora": 6,
+   "igual": 11,
+   "peor": 2,
+   "razon_max": 2.0,
+   "viola_cota": 0,
+   "tiempo_medio_s": 3.723831430665756e-05
+  },
+  "Rareza": {
+   "clave": "r",
+   "no_optimo": 7,
+   "mejora": 6,
+   "igual": 12,
+   "peor": 1,
+   "razon_max": 2.0,
+   "viola_cota": 0,
+   "tiempo_medio_s": 0.00014356283951967366
+  },
+  "Parejas": {
+   "clave": "p",
+   "no_optimo": 6,
+   "mejora": 7,
+   "igual": 9,
+   "peor": 3,
+   "razon_max": 1.3333333333333333,
+   "viola_cota": 0,
+   "tiempo_medio_s": 0.0002166427370148564
+  },
+  "Esenciales + rareza": {
+   "clave": "er",
+   "no_optimo": 6,
+   "mejora": 8,
+   "igual": 9,
+   "peor": 2,
+   "razon_max": 2.0,
+   "viola_cota": 0,
+   "tiempo_medio_s": 0.00010372126263590823
+  },
+  "Esenciales + parejas": {
+   "clave": "ep",
+   "no_optimo": 3,
+   "mejora": 11,
+   "igual": 6,
+   "peor": 2,
+   "razon_max": 1.3333333333333333,
+   "viola_cota": 0,
+   "tiempo_medio_s": 0.00015239620896816057
+  },
+  "Rareza + parejas": {
+   "clave": "rp",
+   "no_optimo": 1,
+   "mejora": 12,
+   "igual": 6,
+   "peor": 1,
+   "razon_max": 1.3333333333333333,
+   "viola_cota": 0,
+   "tiempo_medio_s": 0.0007759433685446549
+  },
+  "Los tres (enfoque D)": {
+   "clave": "erp",
+   "no_optimo": 1,
+   "mejora": 12,
+   "igual": 6,
+   "peor": 1,
+   "razon_max": 1.3333333333333333,
+   "viola_cota": 0,
+   "tiempo_medio_s": 0.00055445057851581
+  },
+  "instancias": 19,
+  "con_optimo": 15,
+  "por_familia": {
+   "ralo": {
+    "Voraz base": 3,
+    "Esenciales": 3,
+    "Rareza": 1,
+    "Parejas": 2,
+    "Esenciales + rareza": 2,
+    "Esenciales + parejas": 2,
+    "Rareza + parejas": 1,
+    "Los tres (enfoque D)": 1
+   },
+   "medio": {
+    "Voraz base": 3,
+    "Esenciales": 4,
+    "Rareza": 2,
+    "Parejas": 2,
+    "Esenciales + rareza": 2,
+    "Esenciales + parejas": 1,
+    "Rareza + parejas": 0,
+    "Los tres (enfoque D)": 0
+   },
+   "denso": {
+    "Voraz base": 4,
+    "Esenciales": 2,
+    "Rareza": 4,
+    "Parejas": 2,
+    "Esenciales + rareza": 2,
+    "Esenciales + parejas": 0,
+    "Rareza + parejas": 0,
+    "Los tres (enfoque D)": 0
+   }
+  },
+  "casos_por_familia": {
+   "ralo": 9,
+   "medio": 4,
+   "denso": 6
+  },
+  "fallan_cobertura": 0,
+  "ejemplos": {
+   "Esenciales": [
+    {
+     "caso": "08_esenciales_empeora",
+     "archivo": "08_esenciales_empeora_parte2_enfoques.txt",
+     "n": 7,
+     "r": 7,
+     "familia": "medio",
+     "voraz": [
+      1,
+      5,
+      3
+     ],
+     "combinacion": [
+      3,
+      2,
+      1,
+      5
+     ],
+     "optimo": [
+      1,
+      3,
+      5
+     ]
+    },
+    {
+     "caso": "10_esenciales_y_parejas_empeoran",
+     "archivo": "10_esenciales_y_parejas_empeoran_parte2_enfoques.txt",
+     "n": 9,
+     "r": 9,
+     "familia": "ralo",
+     "voraz": [
+      9,
+      2,
+      5,
+      1
+     ],
+     "combinacion": [
+      1,
+      4,
+      2,
+      5,
+      8
+     ],
+     "optimo": [
+      1,
+      2,
+      5,
+      9
+     ]
+    }
+   ],
+   "Rareza": [
+    {
+     "caso": "18_n30_r30_parejas_peor",
+     "archivo": "18_n30_r30_parejas_peor_parte2_enfoques.txt",
+     "n": 30,
+     "r": 30,
+     "familia": "ralo",
+     "voraz": [
+      30,
+      6,
+      19,
+      7,
+      23,
+      4
+     ],
+     "combinacion": [
+      7,
+      6,
+      30,
+      14,
+      4,
+      11,
+      8
+     ],
+     "optimo": null
+    }
+   ],
+   "Parejas": [
+    {
+     "caso": "09_parejas_empeora",
+     "archivo": "09_parejas_empeora_parte2_enfoques.txt",
+     "n": 4,
+     "r": 8,
+     "familia": "denso",
+     "voraz": [
+      2,
+      3,
+      4
+     ],
+     "combinacion": [
+      1,
+      4,
+      2,
+      3
+     ],
+     "optimo": [
+      2,
+      3,
+      4
+     ]
+    },
+    {
+     "caso": "10_esenciales_y_parejas_empeoran",
+     "archivo": "10_esenciales_y_parejas_empeoran_parte2_enfoques.txt",
+     "n": 9,
+     "r": 9,
+     "familia": "ralo",
+     "voraz": [
+      9,
+      2,
+      5,
+      1
+     ],
+     "combinacion": [
+      1,
+      4,
+      2,
+      5,
+      8
+     ],
+     "optimo": [
+      1,
+      2,
+      5,
+      9
+     ]
+    },
+    {
+     "caso": "18_n30_r30_parejas_peor",
+     "archivo": "18_n30_r30_parejas_peor_parte2_enfoques.txt",
+     "n": 30,
+     "r": 30,
+     "familia": "ralo",
+     "voraz": [
+      30,
+      6,
+      19,
+      7,
+      23,
+      4
+     ],
+     "combinacion": [
+      8,
+      6,
+      7,
+      19,
+      29,
+      4,
+      2
+     ],
+     "optimo": null
+    }
+   ],
+   "Esenciales + rareza": [
+    {
+     "caso": "10_esenciales_y_parejas_empeoran",
+     "archivo": "10_esenciales_y_parejas_empeoran_parte2_enfoques.txt",
+     "n": 9,
+     "r": 9,
+     "familia": "ralo",
+     "voraz": [
+      9,
+      2,
+      5,
+      1
+     ],
+     "combinacion": [
+      1,
+      4,
+      2,
+      5,
+      8
+     ],
+     "optimo": [
+      1,
+      2,
+      5,
+      9
+     ]
+    },
+    {
+     "caso": "18_n30_r30_parejas_peor",
+     "archivo": "18_n30_r30_parejas_peor_parte2_enfoques.txt",
+     "n": 30,
+     "r": 30,
+     "familia": "ralo",
+     "voraz": [
+      30,
+      6,
+      19,
+      7,
+      23,
+      4
+     ],
+     "combinacion": [
+      7,
+      6,
+      30,
+      14,
+      4,
+      11,
+      8
+     ],
+     "optimo": null
+    }
+   ],
+   "Esenciales + parejas": [
+    {
+     "caso": "10_esenciales_y_parejas_empeoran",
+     "archivo": "10_esenciales_y_parejas_empeoran_parte2_enfoques.txt",
+     "n": 9,
+     "r": 9,
+     "familia": "ralo",
+     "voraz": [
+      9,
+      2,
+      5,
+      1
+     ],
+     "combinacion": [
+      1,
+      4,
+      2,
+      5,
+      8
+     ],
+     "optimo": [
+      1,
+      2,
+      5,
+      9
+     ]
+    },
+    {
+     "caso": "18_n30_r30_parejas_peor",
+     "archivo": "18_n30_r30_parejas_peor_parte2_enfoques.txt",
+     "n": 30,
+     "r": 30,
+     "familia": "ralo",
+     "voraz": [
+      30,
+      6,
+      19,
+      7,
+      23,
+      4
+     ],
+     "combinacion": [
+      8,
+      6,
+      7,
+      19,
+      29,
+      4,
+      2
+     ],
+     "optimo": null
+    }
+   ],
+   "Rareza + parejas": [
+    {
+     "caso": "18_n30_r30_parejas_peor",
+     "archivo": "18_n30_r30_parejas_peor_parte2_enfoques.txt",
+     "n": 30,
+     "r": 30,
+     "familia": "ralo",
+     "voraz": [
+      30,
+      6,
+      19,
+      7,
+      23,
+      4
+     ],
+     "combinacion": [
+      7,
+      30,
+      14,
+      6,
+      4,
+      11,
+      8
+     ],
+     "optimo": null
+    }
+   ],
+   "Los tres (enfoque D)": [
+    {
+     "caso": "18_n30_r30_parejas_peor",
+     "archivo": "18_n30_r30_parejas_peor_parte2_enfoques.txt",
+     "n": 30,
+     "r": 30,
+     "familia": "ralo",
+     "voraz": [
+      30,
+      6,
+      19,
+      7,
+      23,
+      4
+     ],
+     "combinacion": [
+      7,
+      30,
+      14,
+      6,
+      4,
+      11,
+      8
+     ],
+     "optimo": null
+    }
+   ]
+  }
+ },
+ "variante": null,
+ "variante_parcial": null,
+ "sin_parte1": [
+  "01_no_factible",
+  "02_todos_optimos",
+  "03_clasico_no_optimo",
+  "04_solo_esenciales",
+  "05_solo_parejas",
+  "06_solo_todo",
+  "07_ninguno_acierta",
+  "08_esenciales_empeora",
+  "09_parejas_empeora",
+  "10_esenciales_y_parejas_empeoran",
+  "11_cebos_k4",
+  "12_limite_n12",
+  "13_n15_r10",
+  "14_n20_r20_ralo",
+  "15_n20_r40",
+  "16_n25_r15",
+  "17_n30_r10",
+  "18_n30_r30_parejas_peor",
+  "19_n24_plantado",
+  "20_rareza_acierta"
+ ],
+ "sin_parte2": []
+}

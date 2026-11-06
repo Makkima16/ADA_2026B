@@ -25,6 +25,7 @@ def formatear_traza(
     optimo: Optional[List[int]] = None,
     cota: Optional[float] = None,
     inst: Optional[Instancia] = None,
+    optimo_metodo: str = "",
 ) -> str:
     """Texto de la traza: un renglón por paso, cobertura final y comprobación."""
     lineas = ["Caso: %s" % nombre_caso, "Voraz — traza de elecciones"]
@@ -50,7 +51,7 @@ def formatear_traza(
     lineas.append("Cubre todas las categorías: %s" % ("sí" if cubre else "NO"))
     lineas.append("Tiempo: %.6f s" % tiempo_s)
     if optimo is not None:
-        lineas.append("Óptimo por fuerza bruta: %s (%d)" % (optimo, len(optimo)) +
+        lineas.append("Óptimo (%s): %s (%d)" % (optimo_metodo or "fuerza bruta", optimo, len(optimo)) +
                       (": " + ", ".join(etq_j(j) for j in optimo) if con_ids else ""))
         lineas.append("Razón voraz / óptimo: %.4f" % (len(J) / max(len(optimo), 1)))
     if cota is not None:
@@ -71,4 +72,4 @@ def formatear_resultado(res: ResultadoCaso) -> str:
             "No se ejecutó el voraz.\n" % (res.nombre, sorted(res.sin_cubrir))
         )
     return formatear_traza(res.nombre, res.pasos, res.cobertura, res.cubre,
-                           res.tiempo_s, res.optimo, res.cota, res.instancia)
+                           res.tiempo_s, res.optimo, res.cota, res.instancia, res.optimo_metodo)

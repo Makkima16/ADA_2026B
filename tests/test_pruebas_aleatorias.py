@@ -1,4 +1,4 @@
-"""Pruebas de las pruebas aleatorias (sección 4 de los visores): la de la PD, la del voraz y sus rutas del servidor."""
+"""Pruebas aleatorias: los experimentos en memoria de la PD y del voraz y las rutas de /aleatorios (modo completo y solo una parte)."""
 
 import json
 import os
@@ -121,7 +121,7 @@ def _post(url, ruta, datos):
 
 
 def test_ruta_del_voraz(url):
-    estado, d = _post(url, "/api/auditoria/experimento", {"instancias": 30, "semilla": 2026, "familias": ["ralo", "medio"]})
+    estado, d = _post(url, "/api/aleatorios/solo-voraz", {"instancias": 30, "semilla": 2026, "familias": ["ralo", "medio"]})
     assert estado == 200 and d["instancias"] == 60 and [c["nombre"] for c in d["combinaciones"]][0] == "Voraz base"
     assert len(d["combinaciones"]) == 8 and set(d["por_familia"]) == {"ralo", "medio"}
 
@@ -130,16 +130,98 @@ def test_ruta_del_voraz(url):
                                           ({"instancias": 5, "familias": []}, "al menos una densidad"),
                                           ({"instancias": "x"}, "números")])
 def test_ruta_del_voraz_valida(url, datos, texto):
-    estado, d = _post(url, "/api/auditoria/experimento", datos)
+    estado, d = _post(url, "/api/aleatorios/solo-voraz", datos)
     assert estado == 400 and texto in d["error"]
 
 
 def test_ruta_de_la_pd(url):
-    estado, d = _post(url, "/api/aceleracion/experimento", {"instancias": 15, "n_max": 12})
+    estado, d = _post(url, "/api/aleatorios/solo-pd", {"instancias": 15, "n_max": 12})
     assert estado == 200 and d["hechas"] == 15 and d["ambas"]["coinciden"] == d["ambas"]["corridas"]
 
 
 @pytest.mark.parametrize("datos", [{"instancias": 0}, {"n_min": 9, "n_max": 3}, {"instancias": "x"}])
 def test_ruta_de_la_pd_valida(url, datos):
-    estado, d = _post(url, "/api/aceleracion/experimento", datos)
+    estado, d = _post(url, "/api/aleatorios/solo-pd", datos)
     assert estado == 400 and d["error"]
+
+
+# ----------------------------- /aleatorios: modo completo (con carpetas temporales de la prueba) -----------------------------
+
+@pytest.fixture
+def carpetas(tmp_path, monkeypatch):
+    casos, salida = tmp_path / "casos_temporales", tmp_path / "resultados_temporales"
+    monkeypatch.setattr(servidor.carpetas_temporales, "CASOS_TEMPORALES", casos)
+    monkeypatch.setattr(servidor.carpetas_temporales, "RESULTADOS_TEMPORALES", salida)
+    return casos, salida
+
+
+def _get(url, ruta):
+    with urllib.request.urlopen(url + ruta) as r:
+        return json.load(r)
+
+
+def test_estado_vacio_y_limites(url, carpetas):
+    d = _get(url, "/api/aleatorios/estado")
+    assert d["casos"] == [] and d["resumen"] == [] and d["enfoques"] == {}
+    assert d["limites"] == {"casos": 500, "voraz_por_densidad": 5000, "pd": 500}
+
+
+def test_generar_probar_y_resumen_por_parte(url, carpetas):
+    estado, d = _post(url, "/api/aleatorios/generar", {"cantidad": 6, "semilla": 3, "n_min": 5, "n_max": 9, "r_min": 4, "r_max": 7})
+    assert estado == 200 and len(d["casos"]) == 6 and d["enfoques"] == {}
+    estado, d = _post(url, "/api/aleatorios/probar", {})
+    assert estado == 200 and len(d["resumen"]) == 6 * 14
+    e = d["enfoques"]
+    assert e["casos"] == 6 and e["parte1"]["hechas"] == 6 and e["parte2"]["instancias"] == 6 and e["variante"]["casos"] == 6
+    assert e["variante_parcial"]["casos"] == 6 and e["variante_parcial"]["con_parcial"] > 0    # la extensión con parciales se mide aparte
+    assert e["parte1"]["ambas"]["coinciden"] == e["parte1"]["ambas"]["corridas"] == 6          # las dos DP dan lo mismo
+    assert e["parte2"]["con_optimo"] == 6 and e["parte2"]["fallan_cobertura"] == 0
+    assert e["sin_parte1"] == [] and e["sin_parte2"] == []
+    primera = d["resumen"][0]
+    assert "Caso:" in _get(url, "/api/aleatorios/traza?archivo=" + primera["traza"])["texto"]
+
+
+def test_generar_valida_el_tope_de_casos(url, carpetas):
+    estado, d = _post(url, "/api/aleatorios/generar", {"cantidad": 501})
+    assert estado == 400 and "entre 1 y 500" in d["error"]
+
+
+def test_subir_archivos_de_una_sola_parte_y_no_aplica(url, carpetas):
+    solo_pd = {"parametros": {"presupuesto_aceleracion_B": 5}, "etapas": [
+        {"id": "E01", "duracion_normal": 5, "costo_aceleracion": 2, "reduccion_tiempo_si_acelera": 3}]}
+    solo_vz = {"categorias_riesgo": [{"id": "R01", "categoria": "a"}], "etapas": [
+        {"id": "E01", "riesgos_cubiertos_auditoria_completa": ["R01"]}]}
+    estado, d = _post(url, "/api/aleatorios/subir", {"archivos": [{"nombre": "solo_pd.json", "texto": json.dumps(solo_pd)},
+                                                                   {"nombre": "solo_voraz.json", "texto": json.dumps(solo_vz)}]})
+    assert estado == 200 and [c["nombre"] for c in d["casos"]] == ["solo_pd", "solo_voraz"]
+    estado, d = _post(url, "/api/aleatorios/probar", {})
+    assert estado == 200 and d["enfoques"]["sin_parte1"] == ["solo_voraz"] and d["enfoques"]["sin_parte2"] == ["solo_pd"]
+    assert not any(f["resultado"].startswith("ERROR") for f in d["resumen"])
+
+
+@pytest.mark.parametrize("cuerpo, texto", [({"archivos": []}, "entre 1 y"), ({"archivos": [{"nombre": "x.json", "texto": "no es json"}]}, "no es un JSON válido"),
+                                           ({"otra": 1}, "se esperaba")])
+def test_subir_valida(url, carpetas, cuerpo, texto):
+    estado, d = _post(url, "/api/aleatorios/subir", cuerpo)
+    assert estado == 400 and texto in d["error"]
+
+
+def test_probar_sin_casos_avisa(url, carpetas):
+    estado, d = _post(url, "/api/aleatorios/probar", {})
+    assert estado == 400 and "no hay casos" in d["error"]
+
+
+def test_las_rutas_viejas_del_apartado_4_ya_no_existen(url):
+    for ruta in ("/api/auditoria/experimento", "/api/aceleracion/experimento"):
+        estado, d = _post(url, ruta, {})
+        assert estado == 404
+
+
+def test_los_visores_aceptan_el_caso_en_la_direccion(url):
+    """/auditoria?caso=X y /aceleracion?caso=X sirven la página (el JS pide el caso al servidor y lo analiza)."""
+    for ruta in ("/auditoria?caso=aleatorio_001", "/aceleracion?caso=aleatorio_001"):
+        with urllib.request.urlopen(url + ruta) as r:
+            assert r.status == 200
+    for archivo in ("app.js", "aceleracion.js"):
+        with urllib.request.urlopen(url + "/estatico/" + archivo) as r:
+            assert "/api/aleatorios/caso?nombre=" in r.read().decode("utf-8")

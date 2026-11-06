@@ -23,6 +23,7 @@
         <a href="/">Inicio</a>
         <a href="/aceleracion" aria-current="page">Parte 1 · Aceleración</a>
         <a href="/auditoria">Parte 2 · Auditoría</a>
+        <a href="/aleatorios">Casos aleatorios</a>
       </nav>
       <div class="pildora"><i class="punto" aria-hidden="true"></i>Funcionando en este equipo <span class="mono" id="direccion"></span></div>
     </div>
@@ -374,59 +375,6 @@
     </div>
   </section>
 
-  <!-- ============ 4. Crear tus propias pruebas ============ -->
-  <section class="panel panel-pruebas" id="panel-pruebas" aria-labelledby="titulo-pruebas">
-    <div class="encabezado-seccion">
-      <span class="num-paso" aria-hidden="true">4</span>
-      <div>
-        <h2 id="titulo-pruebas">Crear tus propias pruebas</h2>
-        <p class="ayuda-corta">Genera casos al azar y mira cuándo conviene cada tabla: por presupuesto o por valor</p>
-      </div>
-    </div>
-
-    <div class="intro-explicacion">
-      <p><strong>Qué hace.</strong> Crea casos al azar con los rangos que elijas y, en cada uno, corre las <b>dos tablas</b>. Como las dos son exactas, <b>siempre deben dar
-        el mismo ahorro</b>; la prueba lo comprueba (y, con 12 etapas o menos, también contra la fuerza bruta). Lo que cambia entre una y otra es <b>cuántas celdas
-        usa y cuánto tarda</b>, y eso depende de cómo se relacionan el presupuesto <b>B</b> y la suma de los ahorros <b>D</b>.</p>
-      <p><strong>Qué esperar.</strong> Si B es menor que D, debería ser más chica la tabla por presupuesto. Si B es mayor que D, la tabla por valor. La tabla de resultados agrupa
-        los casos justamente por esa relación, para que lo veas con tus propios datos.</p>
-    </div>
-
-    <div class="presets-pruebas">
-      <span class="rotulo">Ejemplos de parámetros</span>
-      <button class="btn mini pd-preset" type="button" data-preset="parecidos">Costos y ahorros parecidos</button>
-      <button class="btn mini pd-preset" type="button" data-preset="costosgrandes">Costos grandes, ahorros chicos</button>
-      <button class="btn mini pd-preset" type="button" data-preset="cruce">Cerca del cruce (B ≈ D)</button>
-    </div>
-    <div class="form-pruebas form-pd">
-      <label>Casos<input type="number" id="pd-instancias" min="1" max="500" value="200"></label>
-      <label>Semilla<input type="number" id="pd-semilla" value="2026"></label>
-      <label>Etapas (mín.)<input type="number" id="pd-nmin" min="1" max="400" value="5"></label>
-      <label>Etapas (máx.)<input type="number" id="pd-nmax" min="1" max="400" value="30"></label>
-      <label>Costo (mín.)<input type="number" id="pd-cmin" min="0" value="1"></label>
-      <label>Costo (máx.)<input type="number" id="pd-cmax" min="0" value="30"></label>
-      <label>Ahorro (mín.)<input type="number" id="pd-dmin" min="0" value="1"></label>
-      <label>Ahorro (máx.)<input type="number" id="pd-dmax" min="0" value="30"></label>
-      <label>Presupuesto B, % del costo total<input type="number" id="pd-pct" min="0" max="500" value="50"></label>
-      <button class="btn primario grande" id="pd-correr" type="button">Correr la prueba</button>
-    </div>
-    <p class="nota" id="pd-nota">Hasta 500 casos. Cada caso se genera con costos y ahorros al azar entre los rangos; B es el porcentaje indicado del costo total. Una tabla de más de 1.500.000 celdas no se corre en esta prueba, y el cálculo se corta a los 25 segundos.</p>
-
-    <div class="banner-error oculto" id="pd-error" role="alert">
-      <span class="icono-error" aria-hidden="true">!</span>
-      <div class="cuerpo-error"><div class="titulo-error">No se pudo correr la prueba</div><div id="pd-mensaje-error"></div></div>
-    </div>
-
-    <div class="oculto" id="pd-resultado">
-      <p class="resumen-pruebas" id="pd-resumen"></p>
-      <div class="resumen" id="pd-stats"></div>
-      <h3 class="subtitulo-pruebas">Según la relación entre B y D</h3>
-      <div style="overflow-x:auto"><table class="tabla-cmp tabla-pruebas" id="pd-tabla"></table></div>
-      <p class="nota-cmp">Los promedios son solo de los casos en que se corrieron las dos tablas. <b>La de menos celdas fue más rápida</b> cuenta en cuántos casos la tabla más chica también
-        tardó menos (se ignoran los empates de tamaño). Cerca del cruce las constantes pesan y puede fallar: el criterio es contar celdas, no medir tiempo.</p>
-      <ul class="lista-explicacion" id="pd-lecturas"></ul>
-    </div>
-  </section>
 
   <footer>
     Herramienta de apoyo local para la sustentación. Los cálculos los hace el mismo código del proyecto
@@ -436,6 +384,5 @@
 
 <script src="/estatico/explicacion.js"></script>
 <script src="/estatico/aceleracion.js"></script>
-<script src="/estatico/pruebas_pd.js"></script>
 </body>
 </html>

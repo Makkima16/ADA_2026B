@@ -62,7 +62,7 @@ def test_paginas(url, ruta, fragmento):
     assert estado == 200 and fragmento in cuerpo
 
 
-@pytest.mark.parametrize("archivo", ["aceleracion.js", "aceleracion.css", "inicio.css", "estilos.css", "app.js", "explicacion.js", "combinador.js", "pruebas.js", "pruebas_pd.js"])
+@pytest.mark.parametrize("archivo", ["aceleracion.js", "aceleracion.css", "inicio.css", "estilos.css", "app.js", "explicacion.js", "combinador.js", "aleatorios.js"])
 def test_estaticos(url, archivo):
     assert _get(url, "/estatico/" + archivo)[0] == 200
 

@@ -1,0 +1,31 @@
+{
+  "descripcion": "Costos de 1.000 a 9.999 (por ejemplo, dinero) y ahorros de 1 a 9 (por ejemplo, días): gana la tabla por valor. Celdas de la tabla: por presupuesto 1502644, por valor 3614. Enfoque recomendado: valor. Resultado: ahorro 101, costo 56189 de B = 57793, 16 etapas aceleradas, duración final 101 de 202.",
+  "parametros": {"numero_etapas": 25, "presupuesto_aceleracion_B": 57793},
+  "etapas": [
+    {"id": "E01", "duracion_normal": 9, "costo_aceleracion": 3299, "reduccion_tiempo_si_acelera": 6},
+    {"id": "E02", "duracion_normal": 9, "costo_aceleracion": 4975, "reduccion_tiempo_si_acelera": 5},
+    {"id": "E03", "duracion_normal": 3, "costo_aceleracion": 1386, "reduccion_tiempo_si_acelera": 3},
+    {"id": "E04", "duracion_normal": 9, "costo_aceleracion": 8325, "reduccion_tiempo_si_acelera": 7},
+    {"id": "E05", "duracion_normal": 9, "costo_aceleracion": 4018, "reduccion_tiempo_si_acelera": 5},
+    {"id": "E06", "duracion_normal": 13, "costo_aceleracion": 2975, "reduccion_tiempo_si_acelera": 9},
+    {"id": "E07", "duracion_normal": 7, "costo_aceleracion": 6663, "reduccion_tiempo_si_acelera": 3},
+    {"id": "E08", "duracion_normal": 9, "costo_aceleracion": 2305, "reduccion_tiempo_si_acelera": 5},
+    {"id": "E09", "duracion_normal": 9, "costo_aceleracion": 4796, "reduccion_tiempo_si_acelera": 5},
+    {"id": "E10", "duracion_normal": 6, "costo_aceleracion": 5411, "reduccion_tiempo_si_acelera": 3},
+    {"id": "E11", "duracion_normal": 12, "costo_aceleracion": 1813, "reduccion_tiempo_si_acelera": 7},
+    {"id": "E12", "duracion_normal": 5, "costo_aceleracion": 6233, "reduccion_tiempo_si_acelera": 1},
+    {"id": "E13", "duracion_normal": 9, "costo_aceleracion": 3934, "reduccion_tiempo_si_acelera": 6},
+    {"id": "E14", "duracion_normal": 9, "costo_aceleracion": 8045, "reduccion_tiempo_si_acelera": 9},
+    {"id": "E15", "duracion_normal": 1, "costo_aceleracion": 1793, "reduccion_tiempo_si_acelera": 1},
+    {"id": "E16", "duracion_normal": 10, "costo_aceleracion": 1349, "reduccion_tiempo_si_acelera": 7},
+    {"id": "E17", "duracion_normal": 7, "costo_aceleracion": 5324, "reduccion_tiempo_si_acelera": 5},
+    {"id": "E18", "duracion_normal": 9, "costo_aceleracion": 6090, "reduccion_tiempo_si_acelera": 9},
+    {"id": "E19", "duracion_normal": 8, "costo_aceleracion": 7906, "reduccion_tiempo_si_acelera": 5},
+    {"id": "E20", "duracion_normal": 12, "costo_aceleracion": 4115, "reduccion_tiempo_si_acelera": 9},
+    {"id": "E21", "duracion_normal": 7, "costo_aceleracion": 3957, "reduccion_tiempo_si_acelera": 7},
+    {"id": "E22", "duracion_normal": 8, "costo_aceleracion": 2827, "reduccion_tiempo_si_acelera": 7},
+    {"id": "E23", "duracion_normal": 7, "costo_aceleracion": 9697, "reduccion_tiempo_si_acelera": 3},
+    {"id": "E24", "duracion_normal": 6, "costo_aceleracion": 2002, "reduccion_tiempo_si_acelera": 5},
+    {"id": "E25", "duracion_normal": 9, "costo_aceleracion": 6348, "reduccion_tiempo_si_acelera": 6}
+  ]
+}

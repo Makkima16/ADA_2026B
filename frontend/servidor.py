@@ -8,6 +8,7 @@ Sirve una página de inicio y dos visores locales:
   /             inicio: elegir la parte que se quiere explicar
   /aceleracion  Parte 1: la tabla de la programación dinámica (Mochila 0/1)
   /auditoria    Parte 2: el algoritmo voraz de Set Cover
+  /aleatorios   pruebas aleatorias: completo (genera casos en Casos/casos_temporales/ y los prueba con run_all.py), solo Parte 1 o solo Parte 2 (en memoria)
 
 No duplica la lógica: llama a las mismas funciones del código base
 (`leer_instancia` y `resolver_caso` de src/aceleracion/ y de src/auditoria/),
@@ -28,8 +29,10 @@ import shutil
 import subprocess
 import sys
 import tempfile
+import threading
 import time
 import webbrowser
+from urllib.parse import parse_qs, urlparse
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 
@@ -54,9 +57,13 @@ from auditoria.enfoques.comparacion.ablacion import COMBINACIONES, ablacion_deta
 from auditoria.enfoques.comparacion.experimento import FAMILIAS  # noqa: E402
 from aceleracion.verificacion import N_MAX_FUERZA_BRUTA as N_MAX_FB_ACELERACION  # noqa: E402
 from aceleracion.verificacion import fuerza_bruta as fuerza_bruta_aceleracion  # noqa: E402
+from generacion_casos import carpetas as carpetas_temporales  # noqa: E402  (casos aleatorios y su prueba)
+from generacion_casos import generador as generador_casos  # noqa: E402
+from generacion_casos import probar as probar_casos  # noqa: E402
 
 DIR_ESTATICO = Path(__file__).resolve().parent / "estatico"
 MAX_CUERPO = 1_000_000  # 1 MB: sobra para cualquier caso razonable
+MAX_CUERPO_SUBIDA = 50_000_000   # 50 MB: hasta 200 casos de la profesora subidos de una vez
 MAX_INSTANCIAS_VORAZ = 5000   # por familia de densidad (3 familias x 5000 tardan unos 12 s)
 EJEMPLOS_POR_COMBINACION = 3
 
@@ -74,15 +81,19 @@ TIPOS_ESTATICOS = {
     "aceleracion.css": "text/css; charset=utf-8",
     "explicacion.js": "application/javascript; charset=utf-8",
     "combinador.js": "application/javascript; charset=utf-8",
-    "pruebas.js": "application/javascript; charset=utf-8",
-    "pruebas_pd.js": "application/javascript; charset=utf-8",
+    "aleatorios.html": "text/html; charset=utf-8",
+    "aleatorios.js": "application/javascript; charset=utf-8",
 }
+
+# Generar y probar casos aleatorios usa las mismas dos carpetas de la raíz: de a un pedido por vez.
+CANDADO_ALEATORIOS = threading.Lock()
 
 # Páginas: ruta -> archivo estático.
 PAGINAS = {
     "/": "inicio.html",
     "/aceleracion": "aceleracion.html",
     "/auditoria": "index.html",
+    "/aleatorios": "aleatorios.html",
 }
 
 
@@ -319,6 +330,8 @@ class Visor(BaseHTTPRequestHandler):
         ruta = self.path.split("?", 1)[0].rstrip("/") or "/"
         if ruta in PAGINAS:
             self._servir_estatico(PAGINAS[ruta])
+        elif ruta.startswith("/api/aleatorios/"):
+            self._api_aleatorios_get(ruta)
         elif ruta.startswith("/index"):
             self._servir_estatico("index.html")
         elif self.path.startswith("/estatico/"):
@@ -339,12 +352,100 @@ class Visor(BaseHTTPRequestHandler):
             self._api_aceleracion(resolver=True)
         elif self.path == "/api/aceleracion/previsualizar":
             self._api_aceleracion(resolver=False)
-        elif self.path == "/api/auditoria/experimento":
+        elif self.path == "/api/aleatorios/solo-voraz":
             self._api_experimento_auditoria()
-        elif self.path == "/api/aceleracion/experimento":
+        elif self.path == "/api/aleatorios/solo-pd":
             self._api_experimento_aceleracion()
+        elif self.path == "/api/aleatorios/generar":
+            self._api_aleatorios_generar()
+        elif self.path == "/api/aleatorios/subir":
+            self._api_aleatorios_subir()
+        elif self.path == "/api/aleatorios/probar":
+            self._api_aleatorios_probar()
         else:
             self._json(404, {"error": "recurso desconocido"})
+
+    # ---------- Casos aleatorios: generar en Casos/casos_temporales/ y probar en Resultados/resultados_temporales/ ----------
+
+    def _estado_aleatorios(self) -> dict:
+        casos, salida = carpetas_temporales.CASOS_TEMPORALES, carpetas_temporales.RESULTADOS_TEMPORALES
+        return {"casos": carpetas_temporales.listar_casos(casos), "resumen": probar_casos.leer_resumen(salida),
+                "comparacion": probar_casos.leer_comparacion(salida), "enfoques": probar_casos.leer_resumen_enfoques(salida),
+                "limites": {"casos": generador_casos.MAX_CASOS, "voraz_por_densidad": MAX_INSTANCIAS_VORAZ,
+                            "pd": pruebas_pd.MAX_INSTANCIAS}}
+
+    def _api_aleatorios_get(self, ruta: str) -> None:
+        consulta = parse_qs(urlparse(self.path).query)
+        try:
+            if ruta == "/api/aleatorios/estado":
+                self._json(200, self._estado_aleatorios())
+            elif ruta == "/api/aleatorios/caso":
+                self._json(200, {"texto": carpetas_temporales.leer_texto_caso(consulta.get("nombre", [""])[0], carpetas_temporales.CASOS_TEMPORALES)})
+            elif ruta == "/api/aleatorios/traza":
+                self._json(200, {"texto": probar_casos.leer_traza(consulta.get("archivo", [""])[0], carpetas_temporales.RESULTADOS_TEMPORALES)})
+            else:
+                self._json(404, {"error": "recurso desconocido"})
+        except FileNotFoundError:
+            self._json(404, {"error": "ese archivo no está en las carpetas temporales (quizá se regeneraron)"})
+
+    def _api_aleatorios_generar(self) -> None:
+        """Vacía Casos/casos_temporales/ y escribe los casos nuevos (y vacía Resultados/resultados_temporales/: ya no corresponden)."""
+        datos = self._leer_parametros()
+        if datos is None:
+            return
+        try:
+            lote = generador_casos.generar_lote(
+                int(datos.get("cantidad", 20)), int(datos.get("semilla", 2026)),
+                int(datos.get("n_min", 8)), int(datos.get("n_max", 16)),
+                int(datos.get("r_min", 6)), int(datos.get("r_max", 15)),
+                [str(d) for d in datos.get("densidades", list(generador_casos.DENSIDADES))])
+        except generador_casos.ErrorDeParametros as e:
+            self._json(400, {"error": str(e)})
+            return
+        except (TypeError, ValueError):
+            self._json(400, {"error": "la cantidad, la semilla, n y r deben ser números enteros"})
+            return
+        with CANDADO_ALEATORIOS:
+            carpetas_temporales.escribir_casos(lote, carpetas_temporales.CASOS_TEMPORALES)
+            carpetas_temporales.vaciar(carpetas_temporales.RESULTADOS_TEMPORALES)
+        self._json(200, self._estado_aleatorios())
+
+    def _api_aleatorios_subir(self) -> None:
+        """Reemplaza Casos/casos_temporales/ por los .json que sube la persona (por ejemplo, los de la profesora)."""
+        try:
+            largo = int(self.headers.get("Content-Length", "0"))
+            if largo > MAX_CUERPO_SUBIDA:
+                self._json(413, {"error": "los archivos son demasiado grandes (máximo %d MB en total)" % (MAX_CUERPO_SUBIDA // 1_000_000)})
+                return
+            datos = json.loads(self.rfile.read(largo).decode("utf-8"))
+            archivos = [(str(a["nombre"]), str(a["texto"])) for a in datos["archivos"]]
+        except (KeyError, TypeError, ValueError, UnicodeDecodeError):
+            self._json(400, {"error": "se esperaba {archivos: [{nombre, texto}, ...]}"})
+            return
+        with CANDADO_ALEATORIOS:
+            try:
+                carpetas_temporales.escribir_archivos(archivos, carpetas_temporales.CASOS_TEMPORALES)
+            except carpetas_temporales.ErrorDeArchivos as e:
+                self._json(400, {"error": str(e)})
+                return
+            carpetas_temporales.vaciar(carpetas_temporales.RESULTADOS_TEMPORALES)
+        self._json(200, self._estado_aleatorios())
+
+    def _api_aleatorios_probar(self) -> None:
+        """Vacía Resultados/resultados_temporales/ y corre run_all.py sobre Casos/casos_temporales/."""
+        with CANDADO_ALEATORIOS:
+            try:
+                proceso = probar_casos.probar(carpetas_temporales.CASOS_TEMPORALES, carpetas_temporales.RESULTADOS_TEMPORALES)
+            except ValueError as e:
+                self._json(400, {"error": str(e)})
+                return
+            except subprocess.TimeoutExpired:
+                self._json(504, {"error": "la prueba tardó más de %d s y se cortó" % probar_casos.TIEMPO_MAXIMO_S})
+                return
+        if proceso.returncode not in (0, 1):      # 1 = algún caso dio ERROR; queda en su evidencia
+            self._json(500, {"error": "run_all.py falló: %s" % (proceso.stderr.strip() or proceso.stdout.strip())})
+            return
+        self._json(200, self._estado_aleatorios())
 
     def _servir_estatico(self, nombre: str) -> None:
         try:
@@ -384,7 +485,7 @@ class Visor(BaseHTTPRequestHandler):
             return None
 
     def _api_experimento_auditoria(self) -> None:
-        """Parte 2: pruebas aleatorias de las ocho combinaciones (mismo código que `ablacion.py`)."""
+        """Solo Parte 2: pruebas aleatorias de las ocho combinaciones, en memoria (mismo código que `ablacion.py`)."""
         datos = self._leer_parametros()
         if datos is None:
             return
@@ -402,13 +503,14 @@ class Visor(BaseHTTPRequestHandler):
             return
         d = ablacion_detalle(cantidad, semilla, familias, EJEMPLOS_POR_COMBINACION)
         self._json(200, {
-            "instancias": d["instancias"], "cantidad": cantidad, "semilla": semilla, "familias": familias,
+            "instancias": d["instancias"], "con_optimo": d["instancias"], "cantidad": cantidad, "semilla": semilla, "familias": familias,
             "combinaciones": [dict(d[nombre], nombre=nombre) for nombre, *_ in COMBINACIONES],
+            "casos_por_familia": {f: cantidad for f in familias},
             "por_familia": d["por_familia"], "ejemplos": d.get("ejemplos", {}),
         })
 
     def _api_experimento_aceleracion(self) -> None:
-        """Parte 1: pruebas aleatorias de las dos tablas de la DP (mismo código que `pruebas_aleatorias.py`)."""
+        """Solo Parte 1: pruebas aleatorias de las dos tablas de la DP, en memoria (mismo código que `pruebas_aleatorias.py`)."""
         datos = self._leer_parametros()
         if datos is None:
             return

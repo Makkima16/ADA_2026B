@@ -1,0 +1,61 @@
+Versión del código: e42e041 (con cambios sin commit) | Generado: 2026-11-06 17:39:59 | Archivo: 15_n20_r40.json
+==============================================================================
+Caso: 15_n20_r40
+Voraz — traza de elecciones
+  Paso 1: interacción 8 (E08) | categorías nuevas {R06, R07, R13, R21, R26, R32, R36, R39} | faltan {R01, R02, R03, R04, R05, R08, R09, R10, R11, R12, R14, R15, R16, R17, R18, R19, R20, R22, R23, R24, R25, R27, R28, R29, R30, R31, R33, R34, R35, R37, R38, R40}
+  Paso 2: interacción 15 (E15) | categorías nuevas {R01, R09, R11, R15, R19, R35, R40} | faltan {R02, R03, R04, R05, R08, R10, R12, R14, R16, R17, R18, R20, R22, R23, R24, R25, R27, R28, R29, R30, R31, R33, R34, R37, R38}
+  Paso 3: interacción 1 (E01) | categorías nuevas {R05, R12, R20, R33, R34} | faltan {R02, R03, R04, R08, R10, R14, R16, R17, R18, R22, R23, R24, R25, R27, R28, R29, R30, R31, R37, R38}
+  Paso 4: interacción 18 (E18) | categorías nuevas {R10, R17, R18, R23, R24} | faltan {R02, R03, R04, R08, R14, R16, R22, R25, R27, R28, R29, R30, R31, R37, R38}
+  Paso 5: interacción 10 (E10) | categorías nuevas {R22, R27, R31, R37} | faltan {R02, R03, R04, R08, R14, R16, R25, R28, R29, R30, R38}
+  Paso 6: interacción 3 (E03) | categorías nuevas {R03, R04, R38} | faltan {R02, R08, R14, R16, R25, R28, R29, R30}
+  Paso 7: interacción 5 (E05) | categorías nuevas {R02, R08} | faltan {R14, R16, R25, R28, R29, R30}
+  Paso 8: interacción 6 (E06) | categorías nuevas {R14, R28} | faltan {R16, R25, R29, R30}
+  Paso 9: interacción 4 (E04) | categorías nuevas {R29} | faltan {R16, R25, R30}
+  Paso 10: interacción 9 (E09) | categorías nuevas {R30} | faltan {R16, R25}
+  Paso 11: interacción 14 (E14) | categorías nuevas {R16} | faltan {R25}
+  Paso 12: interacción 20 (E20) | categorías nuevas {R25} | faltan {}
+Cobertura final (categoría -> interacción):
+  categoría R01 (Riesgo 1) -> interacción E15
+  categoría R02 (Riesgo 2) -> interacción E05
+  categoría R03 (Riesgo 3) -> interacción E03
+  categoría R04 (Riesgo 4) -> interacción E03
+  categoría R05 (Riesgo 5) -> interacción E01
+  categoría R06 (Riesgo 6) -> interacción E08
+  categoría R07 (Riesgo 7) -> interacción E08
+  categoría R08 (Riesgo 8) -> interacción E05
+  categoría R09 (Riesgo 9) -> interacción E15
+  categoría R10 (Riesgo 10) -> interacción E18
+  categoría R11 (Riesgo 11) -> interacción E15
+  categoría R12 (Riesgo 12) -> interacción E01
+  categoría R13 (Riesgo 13) -> interacción E08
+  categoría R14 (Riesgo 14) -> interacción E06
+  categoría R15 (Riesgo 15) -> interacción E15
+  categoría R16 (Riesgo 16) -> interacción E14
+  categoría R17 (Riesgo 17) -> interacción E18
+  categoría R18 (Riesgo 18) -> interacción E18
+  categoría R19 (Riesgo 19) -> interacción E15
+  categoría R20 (Riesgo 20) -> interacción E01
+  categoría R21 (Riesgo 21) -> interacción E08
+  categoría R22 (Riesgo 22) -> interacción E10
+  categoría R23 (Riesgo 23) -> interacción E18
+  categoría R24 (Riesgo 24) -> interacción E18
+  categoría R25 (Riesgo 25) -> interacción E20
+  categoría R26 (Riesgo 26) -> interacción E08
+  categoría R27 (Riesgo 27) -> interacción E10
+  categoría R28 (Riesgo 28) -> interacción E06
+  categoría R29 (Riesgo 29) -> interacción E04
+  categoría R30 (Riesgo 30) -> interacción E09
+  categoría R31 (Riesgo 31) -> interacción E10
+  categoría R32 (Riesgo 32) -> interacción E08
+  categoría R33 (Riesgo 33) -> interacción E01
+  categoría R34 (Riesgo 34) -> interacción E01
+  categoría R35 (Riesgo 35) -> interacción E15
+  categoría R36 (Riesgo 36) -> interacción E08
+  categoría R37 (Riesgo 37) -> interacción E10
+  categoría R38 (Riesgo 38) -> interacción E03
+  categoría R39 (Riesgo 39) -> interacción E08
+  categoría R40 (Riesgo 40) -> interacción E15
+Interacciones auditadas: [8, 15, 1, 18, 10, 3, 5, 6, 4, 9, 14, 20] (12): E08, E15, E01, E18, E10, E03, E05, E06, E04, E09, E14, E20
+Cubre todas las categorías: sí
+Tiempo: 0.000122 s
+Cota H(d): 2.7179

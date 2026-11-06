@@ -1,0 +1,213 @@
+caso,parte,resultado,tiempo_s,traza
+01_no_factible,parte1,no aplica: el caso no trae datos de la Parte 1,,
+01_no_factible,parte2,no factible: sin cubrir [5],,01_no_factible_parte2.txt
+01_no_factible,variante1,sin costos de auditoría: no se ejecuta,,01_no_factible_variante1.txt
+02_todos_optimos,parte1,no aplica: el caso no trae datos de la Parte 1,,
+02_todos_optimos,parte2,"J=[1, 2] (2 interacciones) | óptimo 2 | razón 1.0000 | H(d) 1.5000",0.000019,02_todos_optimos_parte2.txt
+02_todos_optimos,parte2_voraz,"J=[1, 2] (2 interacciones) | óptimo 2 | razón 1.0000",0.000019,02_todos_optimos_parte2_enfoques.txt
+02_todos_optimos,parte2_esenciales,"J=[1, 2] (2 interacciones) | óptimo 2 | razón 1.0000",0.000016,02_todos_optimos_parte2_enfoques.txt
+02_todos_optimos,parte2_rareza,"J=[1, 2] (2 interacciones) | óptimo 2 | razón 1.0000",0.000035,02_todos_optimos_parte2_enfoques.txt
+02_todos_optimos,parte2_parejas,"J=[1, 2] (2 interacciones) | óptimo 2 | razón 1.0000",0.000035,02_todos_optimos_parte2_enfoques.txt
+02_todos_optimos,parte2_esenciales_rareza,"J=[1, 2] (2 interacciones) | óptimo 2 | razón 1.0000",0.000015,02_todos_optimos_parte2_enfoques.txt
+02_todos_optimos,parte2_esenciales_parejas,"J=[1, 2] (2 interacciones) | óptimo 2 | razón 1.0000",0.000009,02_todos_optimos_parte2_enfoques.txt
+02_todos_optimos,parte2_rareza_parejas,"J=[1, 2] (2 interacciones) | óptimo 2 | razón 1.0000",0.000050,02_todos_optimos_parte2_enfoques.txt
+02_todos_optimos,parte2_todo,"J=[1, 2] (2 interacciones) | óptimo 2 | razón 1.0000",0.000013,02_todos_optimos_parte2_enfoques.txt
+02_todos_optimos,variante1,sin costos de auditoría: no se ejecuta,,02_todos_optimos_variante1.txt
+03_clasico_no_optimo,parte1,no aplica: el caso no trae datos de la Parte 1,,
+03_clasico_no_optimo,parte2,"J=[1, 2, 3] (3 interacciones) | óptimo 2 | razón 1.5000 | H(d) 2.0833",0.000014,03_clasico_no_optimo_parte2.txt
+03_clasico_no_optimo,parte2_voraz,"J=[1, 2, 3] (3 interacciones) | óptimo 2 | razón 1.5000",0.000017,03_clasico_no_optimo_parte2_enfoques.txt
+03_clasico_no_optimo,parte2_esenciales,"J=[2, 3] (2 interacciones) | óptimo 2 | razón 1.0000",0.000011,03_clasico_no_optimo_parte2_enfoques.txt
+03_clasico_no_optimo,parte2_rareza,"J=[1, 2, 3] (3 interacciones) | óptimo 2 | razón 1.5000",0.000032,03_clasico_no_optimo_parte2_enfoques.txt
+03_clasico_no_optimo,parte2_parejas,"J=[2, 3] (2 interacciones) | óptimo 2 | razón 1.0000",0.000017,03_clasico_no_optimo_parte2_enfoques.txt
+03_clasico_no_optimo,parte2_esenciales_rareza,"J=[2, 3] (2 interacciones) | óptimo 2 | razón 1.0000",0.000010,03_clasico_no_optimo_parte2_enfoques.txt
+03_clasico_no_optimo,parte2_esenciales_parejas,"J=[2, 3] (2 interacciones) | óptimo 2 | razón 1.0000",0.000015,03_clasico_no_optimo_parte2_enfoques.txt
+03_clasico_no_optimo,parte2_rareza_parejas,"J=[2, 3] (2 interacciones) | óptimo 2 | razón 1.0000",0.000040,03_clasico_no_optimo_parte2_enfoques.txt
+03_clasico_no_optimo,parte2_todo,"J=[2, 3] (2 interacciones) | óptimo 2 | razón 1.0000",0.000010,03_clasico_no_optimo_parte2_enfoques.txt
+03_clasico_no_optimo,variante1,sin costos de auditoría: no se ejecuta,,03_clasico_no_optimo_variante1.txt
+04_solo_esenciales,parte1,no aplica: el caso no trae datos de la Parte 1,,
+04_solo_esenciales,parte2,"J=[1, 2, 3, 4] (4 interacciones) | óptimo 3 | razón 1.3333 | H(d) 1.8333",0.000017,04_solo_esenciales_parte2.txt
+04_solo_esenciales,parte2_voraz,"J=[1, 2, 3, 4] (4 interacciones) | óptimo 3 | razón 1.3333",0.000017,04_solo_esenciales_parte2_enfoques.txt
+04_solo_esenciales,parte2_esenciales,"J=[2, 3, 4] (3 interacciones) | óptimo 3 | razón 1.0000",0.000012,04_solo_esenciales_parte2_enfoques.txt
+04_solo_esenciales,parte2_rareza,"J=[1, 2, 3, 4] (4 interacciones) | óptimo 3 | razón 1.3333",0.000042,04_solo_esenciales_parte2_enfoques.txt
+04_solo_esenciales,parte2_parejas,"J=[1, 2, 3, 4] (4 interacciones) | óptimo 3 | razón 1.3333",0.000035,04_solo_esenciales_parte2_enfoques.txt
+04_solo_esenciales,parte2_esenciales_rareza,"J=[2, 3, 4] (3 interacciones) | óptimo 3 | razón 1.0000",0.000012,04_solo_esenciales_parte2_enfoques.txt
+04_solo_esenciales,parte2_esenciales_parejas,"J=[2, 3, 4] (3 interacciones) | óptimo 3 | razón 1.0000",0.000010,04_solo_esenciales_parte2_enfoques.txt
+04_solo_esenciales,parte2_rareza_parejas,"J=[2, 3, 4] (3 interacciones) | óptimo 3 | razón 1.0000",0.000072,04_solo_esenciales_parte2_enfoques.txt
+04_solo_esenciales,parte2_todo,"J=[2, 3, 4] (3 interacciones) | óptimo 3 | razón 1.0000",0.000012,04_solo_esenciales_parte2_enfoques.txt
+04_solo_esenciales,variante1,sin costos de auditoría: no se ejecuta,,04_solo_esenciales_variante1.txt
+05_solo_parejas,parte1,no aplica: el caso no trae datos de la Parte 1,,
+05_solo_parejas,parte2,"J=[3, 4, 5] (3 interacciones) | óptimo 2 | razón 1.5000 | H(d) 2.7179",0.000018,05_solo_parejas_parte2.txt
+05_solo_parejas,parte2_voraz,"J=[3, 4, 5] (3 interacciones) | óptimo 2 | razón 1.5000",0.000019,05_solo_parejas_parte2_enfoques.txt
+05_solo_parejas,parte2_esenciales,"J=[3, 4, 5] (3 interacciones) | óptimo 2 | razón 1.5000",0.000019,05_solo_parejas_parte2_enfoques.txt
+05_solo_parejas,parte2_rareza,"J=[3, 4, 5] (3 interacciones) | óptimo 2 | razón 1.5000",0.000050,05_solo_parejas_parte2_enfoques.txt
+05_solo_parejas,parte2_parejas,"J=[1, 2] (2 interacciones) | óptimo 2 | razón 1.0000",0.000033,05_solo_parejas_parte2_enfoques.txt
+05_solo_parejas,parte2_esenciales_rareza,"J=[3, 4, 5] (3 interacciones) | óptimo 2 | razón 1.5000",0.000045,05_solo_parejas_parte2_enfoques.txt
+05_solo_parejas,parte2_esenciales_parejas,"J=[1, 2] (2 interacciones) | óptimo 2 | razón 1.0000",0.000028,05_solo_parejas_parte2_enfoques.txt
+05_solo_parejas,parte2_rareza_parejas,"J=[1, 2] (2 interacciones) | óptimo 2 | razón 1.0000",0.000067,05_solo_parejas_parte2_enfoques.txt
+05_solo_parejas,parte2_todo,"J=[1, 2] (2 interacciones) | óptimo 2 | razón 1.0000",0.000078,05_solo_parejas_parte2_enfoques.txt
+05_solo_parejas,variante1,sin costos de auditoría: no se ejecuta,,05_solo_parejas_variante1.txt
+06_solo_todo,parte1,no aplica: el caso no trae datos de la Parte 1,,
+06_solo_todo,parte2,"J=[1, 2, 3, 5] (4 interacciones) | óptimo 3 | razón 1.3333 | H(d) 1.8333",0.000019,06_solo_todo_parte2.txt
+06_solo_todo,parte2_voraz,"J=[1, 2, 3, 5] (4 interacciones) | óptimo 3 | razón 1.3333",0.000021,06_solo_todo_parte2_enfoques.txt
+06_solo_todo,parte2_esenciales,"J=[2, 1, 3, 5] (4 interacciones) | óptimo 3 | razón 1.3333",0.000019,06_solo_todo_parte2_enfoques.txt
+06_solo_todo,parte2_rareza,"J=[2, 1, 3, 5] (4 interacciones) | óptimo 3 | razón 1.3333",0.000061,06_solo_todo_parte2_enfoques.txt
+06_solo_todo,parte2_parejas,"J=[1, 2, 3, 5] (4 interacciones) | óptimo 3 | razón 1.3333",0.000050,06_solo_todo_parte2_enfoques.txt
+06_solo_todo,parte2_esenciales_rareza,"J=[2, 1, 3, 5] (4 interacciones) | óptimo 3 | razón 1.3333",0.000045,06_solo_todo_parte2_enfoques.txt
+06_solo_todo,parte2_esenciales_parejas,"J=[2, 3, 5] (3 interacciones) | óptimo 3 | razón 1.0000",0.000032,06_solo_todo_parte2_enfoques.txt
+06_solo_todo,parte2_rareza_parejas,"J=[2, 3, 5] (3 interacciones) | óptimo 3 | razón 1.0000",0.000124,06_solo_todo_parte2_enfoques.txt
+06_solo_todo,parte2_todo,"J=[2, 3, 5] (3 interacciones) | óptimo 3 | razón 1.0000",0.000079,06_solo_todo_parte2_enfoques.txt
+06_solo_todo,variante1,sin costos de auditoría: no se ejecuta,,06_solo_todo_variante1.txt
+07_ninguno_acierta,parte1,no aplica: el caso no trae datos de la Parte 1,,
+07_ninguno_acierta,parte2,"J=[1, 3, 2, 5] (4 interacciones) | óptimo 3 | razón 1.3333 | H(d) 1.8333",0.000021,07_ninguno_acierta_parte2.txt
+07_ninguno_acierta,parte2_voraz,"J=[1, 3, 2, 5] (4 interacciones) | óptimo 3 | razón 1.3333",0.000021,07_ninguno_acierta_parte2_enfoques.txt
+07_ninguno_acierta,parte2_esenciales,"J=[1, 3, 2, 5] (4 interacciones) | óptimo 3 | razón 1.3333",0.000020,07_ninguno_acierta_parte2_enfoques.txt
+07_ninguno_acierta,parte2_rareza,"J=[1, 3, 2, 5] (4 interacciones) | óptimo 3 | razón 1.3333",0.000068,07_ninguno_acierta_parte2_enfoques.txt
+07_ninguno_acierta,parte2_parejas,"J=[1, 3, 2, 5] (4 interacciones) | óptimo 3 | razón 1.3333",0.000047,07_ninguno_acierta_parte2_enfoques.txt
+07_ninguno_acierta,parte2_esenciales_rareza,"J=[1, 3, 2, 5] (4 interacciones) | óptimo 3 | razón 1.3333",0.000059,07_ninguno_acierta_parte2_enfoques.txt
+07_ninguno_acierta,parte2_esenciales_parejas,"J=[1, 3, 2, 5] (4 interacciones) | óptimo 3 | razón 1.3333",0.000056,07_ninguno_acierta_parte2_enfoques.txt
+07_ninguno_acierta,parte2_rareza_parejas,"J=[1, 3, 2, 5] (4 interacciones) | óptimo 3 | razón 1.3333",0.000155,07_ninguno_acierta_parte2_enfoques.txt
+07_ninguno_acierta,parte2_todo,"J=[1, 3, 2, 5] (4 interacciones) | óptimo 3 | razón 1.3333",0.000152,07_ninguno_acierta_parte2_enfoques.txt
+07_ninguno_acierta,variante1,sin costos de auditoría: no se ejecuta,,07_ninguno_acierta_variante1.txt
+08_esenciales_empeora,parte1,no aplica: el caso no trae datos de la Parte 1,,
+08_esenciales_empeora,parte2,"J=[1, 5, 3] (3 interacciones) | óptimo 3 | razón 1.0000 | H(d) 1.8333",0.000017,08_esenciales_empeora_parte2.txt
+08_esenciales_empeora,parte2_voraz,"J=[1, 5, 3] (3 interacciones) | óptimo 3 | razón 1.0000",0.000018,08_esenciales_empeora_parte2_enfoques.txt
+08_esenciales_empeora,parte2_esenciales,"J=[3, 2, 1, 5] (4 interacciones) | óptimo 3 | razón 1.3333",0.000021,08_esenciales_empeora_parte2_enfoques.txt
+08_esenciales_empeora,parte2_rareza,"J=[3, 5, 1] (3 interacciones) | óptimo 3 | razón 1.0000",0.000056,08_esenciales_empeora_parte2_enfoques.txt
+08_esenciales_empeora,parte2_parejas,"J=[1, 5, 3] (3 interacciones) | óptimo 3 | razón 1.0000",0.000052,08_esenciales_empeora_parte2_enfoques.txt
+08_esenciales_empeora,parte2_esenciales_rareza,"J=[3, 5, 1] (3 interacciones) | óptimo 3 | razón 1.0000",0.000036,08_esenciales_empeora_parte2_enfoques.txt
+08_esenciales_empeora,parte2_esenciales_parejas,"J=[3, 5, 1] (3 interacciones) | óptimo 3 | razón 1.0000",0.000031,08_esenciales_empeora_parte2_enfoques.txt
+08_esenciales_empeora,parte2_rareza_parejas,"J=[3, 5, 1] (3 interacciones) | óptimo 3 | razón 1.0000",0.000130,08_esenciales_empeora_parte2_enfoques.txt
+08_esenciales_empeora,parte2_todo,"J=[3, 5, 1] (3 interacciones) | óptimo 3 | razón 1.0000",0.000085,08_esenciales_empeora_parte2_enfoques.txt
+08_esenciales_empeora,variante1,sin costos de auditoría: no se ejecuta,,08_esenciales_empeora_variante1.txt
+09_parejas_empeora,parte1,no aplica: el caso no trae datos de la Parte 1,,
+09_parejas_empeora,parte2,"J=[2, 3, 4] (3 interacciones) | óptimo 3 | razón 1.0000 | H(d) 2.0833",0.000014,09_parejas_empeora_parte2.txt
+09_parejas_empeora,parte2_voraz,"J=[2, 3, 4] (3 interacciones) | óptimo 3 | razón 1.0000",0.000015,09_parejas_empeora_parte2_enfoques.txt
+09_parejas_empeora,parte2_esenciales,"J=[2, 3, 4] (3 interacciones) | óptimo 3 | razón 1.0000",0.000013,09_parejas_empeora_parte2_enfoques.txt
+09_parejas_empeora,parte2_rareza,"J=[2, 4, 3] (3 interacciones) | óptimo 3 | razón 1.0000",0.000037,09_parejas_empeora_parte2_enfoques.txt
+09_parejas_empeora,parte2_parejas,"J=[1, 4, 2, 3] (4 interacciones) | óptimo 3 | razón 1.3333",0.000031,09_parejas_empeora_parte2_enfoques.txt
+09_parejas_empeora,parte2_esenciales_rareza,"J=[2, 3, 4] (3 interacciones) | óptimo 3 | razón 1.0000",0.000012,09_parejas_empeora_parte2_enfoques.txt
+09_parejas_empeora,parte2_esenciales_parejas,"J=[2, 3, 4] (3 interacciones) | óptimo 3 | razón 1.0000",0.000011,09_parejas_empeora_parte2_enfoques.txt
+09_parejas_empeora,parte2_rareza_parejas,"J=[2, 4, 3] (3 interacciones) | óptimo 3 | razón 1.0000",0.000065,09_parejas_empeora_parte2_enfoques.txt
+09_parejas_empeora,parte2_todo,"J=[2, 3, 4] (3 interacciones) | óptimo 3 | razón 1.0000",0.000012,09_parejas_empeora_parte2_enfoques.txt
+09_parejas_empeora,variante1,sin costos de auditoría: no se ejecuta,,09_parejas_empeora_variante1.txt
+10_esenciales_y_parejas_empeoran,parte1,no aplica: el caso no trae datos de la Parte 1,,
+10_esenciales_y_parejas_empeoran,parte2,"J=[9, 2, 5, 1] (4 interacciones) | óptimo 4 | razón 1.0000 | H(d) 2.0833",0.000023,10_esenciales_y_parejas_empeoran_parte2.txt
+10_esenciales_y_parejas_empeoran,parte2_voraz,"J=[9, 2, 5, 1] (4 interacciones) | óptimo 4 | razón 1.0000",0.000034,10_esenciales_y_parejas_empeoran_parte2_enfoques.txt
+10_esenciales_y_parejas_empeoran,parte2_esenciales,"J=[1, 4, 2, 5, 8] (5 interacciones) | óptimo 4 | razón 1.2500",0.000029,10_esenciales_y_parejas_empeoran_parte2_enfoques.txt
+10_esenciales_y_parejas_empeoran,parte2_rareza,"J=[9, 2, 1, 5] (4 interacciones) | óptimo 4 | razón 1.0000",0.000084,10_esenciales_y_parejas_empeoran_parte2_enfoques.txt
+10_esenciales_y_parejas_empeoran,parte2_parejas,"J=[1, 4, 2, 5, 8] (5 interacciones) | óptimo 4 | razón 1.2500",0.000091,10_esenciales_y_parejas_empeoran_parte2_enfoques.txt
+10_esenciales_y_parejas_empeoran,parte2_esenciales_rareza,"J=[1, 4, 2, 5, 8] (5 interacciones) | óptimo 4 | razón 1.2500",0.000070,10_esenciales_y_parejas_empeoran_parte2_enfoques.txt
+10_esenciales_y_parejas_empeoran,parte2_esenciales_parejas,"J=[1, 4, 2, 5, 8] (5 interacciones) | óptimo 4 | razón 1.2500",0.000063,10_esenciales_y_parejas_empeoran_parte2_enfoques.txt
+10_esenciales_y_parejas_empeoran,parte2_rareza_parejas,"J=[1, 2, 9, 5] (4 interacciones) | óptimo 4 | razón 1.0000",0.000244,10_esenciales_y_parejas_empeoran_parte2_enfoques.txt
+10_esenciales_y_parejas_empeoran,parte2_todo,"J=[1, 2, 9, 5] (4 interacciones) | óptimo 4 | razón 1.0000",0.000230,10_esenciales_y_parejas_empeoran_parte2_enfoques.txt
+10_esenciales_y_parejas_empeoran,variante1,sin costos de auditoría: no se ejecuta,,10_esenciales_y_parejas_empeoran_variante1.txt
+11_cebos_k4,parte1,no aplica: el caso no trae datos de la Parte 1,,
+11_cebos_k4,parte2,"J=[3, 4, 5, 6] (4 interacciones) | óptimo 2 | razón 2.0000 | H(d) 3.3807",0.000030,11_cebos_k4_parte2.txt
+11_cebos_k4,parte2_voraz,"J=[3, 4, 5, 6] (4 interacciones) | óptimo 2 | razón 2.0000",0.000030,11_cebos_k4_parte2_enfoques.txt
+11_cebos_k4,parte2_esenciales,"J=[3, 4, 5, 6] (4 interacciones) | óptimo 2 | razón 2.0000",0.000030,11_cebos_k4_parte2_enfoques.txt
+11_cebos_k4,parte2_rareza,"J=[3, 4, 5, 6] (4 interacciones) | óptimo 2 | razón 2.0000",0.000078,11_cebos_k4_parte2_enfoques.txt
+11_cebos_k4,parte2_parejas,"J=[1, 2] (2 interacciones) | óptimo 2 | razón 1.0000",0.000040,11_cebos_k4_parte2_enfoques.txt
+11_cebos_k4,parte2_esenciales_rareza,"J=[3, 4, 5, 6] (4 interacciones) | óptimo 2 | razón 2.0000",0.000102,11_cebos_k4_parte2_enfoques.txt
+11_cebos_k4,parte2_esenciales_parejas,"J=[1, 2] (2 interacciones) | óptimo 2 | razón 1.0000",0.000044,11_cebos_k4_parte2_enfoques.txt
+11_cebos_k4,parte2_rareza_parejas,"J=[1, 2] (2 interacciones) | óptimo 2 | razón 1.0000",0.000093,11_cebos_k4_parte2_enfoques.txt
+11_cebos_k4,parte2_todo,"J=[1, 2] (2 interacciones) | óptimo 2 | razón 1.0000",0.000089,11_cebos_k4_parte2_enfoques.txt
+11_cebos_k4,variante1,sin costos de auditoría: no se ejecuta,,11_cebos_k4_variante1.txt
+12_limite_n12,parte1,no aplica: el caso no trae datos de la Parte 1,,
+12_limite_n12,parte2,"J=[10, 1, 2, 3, 4, 5, 9] (7 interacciones) | óptimo 6 | razón 1.1667 | H(d) 1.8333",0.000036,12_limite_n12_parte2.txt
+12_limite_n12,parte2_voraz,"J=[10, 1, 2, 3, 4, 5, 9] (7 interacciones) | óptimo 6 | razón 1.1667",0.000042,12_limite_n12_parte2_enfoques.txt
+12_limite_n12,parte2_esenciales,"J=[5, 10, 4, 2, 3, 9] (6 interacciones) | óptimo 6 | razón 1.0000",0.000032,12_limite_n12_parte2_enfoques.txt
+12_limite_n12,parte2_rareza,"J=[10, 5, 4, 2, 3, 9] (6 interacciones) | óptimo 6 | razón 1.0000",0.000141,12_limite_n12_parte2_enfoques.txt
+12_limite_n12,parte2_parejas,"J=[10, 4, 5, 2, 3, 9] (6 interacciones) | óptimo 6 | razón 1.0000",0.000120,12_limite_n12_parte2_enfoques.txt
+12_limite_n12,parte2_esenciales_rareza,"J=[5, 10, 4, 2, 3, 9] (6 interacciones) | óptimo 6 | razón 1.0000",0.000081,12_limite_n12_parte2_enfoques.txt
+12_limite_n12,parte2_esenciales_parejas,"J=[5, 10, 4, 2, 3, 9] (6 interacciones) | óptimo 6 | razón 1.0000",0.000091,12_limite_n12_parte2_enfoques.txt
+12_limite_n12,parte2_rareza_parejas,"J=[10, 5, 4, 2, 3, 9] (6 interacciones) | óptimo 6 | razón 1.0000",0.000454,12_limite_n12_parte2_enfoques.txt
+12_limite_n12,parte2_todo,"J=[5, 10, 4, 2, 3, 9] (6 interacciones) | óptimo 6 | razón 1.0000",0.000329,12_limite_n12_parte2_enfoques.txt
+12_limite_n12,variante1,sin costos de auditoría: no se ejecuta,,12_limite_n12_variante1.txt
+13_n15_r10,parte1,no aplica: el caso no trae datos de la Parte 1,,
+13_n15_r10,parte2,"J=[12, 4, 2] (3 interacciones) | óptimo 2 | razón 1.5000 | H(d) 2.4500",0.000026,13_n15_r10_parte2.txt
+13_n15_r10,parte2_voraz,"J=[12, 4, 2] (3 interacciones) | óptimo 2 | razón 1.5000",0.000029,13_n15_r10_parte2_enfoques.txt
+13_n15_r10,parte2_esenciales,"J=[12, 4, 2] (3 interacciones) | óptimo 2 | razón 1.5000",0.000032,13_n15_r10_parte2_enfoques.txt
+13_n15_r10,parte2_rareza,"J=[12, 4, 2] (3 interacciones) | óptimo 2 | razón 1.5000",0.000112,13_n15_r10_parte2_enfoques.txt
+13_n15_r10,parte2_parejas,"J=[14, 9] (2 interacciones) | óptimo 2 | razón 1.0000",0.000105,13_n15_r10_parte2_enfoques.txt
+13_n15_r10,parte2_esenciales_rareza,"J=[12, 4, 2] (3 interacciones) | óptimo 2 | razón 1.5000",0.000099,13_n15_r10_parte2_enfoques.txt
+13_n15_r10,parte2_esenciales_parejas,"J=[14, 9] (2 interacciones) | óptimo 2 | razón 1.0000",0.000094,13_n15_r10_parte2_enfoques.txt
+13_n15_r10,parte2_rareza_parejas,"J=[14, 9] (2 interacciones) | óptimo 2 | razón 1.0000",0.000336,13_n15_r10_parte2_enfoques.txt
+13_n15_r10,parte2_todo,"J=[14, 9] (2 interacciones) | óptimo 2 | razón 1.0000",0.000339,13_n15_r10_parte2_enfoques.txt
+13_n15_r10,variante1,sin costos de auditoría: no se ejecuta,,13_n15_r10_variante1.txt
+14_n20_r20_ralo,parte1,no aplica: el caso no trae datos de la Parte 1,,
+14_n20_r20_ralo,parte2,"J=[2, 17, 8, 16, 3, 4, 5, 6, 9, 10, 11] (11 interacciones)",0.000090,14_n20_r20_ralo_parte2.txt
+14_n20_r20_ralo,parte2_voraz,"J=[2, 17, 8, 16, 3, 4, 5, 6, 9, 10, 11] (11 interacciones)",0.000094,14_n20_r20_ralo_parte2_enfoques.txt
+14_n20_r20_ralo,parte2_esenciales,"J=[2, 4, 10, 11, 17, 16, 20, 3, 6, 9] (10 interacciones)",0.000084,14_n20_r20_ralo_parte2_enfoques.txt
+14_n20_r20_ralo,parte2_rareza,"J=[2, 17, 10, 16, 4, 11, 20, 3, 6, 9] (10 interacciones)",0.000336,14_n20_r20_ralo_parte2_enfoques.txt
+14_n20_r20_ralo,parte2_parejas,"J=[2, 17, 8, 16, 3, 4, 5, 6, 9, 10, 11] (11 interacciones)",0.000464,14_n20_r20_ralo_parte2_enfoques.txt
+14_n20_r20_ralo,parte2_esenciales_rareza,"J=[2, 4, 10, 11, 17, 16, 20, 3, 6, 9] (10 interacciones)",0.000198,14_n20_r20_ralo_parte2_enfoques.txt
+14_n20_r20_ralo,parte2_esenciales_parejas,"J=[2, 4, 10, 11, 17, 16, 20, 3, 6, 9] (10 interacciones)",0.000269,14_n20_r20_ralo_parte2_enfoques.txt
+14_n20_r20_ralo,parte2_rareza_parejas,"J=[2, 17, 10, 16, 4, 11, 20, 3, 6, 9] (10 interacciones)",0.001824,14_n20_r20_ralo_parte2_enfoques.txt
+14_n20_r20_ralo,parte2_todo,"J=[2, 4, 10, 11, 17, 16, 20, 3, 6, 9] (10 interacciones)",0.001119,14_n20_r20_ralo_parte2_enfoques.txt
+14_n20_r20_ralo,variante1,sin costos de auditoría: no se ejecuta,,14_n20_r20_ralo_variante1.txt
+15_n20_r40,parte1,no aplica: el caso no trae datos de la Parte 1,,
+15_n20_r40,parte2,"J=[8, 15, 1, 18, 10, 3, 5, 6, 4, 9, 14, 20] (12 interacciones)",0.000122,15_n20_r40_parte2.txt
+15_n20_r40,parte2_voraz,"J=[8, 15, 1, 18, 10, 3, 5, 6, 4, 9, 14, 20] (12 interacciones)",0.000115,15_n20_r40_parte2_enfoques.txt
+15_n20_r40,parte2_esenciales,"J=[3, 8, 9, 10, 14, 15, 18, 20, 5, 4] (10 interacciones)",0.000060,15_n20_r40_parte2_enfoques.txt
+15_n20_r40,parte2_rareza,"J=[15, 10, 3, 8, 18, 9, 5, 14, 20, 4] (10 interacciones)",0.000384,15_n20_r40_parte2_enfoques.txt
+15_n20_r40,parte2_parejas,"J=[8, 15, 1, 18, 10, 3, 5, 9, 14, 4, 20] (11 interacciones)",0.000647,15_n20_r40_parte2_enfoques.txt
+15_n20_r40,parte2_esenciales_rareza,"J=[3, 8, 9, 10, 14, 15, 18, 20, 5, 4] (10 interacciones)",0.000105,15_n20_r40_parte2_enfoques.txt
+15_n20_r40,parte2_esenciales_parejas,"J=[3, 8, 9, 10, 14, 15, 18, 20, 5, 4] (10 interacciones)",0.000120,15_n20_r40_parte2_enfoques.txt
+15_n20_r40,parte2_rareza_parejas,"J=[15, 10, 3, 8, 18, 9, 5, 14, 20, 4] (10 interacciones)",0.002174,15_n20_r40_parte2_enfoques.txt
+15_n20_r40,parte2_todo,"J=[3, 8, 9, 10, 14, 15, 18, 20, 5, 4] (10 interacciones)",0.000401,15_n20_r40_parte2_enfoques.txt
+15_n20_r40,variante1,sin costos de auditoría: no se ejecuta,,15_n20_r40_variante1.txt
+16_n25_r15,parte1,no aplica: el caso no trae datos de la Parte 1,,
+16_n25_r15,parte2,"J=[13, 6, 1, 19, 2] (5 interacciones) | óptimo 4 | razón 1.2500 | H(d) 2.4500",0.000051,16_n25_r15_parte2.txt
+16_n25_r15,parte2_voraz,"J=[13, 6, 1, 19, 2] (5 interacciones) | óptimo 4 | razón 1.2500",0.000073,16_n25_r15_parte2_enfoques.txt
+16_n25_r15,parte2_esenciales,"J=[13, 6, 1, 19, 2] (5 interacciones) | óptimo 4 | razón 1.2500",0.000059,16_n25_r15_parte2_enfoques.txt
+16_n25_r15,parte2_rareza,"J=[13, 19, 12, 4] (4 interacciones) | óptimo 4 | razón 1.0000",0.000197,16_n25_r15_parte2_enfoques.txt
+16_n25_r15,parte2_parejas,"J=[2, 6, 3, 25] (4 interacciones) | óptimo 4 | razón 1.0000",0.000353,16_n25_r15_parte2_enfoques.txt
+16_n25_r15,parte2_esenciales_rareza,"J=[13, 19, 12, 4] (4 interacciones) | óptimo 4 | razón 1.0000",0.000247,16_n25_r15_parte2_enfoques.txt
+16_n25_r15,parte2_esenciales_parejas,"J=[2, 6, 3, 25] (4 interacciones) | óptimo 4 | razón 1.0000",0.000386,16_n25_r15_parte2_enfoques.txt
+16_n25_r15,parte2_rareza_parejas,"J=[13, 19, 12, 4] (4 interacciones) | óptimo 4 | razón 1.0000",0.001503,16_n25_r15_parte2_enfoques.txt
+16_n25_r15,parte2_todo,"J=[13, 19, 12, 4] (4 interacciones) | óptimo 4 | razón 1.0000",0.001377,16_n25_r15_parte2_enfoques.txt
+16_n25_r15,variante1,sin costos de auditoría: no se ejecuta,,16_n25_r15_variante1.txt
+17_n30_r10,parte1,no aplica: el caso no trae datos de la Parte 1,,
+17_n30_r10,parte2,"J=[4, 6, 1, 16] (4 interacciones) | óptimo 4 | razón 1.0000 | H(d) 2.2833",0.000043,17_n30_r10_parte2.txt
+17_n30_r10,parte2_voraz,"J=[4, 6, 1, 16] (4 interacciones) | óptimo 4 | razón 1.0000",0.000048,17_n30_r10_parte2_enfoques.txt
+17_n30_r10,parte2_esenciales,"J=[4, 6, 1, 16] (4 interacciones) | óptimo 4 | razón 1.0000",0.000050,17_n30_r10_parte2_enfoques.txt
+17_n30_r10,parte2_rareza,"J=[4, 16, 1, 2] (4 interacciones) | óptimo 4 | razón 1.0000",0.000194,17_n30_r10_parte2_enfoques.txt
+17_n30_r10,parte2_parejas,"J=[4, 6, 1, 16] (4 interacciones) | óptimo 4 | razón 1.0000",0.000373,17_n30_r10_parte2_enfoques.txt
+17_n30_r10,parte2_esenciales_rareza,"J=[4, 16, 1, 2] (4 interacciones) | óptimo 4 | razón 1.0000",0.000193,17_n30_r10_parte2_enfoques.txt
+17_n30_r10,parte2_esenciales_parejas,"J=[4, 6, 1, 16] (4 interacciones) | óptimo 4 | razón 1.0000",0.000384,17_n30_r10_parte2_enfoques.txt
+17_n30_r10,parte2_rareza_parejas,"J=[4, 17, 6, 1] (4 interacciones) | óptimo 4 | razón 1.0000",0.001740,17_n30_r10_parte2_enfoques.txt
+17_n30_r10,parte2_todo,"J=[4, 17, 6, 1] (4 interacciones) | óptimo 4 | razón 1.0000",0.001746,17_n30_r10_parte2_enfoques.txt
+17_n30_r10,variante1,sin costos de auditoría: no se ejecuta,,17_n30_r10_variante1.txt
+18_n30_r30_parejas_peor,parte1,no aplica: el caso no trae datos de la Parte 1,,
+18_n30_r30_parejas_peor,parte2,"J=[30, 6, 19, 7, 23, 4] (6 interacciones)",0.000098,18_n30_r30_parejas_peor_parte2.txt
+18_n30_r30_parejas_peor,parte2_voraz,"J=[30, 6, 19, 7, 23, 4] (6 interacciones)",0.000114,18_n30_r30_parejas_peor_parte2_enfoques.txt
+18_n30_r30_parejas_peor,parte2_esenciales,"J=[30, 6, 19, 7, 23, 4] (6 interacciones)",0.000112,18_n30_r30_parejas_peor_parte2_enfoques.txt
+18_n30_r30_parejas_peor,parte2_rareza,"J=[7, 6, 30, 14, 4, 11, 8] (7 interacciones)",0.000464,18_n30_r30_parejas_peor_parte2_enfoques.txt
+18_n30_r30_parejas_peor,parte2_parejas,"J=[8, 6, 7, 19, 29, 4, 2] (7 interacciones)",0.000928,18_n30_r30_parejas_peor_parte2_enfoques.txt
+18_n30_r30_parejas_peor,parte2_esenciales_rareza,"J=[7, 6, 30, 14, 4, 11, 8] (7 interacciones)",0.000439,18_n30_r30_parejas_peor_parte2_enfoques.txt
+18_n30_r30_parejas_peor,parte2_esenciales_parejas,"J=[8, 6, 7, 19, 29, 4, 2] (7 interacciones)",0.000963,18_n30_r30_parejas_peor_parte2_enfoques.txt
+18_n30_r30_parejas_peor,parte2_rareza_parejas,"J=[7, 30, 14, 6, 4, 11, 8] (7 interacciones)",0.003570,18_n30_r30_parejas_peor_parte2_enfoques.txt
+18_n30_r30_parejas_peor,parte2_todo,"J=[7, 30, 14, 6, 4, 11, 8] (7 interacciones)",0.003469,18_n30_r30_parejas_peor_parte2_enfoques.txt
+18_n30_r30_parejas_peor,variante1,sin costos de auditoría: no se ejecuta,,18_n30_r30_parejas_peor_variante1.txt
+19_n24_plantado,parte1,no aplica: el caso no trae datos de la Parte 1,,
+19_n24_plantado,parte2,"J=[1, 2, 6, 10, 8, 19, 22, 20, 23] (9 interacciones)",0.000093,19_n24_plantado_parte2.txt
+19_n24_plantado,parte2_voraz,"J=[1, 2, 6, 10, 8, 19, 22, 20, 23] (9 interacciones)",0.000098,19_n24_plantado_parte2_enfoques.txt
+19_n24_plantado,parte2_esenciales,"J=[19, 20, 23, 8, 21, 22, 24] (7 interacciones)",0.000069,19_n24_plantado_parte2_enfoques.txt
+19_n24_plantado,parte2_rareza,"J=[19, 20, 23, 22, 24, 21] (6 interacciones)",0.000298,19_n24_plantado_parte2_enfoques.txt
+19_n24_plantado,parte2_parejas,"J=[1, 2, 6, 10, 8, 19, 22, 20, 23] (9 interacciones)",0.000647,19_n24_plantado_parte2_enfoques.txt
+19_n24_plantado,parte2_esenciales_rareza,"J=[19, 20, 23, 22, 24, 21] (6 interacciones)",0.000154,19_n24_plantado_parte2_enfoques.txt
+19_n24_plantado,parte2_esenciales_parejas,"J=[19, 20, 23, 21, 22, 24] (6 interacciones)",0.000243,19_n24_plantado_parte2_enfoques.txt
+19_n24_plantado,parte2_rareza_parejas,"J=[19, 20, 23, 22, 24, 21] (6 interacciones)",0.001969,19_n24_plantado_parte2_enfoques.txt
+19_n24_plantado,parte2_todo,"J=[19, 20, 23, 22, 24, 21] (6 interacciones)",0.000877,19_n24_plantado_parte2_enfoques.txt
+19_n24_plantado,variante1,sin costos de auditoría: no se ejecuta,,19_n24_plantado_variante1.txt
+20_rareza_acierta,parte1,no aplica: el caso no trae datos de la Parte 1,,
+20_rareza_acierta,parte2,"J=[2, 4, 1, 5] (4 interacciones) | óptimo 3 | razón 1.3333 | H(d) 1.8333",0.000019,20_rareza_acierta_parte2.txt
+20_rareza_acierta,parte2_voraz,"J=[2, 4, 1, 5] (4 interacciones) | óptimo 3 | razón 1.3333",0.000021,20_rareza_acierta_parte2_enfoques.txt
+20_rareza_acierta,parte2_esenciales,"J=[2, 4, 1, 5] (4 interacciones) | óptimo 3 | razón 1.3333",0.000021,20_rareza_acierta_parte2_enfoques.txt
+20_rareza_acierta,parte2_rareza,"J=[2, 7, 6] (3 interacciones) | óptimo 3 | razón 1.0000",0.000056,20_rareza_acierta_parte2_enfoques.txt
+20_rareza_acierta,parte2_parejas,"J=[5, 1, 2, 4] (4 interacciones) | óptimo 3 | razón 1.3333",0.000048,20_rareza_acierta_parte2_enfoques.txt
+20_rareza_acierta,parte2_esenciales_rareza,"J=[2, 7, 6] (3 interacciones) | óptimo 3 | razón 1.0000",0.000048,20_rareza_acierta_parte2_enfoques.txt
+20_rareza_acierta,parte2_esenciales_parejas,"J=[5, 1, 2, 4] (4 interacciones) | óptimo 3 | razón 1.3333",0.000046,20_rareza_acierta_parte2_enfoques.txt
+20_rareza_acierta,parte2_rareza_parejas,"J=[2, 7, 6] (3 interacciones) | óptimo 3 | razón 1.0000",0.000132,20_rareza_acierta_parte2_enfoques.txt
+20_rareza_acierta,parte2_todo,"J=[2, 7, 6] (3 interacciones) | óptimo 3 | razón 1.0000",0.000118,20_rareza_acierta_parte2_enfoques.txt
+20_rareza_acierta,variante1,sin costos de auditoría: no se ejecuta,,20_rareza_acierta_variante1.txt

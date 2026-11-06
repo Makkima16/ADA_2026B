@@ -1,0 +1,20 @@
+Versión del código: e42e041 (con cambios sin commit) | Generado: 2026-11-06 17:39:59 | Archivo: 03_clasico_no_optimo.json
+==============================================================================
+Caso: 03_clasico_no_optimo
+Voraz — traza de elecciones
+  Paso 1: interacción 1 (E01) | categorías nuevas {R01, R02, R04, R05} | faltan {R03, R06}
+  Paso 2: interacción 2 (E02) | categorías nuevas {R03} | faltan {R06}
+  Paso 3: interacción 3 (E03) | categorías nuevas {R06} | faltan {}
+Cobertura final (categoría -> interacción):
+  categoría R01 (Riesgo 1) -> interacción E01
+  categoría R02 (Riesgo 2) -> interacción E01
+  categoría R03 (Riesgo 3) -> interacción E02
+  categoría R04 (Riesgo 4) -> interacción E01
+  categoría R05 (Riesgo 5) -> interacción E01
+  categoría R06 (Riesgo 6) -> interacción E03
+Interacciones auditadas: [1, 2, 3] (3): E01, E02, E03
+Cubre todas las categorías: sí
+Tiempo: 0.000014 s
+Óptimo (fuerza bruta): [2, 3] (2): E02, E03
+Razón voraz / óptimo: 1.5000
+Cota H(d): 2.0833

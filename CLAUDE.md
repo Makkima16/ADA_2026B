@@ -24,7 +24,7 @@ Dos problemas independientes, ambos NP-difíciles:
 2. **Parte 2 — Cobertura mínima de auditoría (Set Cover).** n interacciones, r categorías de riesgo; cada interacción cubre un subconjunto. Minimizar cuántas se auditan para cubrir las r categorías.
    - Aproximado: voraz (elige la que cubre más categorías aún no cubiertas), garantía H(d) = 1 + 1/2 + … + 1/d ≤ ln r + 1 (Johnson 1974; Chvátal 1979).
    - Eficiencia del voraz: T(n, r) = O(n·r·min(n, r)). Es más ajustada que O(n·r²) y ambas son correctas; usar la ajustada y mencionar la otra.
-   - Exacto (solo para verificar, n pequeño): fuerza bruta.
+   - Exacto (solo para verificar): fuerza bruta con n ≤ 12 y, para n mayor, el mínimo por subconjuntos de categorías con r ≤ 16 (`src/auditoria/verificacion_exacta.py`; coincide con la fuerza bruta donde las dos valen).
    - Reducción de NP-dureza: **desde Cobertura de Vértices** (aristas = categorías, vértices = interacciones, mismo k).
    - Verificar factibilidad (la unión cubre las r categorías) en O(n·r) **antes** de correr cualquier algoritmo.
 
@@ -42,7 +42,8 @@ Entregables: informe, repositorio, manual técnico y evidencias. Todo debe corre
 
 **Fuera de alcance por ahora:** variante de presupuesto conjunto, variante de etapas en paralelo (DAG), validación experimental con gráficas de crecimiento. Son de entregas posteriores; no las implementes sin que se pida.
 
-**Pendiente:** el formato de los casos de la profesora aún no se conoce. No lo inventes: si hace falta decidir cómo se leen, pregunta o deja la lectura aislada en un solo módulo.
+**Formato de los casos:** llegó un ejemplo (`entrada_G3_mochila_20_nodos.json`) y se lee tal cual para las dos partes y la variante. Si los casos finales cambian, se adapta solo la lectura. Se ignoran, por ser de entregas posteriores, `flujo`, `presupuesto_conjunto_aceleracion_y_auditoria` y la `importancia` de las categorías (esta última se lee y se guarda, sin usar).
+**Variante 1, parcial y completa:** la profesora no ha confirmado cuál usar y ningún documento define «parcial», así que se miden **las dos versiones**: «solo completas» (un costo a_j por interacción, la definición de la variante y la versión principal, fila `variante1`) y «con parciales» (cada variación es una opción con su costo; extensión, fila `variante1_parcial`). La extensión se compara contra la versión principal del mismo caso.
 
 ## Estructura del repositorio (convención)
 
@@ -54,11 +55,19 @@ run_all.py            # corre todos los casos y genera evidencias (lo crea el in
 context/                 # enunciado, guía de entrega, manual técnico, informe
 src/aceleracion/      # Parte 1 completa: algoritmo (DP), resolver de un caso, fuerza bruta de verificación, lectura de casos y traza
 src/aceleracion/enfoques/ # enfoques aparte de la DP base (Parte 1): DP por valor y elección automática; no reemplazan a src/aceleracion/aceleracion.py
-src/auditoria/        # Parte 2 completa: voraz, fuerza bruta, lectura de casos, resolución, traza y variante ponderada
+src/auditoria/        # Parte 2 completa: voraz, fuerza bruta, lectura de casos, resolución, traza y variante ponderada; verificacion_exacta.py (mínimo real por subconjuntos de categorías) y experimento_ponderada.py (verificación experimental de la variante)
 src/auditoria/enfoques/  # enfoques aparte del voraz base (Parte 2) y su experimento; no reemplazan a src/auditoria/auditoria.py
-frontend/             # visor local de apoyo (inicio, Parte 1 y Parte 2); solo importa de src/aceleracion/ y src/auditoria/
+src/generacion_casos/ # generador de casos aleatorios (formato JSON de la profesora), vaciado seguro de las carpetas temporales y prueba vía run_all.py
+frontend/             # visor local de apoyo (inicio, Parte 1, Parte 2 y pruebas aleatorias); solo importa de src/aceleracion/, src/auditoria/ y src/generacion_casos/
 casos/                # casos de la profesora (SOLO LECTURA)
 resultados/           # salida, tiempo y traza por caso (se regenera completo)
+Casos/                # casos propios y temporales (carpeta del grupo, no confundir con casos/ de la profesora)
+  casos_propios/      #   casos propios fijos: pd/ (Parte 1) y voraz/ (Parte 2); se versionan
+  casos_temporales/   #   casos aleatorios del visor o de probar_aleatorios.py (se vacía y reescribe en cada generación; en .gitignore)
+Resultados/           # evidencias del grupo (no confundir con resultados/ de la entrega oficial)
+  resultados_propios/ #   evidencias de los casos propios; se versionan
+  resultados_temporales/ # evidencias de los casos temporales (se vacía y reescribe en cada prueba; en .gitignore)
+probar_aleatorios.py  # genera casos aleatorios y los prueba desde la terminal (llama a run_all.py, no lo reemplaza)
 tests/                # pruebas (DP vs fuerza bruta, voraz vs óptimo y cota H(d))
 ```
 
@@ -68,7 +77,7 @@ tests/                # pruebas (DP vs fuerza bruta, voraz vs óptimo y cota H(d
 - **Reproducible:** semillas fijas en todo generador aleatorio. Mismo código + mismos casos = mismos resultados.
 - **No editar la lógica de los algoritmos para adaptarlos a un caso.** Si un caso no encaja, se adapta la lectura de entrada, nunca el algoritmo.
 - Medir tiempos con `time.perf_counter()`. Cada caso se identifica por nombre en la salida.
-- Fuerza bruta solo para verificar, con n ≤ ~12.
+- Fuerza bruta solo para verificar, con n ≤ ~12. Con n mayor y r ≤ 16, el mínimo real se obtiene por subconjuntos de categorías (`verificacion_exacta.py`), también solo para verificar: no es un algoritmo de la entrega ni un enfoque del voraz.
 - Separar siempre algoritmo, lectura de entrada y escritura de traza, para poder reutilizarlos en las variantes.
 - **Costo de los algoritmos** (`src/aceleracion/aceleracion.py` para la DP y `src/auditoria/auditoria.py` para el voraz): sin comentarios de costo línea por línea. Al final de cada uno de esos archivos va un bloque corto con el costo de cada función (T(n, B) o T(n, r)) y **por qué** sale ese costo. Los demás archivos (lectura, traza, verificación) no llevan análisis de costo; `resolver.py` solo una nota breve. Son comentarios: no cambian la lógica.
 - Notación única en todo el proyecto: n, B, r, t_i, c_i, d_i, S_j, a_j (costo de auditar j), A (etapas aceleradas), J (interacciones auditadas).
@@ -78,13 +87,16 @@ tests/                # pruebas (DP vs fuerza bruta, voraz vs óptimo y cota H(d
 ```
 python3 run_all.py --casos casos/ --salida resultados/    # todas las evidencias
 python3 -m pytest tests/                                   # pruebas
+python3 probar_aleatorios.py                               # genera casos aleatorios y los prueba (carpetas temporales)
 ```
 
-Si un comando no existe todavía, créalo siguiendo esta convención en vez de inventar otra. **Excepción: `run_all.py`.** Lo está creando el integrante 3 y todavía no está en el repositorio; los demás integrantes no deben crear su propia versión. Cuando llegue, debe cumplir esto:
-- Usa solo las funciones públicas de cada parte: `src/aceleracion/` (`leer_casos`, `resolver_caso`, `formatear_caso`) y `src/auditoria/` (`leer_casos`, `resolver_caso`, `formatear_resultado`). No reimplementa algoritmos ni lectura.
+Si un comando no existe todavía, créalo siguiendo esta convención en vez de inventar otra. **Excepción: `run_all.py`.** Lo creó el integrante 3; los demás integrantes no deben crear su propia versión. Debe cumplir esto:
+- Usa solo las funciones públicas de cada parte: `src/aceleracion/` (`leer_instancia`, `resolver_caso`, `formatear_caso` y, para los enfoques, `enfoques/resolver_enfoques`: `resolver_enfoques_p1`, `formatear_solucion_p1`, `formatear_enfoques_p1`, `tabla_enfoques_p1`) y `src/auditoria/` (`leer_instancia`, `resolver_caso`, `formatear_resultado`; los enfoques del voraz con `enfoques/comparacion/resolver_enfoques`; la variante con `leer_opciones`, `resolver_caso_ponderado`, `depurar` y `formatear_opciones`). No reimplementa algoritmos ni lectura.
 - Recibe `--casos` (directorio de entrada, solo lectura) y `--salida` (directorio donde regenera **todo** `resultados/`).
 - Por caso escribe resultado, tiempo y traza, identificados por nombre de caso. Parte 1 y Parte 2 (y la variante ponderada) deben quedar en la misma versión.
-- Mientras no exista, las pruebas (`python3 -m pytest tests/`) son el único comando de verificación del repo.
+- **Mide todos los enfoques, no solo la base.** Parte 1: la DP por presupuesto (base) y la DP por valor, cada una si cabe en memoria; si la base no cabe, el caso se resuelve solo por valor y la evidencia lo dice; si ninguna cabe, el mensaje es que la tabla es demasiado grande. Parte 2: las ocho combinaciones del voraz (base, esenciales, rareza, parejas y sus combinaciones; «todo junto» es la última). Los resultados quedan en `resumen.csv`, en los archivos `*_enfoques.txt` y en las tablas de `comparacion.md`, y se ven también en el visor (`/aleatorios`).
+- **Casos de una sola parte:** si un caso no trae los datos de una parte (solo PD o solo voraz), esa parte figura como «no aplica» y no cuenta como error; un archivo mal formado o sin datos de ninguna parte sí da `ERROR`. Además de `resumen.csv` y `comparacion.md` (que empieza por el resumen) escribe `resumen_enfoques.json`, que usa el visor.
+- `run_all.py` ya está en el repositorio. La lectura de la variante ponderada soporta el formato de la profesora (`variaciones_auditoria` con `completa` y `parcial`) y, como respaldo, `costo_auditoria` por etapa o `# costos:` en `.txt`.
 
 ## Cosas que el profesor revisa (no fallar)
 

@@ -19,6 +19,7 @@ from .auditoria import (
     verificar_factibilidad,
     voraz,
 )
+from .verificacion_exacta import optimo_de_referencia
 
 
 @dataclass(frozen=True)
@@ -57,8 +58,9 @@ class ResultadoCaso:
     cubre: bool                           # comprobación independiente de la cobertura
     tiempo_s: float                       # solo el voraz (incluye su factibilidad)
     cota: float                           # H(d), d = máx |S_j|
-    optimo: Optional[List[int]]           # por fuerza bruta; None si n > N_MAX_FUERZA_BRUTA
+    optimo: Optional[List[int]]           # mínimo real (fuerza bruta si n <= 12; si no, subconjuntos si r <= 16); si no, None
     instancia: Optional[Instancia] = None  # para que la traza pueda mostrar los nombres
+    optimo_metodo: str = ""                # cómo se obtuvo el óptimo: fuerza bruta (n <= 12) o subconjuntos de categorías (r <= 16)
 
 
 def resolver_caso(inst: Instancia, comparar_con_optimo: bool = True) -> ResultadoCaso:
@@ -78,13 +80,15 @@ def resolver_caso(inst: Instancia, comparar_con_optimo: bool = True) -> Resultad
     J, pasos = voraz(inst.r, inst.S)
     tiempo = time.perf_counter() - t0
 
-    optimo = None
-    if comparar_con_optimo and n <= N_MAX_FUERZA_BRUTA:
-        optimo = fuerza_bruta(inst.r, inst.S)
+    optimo, metodo = None, ""
+    if comparar_con_optimo:
+        ref = optimo_de_referencia(inst.r, inst.S)      # fuerza bruta (n <= 12) o subconjuntos de categorías (r <= 16)
+        if ref is not None:
+            _, optimo, metodo = ref
     return ResultadoCaso(inst.nombre, n, inst.r, True, frozenset(), J, pasos,
                          cobertura_final(inst.S, J), cubre_todo(inst.r, inst.S, J),
-                         tiempo, cota, optimo, inst)
+                         tiempo, cota, optimo, inst, metodo)
 
 
 # Costo de resolver_caso: lo domina el voraz, O(n·r·min(n, r)); la factibilidad y la cota son
-# O(n·r). La fuerza bruta (n <= 12) queda fuera de la medición de tiempo.
+# O(n·r). El óptimo de referencia (fuerza bruta con n <= 12; si no, subconjuntos de categorías con r <= 16) queda fuera de la medición de tiempo.
