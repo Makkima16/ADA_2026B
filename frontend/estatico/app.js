@@ -12,7 +12,8 @@ const VELOCIDAD_MS = 1500;
 const MAX_CHIPS = 40;         // tope de fichas dibujadas en una lista de riesgos
 
 const estado = {
-  metodo: "",      // combinación cuyo recorrido se muestra: "" es el voraz normal; si no, letras e, r, p
+  metodo: "",      // combinación cuyo recorrido (paso a paso) se muestra: "" es el voraz normal; si no, letras e, r, p
+  metodoRes: "",   // combinación que muestran las tarjetas de resultado (arriba); es independiente de la simulación
   res: null,     // último resultado devuelto por el servidor
   pos: 0,        // paso actual: 0 = antes de elegir, m = final
   temporizador: null,
@@ -395,7 +396,9 @@ function dibujarSalida() {
   $("#no-factible").classList.add("oculto");
   $("#salida").classList.remove("oculto");
   estado.metodo = "";
+  estado.metodoRes = "";
   marcarMetodoActivo();
+  marcarMetodoResActivo();
   dibujarResumen(res);
   dibujarCosto(res);
   dibujarFuerzaBruta(res);
@@ -406,7 +409,7 @@ function dibujarSalida() {
 }
 
 function dibujarResumen(res) {
-  const m = datosMetodo(res);
+  const m = res.comparacion.metodos[estado.metodoRes];
   const J = m.J;
   const tieneOptimo = res.optimo !== null;
   const d = res.S.reduce((a, f) => Math.max(a, f.length), 0);
@@ -416,10 +419,10 @@ function dibujarResumen(res) {
   const cubre = cubierto.size === res.r;
   const ficha = (j) => '<span class="ficha-orden">' + nombreInteraccion(j) + "</span>";
   const orden = J.map(ficha).join(FLECHA);
-  const conGarantia = estado.metodo === "" || estado.metodo === "e";
+  const conGarantia = estado.metodoRes === "" || estado.metodoRes === "e";
 
   const tarjetas = [
-    '<div class="stat destacada"><span class="clave">' + nombreCombinacion(estado.metodo) + ' · hay que auditar</span>' +
+    '<div class="stat destacada"><span class="clave">' + nombreCombinacion(estado.metodoRes) + ' · hay que auditar</span>' +
       '<span class="grande">' + J.length + " <small>de " + res.n + (res.n === 1 ? " interacción" : " interacciones") + "</small></span>" +
       '<span class="pie">' + (cubre ? (res.r === 1 ? "y así se revisa el único riesgo ✓" : "y así se revisan los " + res.r + " riesgos ✓") : "pero NO quedan todos los riesgos revisados") +
       "</span></div>",
@@ -428,7 +431,7 @@ function dibujarResumen(res) {
       (conGarantia
         ? '<span class="medio">H(' + d + ") ≈ " + coma(res.cota, 2) + "</span>" +
           '<span class="pie">nunca usa más de ' + coma(res.cota, 2) + " veces lo mínimo</span>"
-        : '<span class="texto">Sin garantía demostrada</span><span class="pie">solo medida en los experimentos</span>') + "</div>",
+        : '<span class="texto">Ninguna garantía demostrada</span><span class="pie">no existe garantía matemática para este método; solo se ha medido</span>') + "</div>",
     '<div class="stat"><span class="clave">Mínimo real</span>' +
       (tieneOptimo
         ? '<span class="texto">' + res.optimo.length + (res.optimo.length === 1 ? " interacción" : " interacciones") + "</span>" +
@@ -542,7 +545,7 @@ function dibujarComparacion(res) {
   for (const { clave, nombre } of COMBINACIONES) {
     const x = m[clave];
     const tam = x.J.length;
-    filas += '<tr' + (clave === estado.metodo ? ' class="fila-elegida"' : "") + "><td>" + nombre + '</td><td class="num"><b>' + tam + "</b></td><td>" + orden(x.J) + "</td><td>" +
+    filas += '<tr' + (clave === estado.metodoRes ? ' class="fila-elegida"' : "") + "><td>" + nombre + '</td><td class="num"><b>' + tam + "</b></td><td>" + orden(x.J) + "</td><td>" +
       (clave === "" ? "—" : veredicto(tam, base)) + "</td><td>" +
       (opt === null ? "—" : tam === opt ? "es el mínimo" : coma(tam / opt, 2) + " veces el mínimo") +
       '</td><td class="num">' + msTexto(x.tiempo_s) + "</td><td>" + costoTeorico(clave) + "</td></tr>";
@@ -569,7 +572,7 @@ function dibujarComparacion(res) {
   caja.innerHTML =
     "<h3>Comparación: voraz normal frente a cada combinación</h3>" +
     '<p class="nota">Las ocho combinaciones corren sobre el mismo caso. No reemplazan al voraz normal, que es la solución de la entrega. ' +
-    "Arriba, con los botones de ingredientes, puedes ver paso a paso cómo resuelve el caso cada una.</p>" +
+    "Abajo, con los botones de ingredientes de la simulación, puedes ver paso a paso cómo resuelve el caso cada una.</p>" +
     '<div style="overflow-x:auto"><table class="tabla-cmp"><thead><tr><th>Método</th><th class="num">Interacciones</th><th>En este orden</th>' +
     "<th>Frente al voraz normal</th><th>Frente al mínimo</th><th class=\"num\">Tiempo</th><th>Costo teórico</th></tr></thead><tbody>" + filas + "</tbody></table></div>" +
     '<p class="nota-cmp">' + textoEsenciales + "</p>";
@@ -708,9 +711,6 @@ function cambiarMetodo(clave) {
   estado.metodo = clave;
   marcarMetodoActivo();
   if (!estado.res || !estado.res.factible) return;
-  dibujarResumen(estado.res);
-  dibujarCosto(estado.res);
-  dibujarComparacion(estado.res);
   $("#slider-paso").max = totalPasos();
   fijarPosicion(0);
 }
@@ -734,6 +734,35 @@ function marcarMetodoActivo() {
   $("#nombre-combinacion").textContent = nombreCombinacion(estado.metodo);
 }
 
+/* Selector de arriba: cambia solo las tarjetas de resultado (resumen, costo y comparación), no la simulación. */
+function cambiarMetodoRes(clave) {
+  estado.metodoRes = clave;
+  marcarMetodoResActivo();
+  if (!estado.res || !estado.res.factible) return;
+  dibujarResumen(estado.res);
+  dibujarCosto(estado.res);
+  dibujarComparacion(estado.res);
+}
+
+function marcarMetodoResActivo() {
+  const ing = banderas(estado.metodoRes);
+  $("#btn-voraz-res").classList.toggle("activo", estado.metodoRes === "");
+  $("#btn-voraz-res").setAttribute("aria-pressed", estado.metodoRes === "" ? "true" : "false");
+  document.querySelectorAll("#ingredientes-res .btn-ing").forEach((b) => {
+    const activo = ing[b.dataset.ing];
+    b.classList.toggle("activo", activo);
+    b.setAttribute("aria-pressed", activo ? "true" : "false");
+  });
+  $("#nombre-res").textContent = nombreCombinacion(estado.metodoRes);
+}
+
+$("#btn-voraz-res").addEventListener("click", () => cambiarMetodoRes(""));
+document.querySelectorAll("#ingredientes-res .btn-ing").forEach((b) => b.addEventListener("click", () => {
+  const ing = banderas(estado.metodoRes);
+  ing[b.dataset.ing] = !ing[b.dataset.ing];
+  cambiarMetodoRes(claveDe(ing));
+}));
+
 $("#btn-voraz").addEventListener("click", () => cambiarMetodo(""));
 document.querySelectorAll("#ingredientes .btn-ing").forEach((b) => b.addEventListener("click", () => alternarIngrediente(b.dataset.ing)));
 
@@ -743,9 +772,9 @@ function dibujarCosto(res) {
   /* Cuadro aparte: costo de la solución (|J|) y costo del algoritmo con los números de este caso. */
   const caja = $("#tarjeta-costo");
   if (!res.comparacion) { caja.innerHTML = ""; return; }
-  const clave = estado.metodo;
+  const clave = estado.metodoRes;
   const b = banderas(clave);
-  const m = datosMetodo(res);
+  const m = res.comparacion.metodos[clave];
   const n = res.n, r = res.r, k = m.J.length;
   const e = b.e ? (m.esenciales || []).length : 0;
   const sumaS = res.S.reduce((a, f) => a + f.length, 0);

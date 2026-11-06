@@ -9,7 +9,8 @@ import pytest
 
 from auditoria.enfoques.comparacion.experimento import experimento, instancia_aleatoria, instancia_cebos
 from auditoria.enfoques.combinado.combinado import PasoCombinado, voraz_combinado
-from auditoria.enfoques.comparacion.ablacion import COMBINACIONES, clave, voraz_ablacion, voraz_ablacion_traza
+from auditoria.enfoques.comparacion.ablacion import (
+    COMBINACIONES, ablacion, ablacion_detalle, clave, formatear_detalle, voraz_ablacion, voraz_ablacion_traza)
 from auditoria.enfoques.esenciales.esenciales import interacciones_esenciales, voraz_esenciales
 from auditoria.enfoques.rareza.rareza import PasoRareza, frecuencias, voraz_rareza
 from auditoria.enfoques.vision_futuro.vision_futuro import PasoFuturo, voraz_futuro
@@ -150,3 +151,36 @@ def test_ablacion_traza_coincide_con_el_combinado_y_las_claves():
     assert [(p.j, p.nuevas) for p in pasos] == [(p.j, p.nuevas) for p in pasos2]
     assert voraz_ablacion_traza(R_MALA, S_MALA, False, False, False)[2] is None      # sin esenciales encendidas
     assert [clave(e, r, p) for _, e, r, p in COMBINACIONES] == ["", "e", "r", "p", "er", "ep", "rp", "erp"]
+
+
+def test_ablacion_detalle_coincide_con_la_ablacion():
+    detalle, tabla = ablacion_detalle(25, 2026), ablacion(25, 2026)["total"]
+    assert detalle["instancias"] == 75
+    for nombre, *_ in COMBINACIONES:
+        assert detalle[nombre]["no_optimo"] == tabla[nombre]
+        if nombre != "Voraz base":
+            d = detalle[nombre]
+            assert d["mejora"] + d["igual"] + d["peor"] == 75
+    assert detalle["Voraz base"]["mejora"] == detalle["Voraz base"]["peor"] == 0
+
+
+def test_las_cifras_del_visor_son_las_del_codigo():
+    """Las cifras escritas en frontend/estatico/combinador.js salen de ablacion_detalle(3000, 2026)."""
+    import re
+    from pathlib import Path
+    js = (Path(__file__).resolve().parents[1] / "frontend" / "estatico" / "combinador.js").read_text(encoding="utf-8")
+    escritas = {m.group(1).strip('"'): tuple(int(m.group(k)) for k in (2, 3, 4, 5)) + (float(m.group(6)),)
+                for m in re.finditer(r'^\s*("\w*"|\w+): \{ fallas: (\d+), mejora: (\d+), igual: (\d+), peor: (\d+), razon: ([\d.]+) \}',
+                                     js, re.M)}
+    real = ablacion_detalle(3000, 2026)
+    assert real["instancias"] == 9000 and len(escritas) == 8
+    for nombre, *_ in COMBINACIONES:
+        d = real[nombre]
+        fallas, mejora, igual, peor, razon = escritas[d["clave"]]
+        assert (fallas, mejora, igual, peor) == (d["no_optimo"], d["mejora"], d["igual"], d["peor"]), nombre
+        assert abs(razon - d["razon_max"]) < 1e-3, nombre
+
+
+def test_formatear_detalle_lista_las_ocho_combinaciones():
+    texto = formatear_detalle(ablacion_detalle(10, 2026), 10, 2026)
+    assert "30 instancias aleatorias" in texto and all(nombre in texto for nombre, *_ in COMBINACIONES)

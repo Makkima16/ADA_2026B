@@ -24,6 +24,8 @@ Escucha únicamente en 127.0.0.1 y abre el navegador por defecto.
 import argparse
 import json
 import re
+import shutil
+import subprocess
 import sys
 import tempfile
 import time
@@ -39,16 +41,24 @@ from auditoria.resolver import resolver_caso                   # noqa: E402
 from auditoria.traza import formatear_resultado                # noqa: E402
 from fuerza_bruta_demo import analizar as analizar_fuerza_bruta  # noqa: E402  (mismo directorio)
 from auditoria.enfoques.comparacion.experimento import comparar_caso  # noqa: E402  (enfoques aparte del voraz base)
-from aceleracion.aceleracion import ErrorDeEntrada  # noqa: E402  (Parte 1)
+from aceleracion.aceleracion import ErrorDeEntrada, MAX_CELDAS_TABLA  # noqa: E402  (Parte 1)
 from aceleracion.lectura import ErrorDeLectura as ErrorDeLecturaAceleracion  # noqa: E402
 from aceleracion.lectura import leer_instancia as leer_instancia_aceleracion  # noqa: E402
 from aceleracion.resolver import resolver_caso as resolver_caso_aceleracion  # noqa: E402
 from aceleracion.traza import formatear_caso as formatear_caso_aceleracion  # noqa: E402
+from aceleracion.enfoques.dp_por_valor.resolver import resolver_caso_valor  # noqa: E402  (enfoque aparte de la DP base)
+from aceleracion.enfoques.dp_por_valor.traza import formatear_caso_valor  # noqa: E402
+from aceleracion.enfoques.seleccion import PRESUPUESTO, VALOR, elegir_enfoque, tamanos_de_tablas  # noqa: E402
+from aceleracion.enfoques.dp_por_valor import pruebas_aleatorias as pruebas_pd  # noqa: E402  (pruebas aleatorias de la Parte 1)
+from auditoria.enfoques.comparacion.ablacion import COMBINACIONES, ablacion_detalle  # noqa: E402  (pruebas aleatorias de la Parte 2)
+from auditoria.enfoques.comparacion.experimento import FAMILIAS  # noqa: E402
 from aceleracion.verificacion import N_MAX_FUERZA_BRUTA as N_MAX_FB_ACELERACION  # noqa: E402
 from aceleracion.verificacion import fuerza_bruta as fuerza_bruta_aceleracion  # noqa: E402
 
 DIR_ESTATICO = Path(__file__).resolve().parent / "estatico"
 MAX_CUERPO = 1_000_000  # 1 MB: sobra para cualquier caso razonable
+MAX_INSTANCIAS_VORAZ = 5000   # por familia de densidad (3 familias x 5000 tardan unos 12 s)
+EJEMPLOS_POR_COMBINACION = 3
 
 # Tope de celdas de la tabla DP que se envían al navegador para dibujarla (con más, solo se envían las decisiones).
 MAX_CELDAS_VISIBLES = 20_000
@@ -62,6 +72,10 @@ TIPOS_ESTATICOS = {
     "aceleracion.html": "text/html; charset=utf-8",
     "aceleracion.js": "application/javascript; charset=utf-8",
     "aceleracion.css": "text/css; charset=utf-8",
+    "explicacion.js": "application/javascript; charset=utf-8",
+    "combinador.js": "application/javascript; charset=utf-8",
+    "pruebas.js": "application/javascript; charset=utf-8",
+    "pruebas_pd.js": "application/javascript; charset=utf-8",
 }
 
 # Páginas: ruta -> archivo estático.
@@ -70,6 +84,24 @@ PAGINAS = {
     "/aceleracion": "aceleracion.html",
     "/auditoria": "index.html",
 }
+
+
+def abrir_navegador(url: str) -> None:
+    """Abre la página sin que el navegador escriba en esta terminal.
+
+    `webbrowser.open` deja que Chrome comparta la terminal y, si ya está abierto, imprime avisos como
+    "Abriendo en una sesión existente del navegador" y errores internos de Chromium (zygote). En Linux se usa
+    `xdg-open` con la salida silenciada; en otros sistemas, o si no existe, `webbrowser.open`.
+    """
+    abridor = shutil.which("xdg-open") if sys.platform.startswith("linux") else None
+    if abridor:
+        try:
+            subprocess.Popen([abridor, url], stdin=subprocess.DEVNULL, stdout=subprocess.DEVNULL,
+                             stderr=subprocess.DEVNULL, start_new_session=True)
+            return
+        except OSError:
+            pass
+    webbrowser.open(url)
 
 
 def _nombre_seguro(nombre: str) -> str:
@@ -166,9 +198,21 @@ def _instancia_a_json(inst) -> dict:
     }
 
 
+def _tamanos_aceleracion(inst) -> dict:
+    """Celdas de cada tabla, cuál conviene y el tope de memoria (ninguna conviene si ninguna cabe)."""
+    celdas = tamanos_de_tablas(inst)
+    try:
+        recomendado = elegir_enfoque(inst)
+    except ErrorDeEntrada:
+        recomendado = None
+    return {"celdas_presupuesto": celdas[PRESUPUESTO], "celdas_valor": celdas[VALOR],
+            "limite_celdas": MAX_CELDAS_TABLA, "recomendado": recomendado}
+
+
 def _instancia_aceleracion_a_json(inst) -> dict:
     """Serializa solo la composición del caso de la Parte 1 (sin resolverlo)."""
     return {
+        **_tamanos_aceleracion(inst),
         "nombre": inst.nombre,
         "n": len(inst.c),
         "B": inst.B,
@@ -179,17 +223,13 @@ def _instancia_aceleracion_a_json(inst) -> dict:
     }
 
 
-def _resultado_aceleracion_a_json(rc) -> dict:
-    """Serializa un ResultadoCaso de la Parte 1 para dibujar la DP paso a paso."""
-    inst = rc.instancia
-    n, B, DP = rc.n, rc.B, rc.tabla
-    celdas = (n + 1) * (B + 1)
+def _decisiones_presupuesto(rc) -> list:
+    """Reconstrucción de la DP base, leída de la tabla ya calculada: `b` es el presupuesto restante."""
+    inst, DP = rc.instancia, rc.tabla
     aceleradas = set(rc.aceleradas)
-
-    # Decisiones de la reconstrucción (de la última etapa a la primera), leídas de la tabla ya calculada.
     decisiones = []
-    b = B
-    for i in range(n, 0, -1):
+    b = rc.B
+    for i in range(rc.n, 0, -1):
         ci, di = inst.c[i - 1], inst.d[i - 1]
         acelerada = i in aceleradas
         decisiones.append({
@@ -199,6 +239,41 @@ def _resultado_aceleracion_a_json(rc) -> dict:
         })
         if acelerada:
             b -= ci
+    return decisiones
+
+
+def _decisiones_valor(rc) -> tuple:
+    """Reconstrucción de la DP por valor: `b` es el ahorro que falta lograr. Devuelve (decisiones, tabla)
+    con None donde la tabla tiene INF (= B + 1: no se puede o pasa del presupuesto)."""
+    inst, C, B = rc.instancia, rc.tabla, rc.B
+    fin = lambda x: None if x > B else x  # noqa: E731
+    aceleradas = set(rc.aceleradas)
+    decisiones = []
+    v = rc.ahorro
+    for i in range(rc.n, 0, -1):
+        ci, di = inst.c[i - 1], inst.d[i - 1]
+        acelerada = i in aceleradas
+        con = fin(C[i - 1][v - di] + ci) if v >= di and C[i - 1][v - di] <= B else None
+        decisiones.append({
+            "i": i, "b": v, "valor": fin(C[i][v]), "sin": fin(C[i - 1][v]), "con": con,
+            "acelerada": acelerada, "b_despues": v - di if acelerada else v,
+        })
+        if acelerada:
+            v -= di
+    return decisiones, [[fin(x) for x in fila] for fila in C]
+
+
+def _resultado_aceleracion_a_json(rc, enfoque: str) -> dict:
+    """Serializa un ResultadoCaso de la Parte 1 para dibujar la DP (por presupuesto o por valor) paso a paso."""
+    inst = rc.instancia
+    n, B = rc.n, rc.B
+    celdas = (n + 1) * len(rc.tabla[0])
+    if enfoque == VALOR:
+        decisiones, tabla = _decisiones_valor(rc)
+        evidencia = formatear_caso_valor(rc)
+    else:
+        decisiones, tabla = _decisiones_presupuesto(rc), rc.tabla
+        evidencia = formatear_caso_aceleracion(rc)
 
     fb = None
     if n <= N_MAX_FB_ACELERACION:
@@ -208,6 +283,8 @@ def _resultado_aceleracion_a_json(rc) -> dict:
 
     return {
         **_instancia_aceleracion_a_json(inst),
+        "enfoque": enfoque,
+        "D": sum(inst.d),
         "aceleradas": list(rc.aceleradas),
         "costo": rc.costo,
         "ahorro": rc.ahorro,
@@ -216,10 +293,10 @@ def _resultado_aceleracion_a_json(rc) -> dict:
         "tiempo_s": rc.tiempo_s,
         "valida": rc.valida,
         "celdas": celdas,
-        "tabla": DP if celdas <= MAX_CELDAS_VISIBLES else None,
+        "tabla": tabla if celdas <= MAX_CELDAS_VISIBLES else None,
         "decisiones": decisiones,
         "fuerza_bruta": fb,
-        "evidencia": formatear_caso_aceleracion(rc),
+        "evidencia": evidencia,
     }
 
 
@@ -262,6 +339,10 @@ class Visor(BaseHTTPRequestHandler):
             self._api_aceleracion(resolver=True)
         elif self.path == "/api/aceleracion/previsualizar":
             self._api_aceleracion(resolver=False)
+        elif self.path == "/api/auditoria/experimento":
+            self._api_experimento_auditoria()
+        elif self.path == "/api/aceleracion/experimento":
+            self._api_experimento_aceleracion()
         else:
             self._json(404, {"error": "recurso desconocido"})
 
@@ -287,6 +368,62 @@ class Visor(BaseHTTPRequestHandler):
         if inst is not None:
             self._json(200, _instancia_a_json(inst))
 
+    def _leer_parametros(self):
+        """Cuerpo JSON con parámetros (para las pruebas aleatorias). Si falla ya respondió y devuelve None."""
+        try:
+            largo = int(self.headers.get("Content-Length", "0"))
+            if largo > MAX_CUERPO:
+                self._json(413, {"error": "el pedido es demasiado grande"})
+                return None
+            datos = json.loads(self.rfile.read(largo).decode("utf-8"))
+            if not isinstance(datos, dict):
+                raise ValueError
+            return datos
+        except (ValueError, UnicodeDecodeError):
+            self._json(400, {"error": "se esperaba un objeto JSON con los parámetros"})
+            return None
+
+    def _api_experimento_auditoria(self) -> None:
+        """Parte 2: pruebas aleatorias de las ocho combinaciones (mismo código que `ablacion.py`)."""
+        datos = self._leer_parametros()
+        if datos is None:
+            return
+        try:
+            cantidad, semilla = int(datos.get("instancias", 500)), int(datos.get("semilla", 2026))
+            familias = [f for f in datos.get("familias", list(FAMILIAS)) if f in FAMILIAS]
+        except (TypeError, ValueError):
+            self._json(400, {"error": "la cantidad, la semilla y las familias deben ser números y nombres válidos"})
+            return
+        if not 1 <= cantidad <= MAX_INSTANCIAS_VORAZ:
+            self._json(400, {"error": "la cantidad de instancias por familia debe estar entre 1 y %d" % MAX_INSTANCIAS_VORAZ})
+            return
+        if not familias:
+            self._json(400, {"error": "elige al menos una densidad (ralo, medio o denso)"})
+            return
+        d = ablacion_detalle(cantidad, semilla, familias, EJEMPLOS_POR_COMBINACION)
+        self._json(200, {
+            "instancias": d["instancias"], "cantidad": cantidad, "semilla": semilla, "familias": familias,
+            "combinaciones": [dict(d[nombre], nombre=nombre) for nombre, *_ in COMBINACIONES],
+            "por_familia": d["por_familia"], "ejemplos": d.get("ejemplos", {}),
+        })
+
+    def _api_experimento_aceleracion(self) -> None:
+        """Parte 1: pruebas aleatorias de las dos tablas de la DP (mismo código que `pruebas_aleatorias.py`)."""
+        datos = self._leer_parametros()
+        if datos is None:
+            return
+        try:
+            r = pruebas_pd.experimento(
+                int(datos.get("instancias", 200)), int(datos.get("semilla", 2026)),
+                int(datos.get("n_min", 5)), int(datos.get("n_max", 30)),
+                int(datos.get("costo_min", 1)), int(datos.get("costo_max", 30)),
+                int(datos.get("ahorro_min", 1)), int(datos.get("ahorro_max", 30)),
+                float(datos.get("presupuesto_pct", 50)))
+        except (TypeError, ValueError) as e:      # incluye ErrorDeParametros
+            self._json(400, {"error": str(e) if isinstance(e, pruebas_pd.ErrorDeParametros) else "los parámetros deben ser números"})
+            return
+        self._json(200, r)
+
     def _leer_pedido(self):
         """Lee el cuerpo {texto, nombre}. Si algo falla ya respondió el error y devuelve None."""
         try:
@@ -301,19 +438,20 @@ class Visor(BaseHTTPRequestHandler):
             pedido = json.loads(self.rfile.read(largo).decode("utf-8"))
             texto = pedido["texto"]
             nombre = pedido.get("nombre", "caso")
+            enfoque = pedido.get("enfoque", "auto")
             if not isinstance(texto, str) or not texto.strip():
                 raise KeyError("texto")
         except (KeyError, ValueError, UnicodeDecodeError):
             self._json(400, {"error": "se esperaba JSON con el campo 'texto'"})
             return None
-        return texto, nombre
+        return texto, nombre, enfoque
 
     def _api_aceleracion(self, resolver: bool) -> None:
         """Parte 1: lee el caso con la lectura del proyecto y, si se pide, lo resuelve con la DP."""
         pedido = self._leer_pedido()
         if pedido is None:
             return
-        texto, nombre = pedido
+        texto, nombre, enfoque = pedido
         # La lectura trabaja sobre archivos: se escribe uno temporario y se usa leer_instancia tal cual.
         directorio = Path(tempfile.gettempdir()) / "frontend_aceleracion_casos"
         directorio.mkdir(parents=True, exist_ok=True)
@@ -333,11 +471,17 @@ class Visor(BaseHTTPRequestHandler):
             self._json(200, _instancia_aceleracion_a_json(inst))
             return
         try:
-            rc = resolver_caso_aceleracion(inst)
+            if enfoque == "auto":
+                enfoque = elegir_enfoque(inst)
+            if enfoque not in (PRESUPUESTO, VALOR):
+                self._json(400, {"error": "enfoque desconocido: %r" % (enfoque,)})
+                return
+            resolver = resolver_caso_valor if enfoque == VALOR else resolver_caso_aceleracion
+            rc = resolver(inst)
         except ErrorDeEntrada as e:
             self._json(400, {"error": str(e)})
             return
-        self._json(200, _resultado_aceleracion_a_json(rc))
+        self._json(200, _resultado_aceleracion_a_json(rc, enfoque))
 
     def _cargar_instancia(self):
         """Parte 2: recibe {texto, nombre}, lo lee con `leer_instancia` y devuelve la Instancia.
@@ -347,7 +491,7 @@ class Visor(BaseHTTPRequestHandler):
         pedido = self._leer_pedido()
         if pedido is None:
             return None
-        texto, nombre = pedido
+        texto, nombre, _ = pedido
 
         # La lectura del proyecto trabaja sobre archivos: se escribe uno
         # temporario con el texto recibido y se usa leer_instancia tal cual.
@@ -385,7 +529,7 @@ def main(argv=None) -> int:
     url = "http://127.0.0.1:%d" % args.puerto
     print("Visor del proyecto (inicio, Parte 1 y Parte 2) en %s  (Ctrl+C para detener)" % url)
     if not args.no_abrir:
-        webbrowser.open(url)
+        abrir_navegador(url)
     try:
         servidor.serve_forever()
     except KeyboardInterrupt:

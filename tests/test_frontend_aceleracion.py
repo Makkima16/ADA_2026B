@@ -62,7 +62,7 @@ def test_paginas(url, ruta, fragmento):
     assert estado == 200 and fragmento in cuerpo
 
 
-@pytest.mark.parametrize("archivo", ["aceleracion.js", "aceleracion.css", "inicio.css", "estilos.css", "app.js"])
+@pytest.mark.parametrize("archivo", ["aceleracion.js", "aceleracion.css", "inicio.css", "estilos.css", "app.js", "explicacion.js", "combinador.js", "pruebas.js", "pruebas_pd.js"])
 def test_estaticos(url, archivo):
     assert _get(url, "/estatico/" + archivo)[0] == 200
 
@@ -92,14 +92,63 @@ def test_previsualizar_no_resuelve(url):
     assert estado == 200 and d["n"] == 5 and d["B"] == 10 and "tabla" not in d
 
 
-def test_error_de_lectura_y_de_memoria(url):
+def _post_enfoque(url, texto, enfoque):
+    pedido = urllib.request.Request(url + "/api/aceleracion/resolver", headers={"Content-Type": "application/json"},
+                                    data=json.dumps({"texto": texto, "nombre": "caso", "enfoque": enfoque}).encode("utf-8"))
+    try:
+        with urllib.request.urlopen(pedido) as r:
+            return r.status, json.load(r)
+    except urllib.error.HTTPError as e:
+        return e.code, json.load(e)
+
+
+def test_error_de_lectura(url):
     estado, d = _post(url, "/api/aceleracion/resolver", "{malo")
     assert estado == 400 and "JSON inválido" in d["error"]
-    estado, d = _post(url, "/api/aceleracion/resolver", _caso(B=10 ** 9))
+
+
+def test_previsualizar_trae_tamanos_de_las_dos_tablas(url):
+    _, d = _post(url, "/api/aceleracion/previsualizar", _caso())
+    assert d["celdas_presupuesto"] == 6 * 11 and d["celdas_valor"] == 6 * 26
+    assert d["recomendado"] == "presupuesto" and d["limite_celdas"] == 10_000_000
+
+
+@pytest.mark.parametrize("enfoque", ["presupuesto", "valor", "auto"])
+def test_los_dos_enfoques_dan_el_mismo_ahorro(url, enfoque):
+    estado, d = _post_enfoque(url, _caso(), enfoque)
+    assert estado == 200 and d["ahorro"] == 13 and d["valida"] and d["fuerza_bruta"]["ahorro"] == 13
+    assert d["enfoque"] == ("presupuesto" if enfoque == "auto" else enfoque)
+
+
+def test_enfoque_valor_tiene_tabla_por_ahorro_con_nulos(url):
+    _, d = _post_enfoque(url, _caso(), "valor")
+    assert d["D"] == 25 and len(d["tabla"][0]) == 26 and d["tabla"][0][0] == 0 and d["tabla"][0][1] is None
+    assert d["tabla"][-1][d["ahorro"]] == d["costo"]
+    dec = d["decisiones"]
+    assert dec[0]["b"] == d["ahorro"] and dec[-1]["b_despues"] == 0
+    assert sorted(x["i"] for x in dec if x["acelerada"]) == d["aceleradas"]
+    assert "DP por valor" in d["evidencia"]
+
+
+def test_enfoque_desconocido(url):
+    estado, d = _post_enfoque(url, _caso(), "magico")
+    assert estado == 400 and "enfoque desconocido" in d["error"]
+
+
+def test_auto_usa_valor_con_B_enorme_y_la_base_da_error(url):
+    estado, d = _post_enfoque(url, _caso(B=10 ** 9), "auto")
+    assert estado == 200 and d["enfoque"] == "valor" and d["ahorro"] == 25
+    estado, d = _post_enfoque(url, _caso(B=10 ** 9), "presupuesto")
     assert estado == 400 and "no cabe" in d["error"]
 
 
+def test_error_si_ninguna_tabla_cabe(url):
+    caso = _caso(B=10 ** 9, etapas=[(10 ** 7, 1, 10 ** 7)] * 2)
+    estado, d = _post_enfoque(url, caso, "auto")
+    assert estado == 400 and "ninguna tabla cabe" in d["error"]
+
+
 def test_tabla_grande_se_omite_pero_se_dan_las_decisiones(url):
-    estado, d = _post(url, "/api/aceleracion/resolver", _caso(B=2000, etapas=ETAPAS * 6))
+    estado, d = _post_enfoque(url, _caso(B=2000, etapas=ETAPAS * 6), "presupuesto")
     assert estado == 200 and d["tabla"] is None and d["celdas"] > servidor.MAX_CELDAS_VISIBLES
     assert len(d["decisiones"]) == d["n"] and d["fuerza_bruta"] is None

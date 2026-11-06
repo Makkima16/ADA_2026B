@@ -10,11 +10,14 @@ const todasLasFilas = () => [...document.querySelectorAll(".fila-etapa")];
 const MAX_ETAPAS_HITOS = 60;   // con más pasos que esto no se dibujan los botones de cada paso
 
 const estado = {
-  res: null,          // último resultado devuelto por el servidor
+  res: null,          // resultado que muestra la simulación paso a paso (la tabla y el recorrido)
+  resTop: null,       // resultado que muestran las tarjetas de arriba (resumen, costo, fuerza bruta); es independiente de la simulación
+  cache: {},          // resultados ya pedidos del caso actual, por enfoque
   pos: 0,             // paso actual: 0 = inicio; luego una fila por etapa; luego una decisión por etapa
   celda: null,        // celda de la tabla tocada por la persona: { i, b }
   temporizador: null,
   archivo: null,      // { nombre, completo, texto } del archivo elegido en "Subir archivo"
+  ultimo: null,       // { texto, nombre } del último caso analizado (para cambiar de enfoque sin volver a cargarlo)
 };
 
 /* ------------------------- utilidades ---------------------------------- */
@@ -28,6 +31,13 @@ function esc(texto) {
 const num = (x) => Number(x).toLocaleString("es-CO");
 const coma = (x, dec) => Number(x).toFixed(dec).replace(".", ",");
 const msTexto = (x) => coma(x * 1000, 3) + " ms";
+const fmt = (x) => (x === Infinity ? "∞" : x);                       // valor de una celda; ∞ = no se puede
+const inf = (x) => (x === null ? Infinity : x);                       // el servidor manda null donde hay ∞
+
+/* Enfoque con el que se resolvió el caso: "presupuesto" (tabla base, columnas = presupuesto b) o
+   "valor" (columnas = ahorro v; cada celda guarda el menor costo). */
+const esValor = () => estado.res.enfoque === "valor";
+const anchoTabla = (res) => (res.enfoque === "valor" ? res.D : res.B);
 
 /* "E03" si el caso trae ids; si no, el número de la etapa. `fuente` es el resultado o la vista previa. */
 function nombreEtapa(i, fuente) {
@@ -139,13 +149,13 @@ function actualizarPrevisualizacion() {
 
 /* ------------------------- pedidos al servidor ------------------------- */
 
-async function pedir(ruta, texto, nombre) {
+async function pedir(ruta, texto, nombre, enfoque) {
   /* Devuelve { ok, datos }; si no hay servidor, ok es false y datos trae el mensaje. */
   try {
     const respuesta = await fetch(ruta, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ texto: texto, nombre: nombre }),
+      body: JSON.stringify({ texto: texto, nombre: nombre, enfoque: enfoque || "auto" }),
     });
     const datos = await respuesta.json();
     return { ok: respuesta.ok, datos: datos };
@@ -154,19 +164,68 @@ async function pedir(ruta, texto, nombre) {
   }
 }
 
+function normalizar(datos) {
+  /* El servidor manda null donde la tabla por valor tiene ∞. */
+  if (datos.tabla) datos.tabla = datos.tabla.map((fila) => fila.map(inf));
+  if (datos.enfoque === "valor") {
+    datos.decisiones.forEach((d) => { d.valor = inf(d.valor); d.sin = inf(d.sin); d.con = inf(d.con); });
+  }
+  return datos;
+}
+
 async function analizar(texto, nombre) {
+  /* Caso nuevo: se resuelve con el enfoque recomendado y se muestra igual arriba y en la simulación. */
   ocultarError();
-  const { ok, datos } = await pedir("/api/aceleracion/resolver", texto, nombre);
+  const { ok, datos } = await pedir("/api/aceleracion/resolver", texto, nombre, "auto");
   if (!ok) {
     mostrarError(datos.error || "Error desconocido del servidor.");
     return;
   }
   detenerReproduccion();
+  normalizar(datos);
+  estado.ultimo = { texto: texto, nombre: nombre };
+  estado.cache = {};
+  estado.cache[datos.enfoque] = datos;
   estado.res = datos;
+  estado.resTop = datos;
   estado.pos = 0;
   estado.celda = null;
   dibujarSalida();
   $("#panel-resultado").scrollIntoView({ behavior: "smooth", block: "start" });
+  reproducir();
+}
+
+async function obtener(enfoque) {
+  /* Resultado del caso actual con ese enfoque (del caché, o pidiéndolo al servidor). null si falla. */
+  if (estado.cache[enfoque]) return estado.cache[enfoque];
+  const { ok, datos } = await pedir("/api/aceleracion/resolver", estado.ultimo.texto, estado.ultimo.nombre, enfoque);
+  if (!ok) {
+    mostrarError(datos.error || "Error desconocido del servidor.");
+    return null;
+  }
+  estado.cache[enfoque] = normalizar(datos);
+  return estado.cache[enfoque];
+}
+
+async function cambiarEnfoqueTop(enfoque) {
+  /* Botones de arriba: cambian solo las tarjetas de resultado; la simulación no se toca. */
+  const datos = await obtener(enfoque);
+  if (!datos) return;
+  ocultarError();
+  estado.resTop = datos;
+  dibujarTop();
+}
+
+async function cambiarEnfoqueSim(enfoque) {
+  /* Botones de la simulación: cambian la tabla y el paso a paso; las tarjetas de arriba no se tocan. */
+  const datos = await obtener(enfoque);
+  if (!datos) return;
+  ocultarError();
+  detenerReproduccion();
+  estado.res = datos;
+  estado.pos = 0;
+  estado.celda = null;
+  dibujarSim();
   reproducir();
 }
 
@@ -192,6 +251,17 @@ async function previsualizar(texto, nombre) {
   }
   dibujarVistaPrevia(datos);
   $("#btn-analizar-archivo").disabled = false;
+}
+
+function avisoTablas(f) {
+  /* Cuántas celdas tendría cada tabla y cuál conviene (la de menos celdas, si cabe en memoria). */
+  const texto = "Por presupuesto: <strong>" + num(f.celdas_presupuesto) + "</strong> celdas · por valor: <strong>" + num(f.celdas_valor) + "</strong> celdas. ";
+  if (!f.recomendado) {
+    return '<div class="aviso rojo" role="status">' + ICONO_ALERTA + "<span>" + texto + "<strong>Ninguna cabe en memoria</strong> (el límite es " +
+      num(f.limite_celdas) + "): este caso es demasiado grande.</span></div>";
+  }
+  return '<div class="aviso ok">' + ICONO_OK + "<span>" + texto + "Conviene la tabla <strong>" +
+    (f.recomendado === "valor" ? "por valor" : "por presupuesto") + "</strong> (la de menos celdas).</span></div>";
 }
 
 function dibujarVistaPrevia(info) {
@@ -225,6 +295,7 @@ function dibujarVistaPrevia(info) {
     avisos += '<div class="aviso ambar" role="status">' + ICONO_ALERTA + "<span><strong>" + listar(sinAhorro) +
       (sinAhorro.length === 1 ? " no ahorra" : " no ahorran") + " nada</strong> al acelerarse: no conviene.</span></div>";
   }
+  avisos += avisoTablas(info);
   $("#vp-avisos").innerHTML = avisos;
 
   $("#vp-etapas").innerHTML = todas.map((i) =>
@@ -245,15 +316,63 @@ function dibujarVistaPrevia(info) {
 /* ------------------------------ salida --------------------------------- */
 
 function dibujarSalida() {
-  const res = estado.res;
   $("#vacio").classList.add("oculto");
   $("#salida").classList.remove("oculto");
+  dibujarTop();
+  dibujarSim();
+}
+
+function dibujarTop() {
+  /* Tarjetas de resultado (arriba): usan estado.resTop. */
+  const res = estado.resTop;
   dibujarResumen(res);
   dibujarCosto(res);
   dibujarFuerzaBruta(res);
+  marcarEnfoques("#enfoques-res", res);
+  $("#nombre-enfoque-res").textContent = res.enfoque === "valor" ? "Por valor" : "Por presupuesto";
+}
+
+function dibujarSim() {
+  /* Simulación paso a paso (abajo): usa estado.res. */
+  const res = estado.res;
+  dibujarSelectorEnfoque(res);
   $("#texto-evidencia").textContent = res.evidencia;
   $("#slider-paso").max = totalPasos();
   fijarPosicion(0);
+}
+
+function marcarEnfoques(selector, res) {
+  /* Marca el botón del enfoque mostrado y deshabilita el que no cabe en memoria. */
+  document.querySelectorAll(selector + " .btn-ing").forEach((b) => {
+    const enf = b.dataset.enf;
+    const activo = enf === res.enfoque;
+    const celdas = enf === "valor" ? res.celdas_valor : res.celdas_presupuesto;
+    b.classList.toggle("activo", activo);
+    b.setAttribute("aria-pressed", activo ? "true" : "false");
+    b.disabled = celdas > res.limite_celdas;
+    b.title = b.disabled ? "Esta tabla no cabe en memoria (" + num(celdas) + " celdas)" : "";
+  });
+}
+
+function dibujarSelectorEnfoque(res) {
+  marcarEnfoques("#enfoques", res);
+  $("#tamanos-tablas").textContent = "por presupuesto " + num(res.celdas_presupuesto) + " · por valor " + num(res.celdas_valor) +
+    (res.recomendado ? " · conviene " + (res.recomendado === "valor" ? "por valor" : "por presupuesto") : "");
+  const columnas = res.enfoque === "valor"
+    ? "Filas: etapas · Columnas: ahorro que se quiere lograr · Cada celda: el menor costo para lograrlo (∞ si no se puede o pasa de B)"
+    : "Filas: etapas · Columnas: presupuesto disponible · Cada celda: el mayor ahorro posible";
+  $("#nota-tabla").textContent = columnas;
+  $("#nota-enfoque").innerHTML = res.enfoque === "valor"
+    ? "<b>Por valor.</b> La tabla se indexa por el <i>ahorro</i> v: cada celda guarda el <b>menor costo</b> para lograr exactamente ese ahorro. " +
+      "Al final se toma el mayor ahorro cuyo costo cabe en B. Cuesta Θ(n·D), con D = Σ ahorros: no depende de B, así que sirve cuando B es muy grande."
+    : "<b>Por presupuesto.</b> La tabla se indexa por el <i>presupuesto</i> b: cada celda guarda el <b>mayor ahorro</b> posible gastando a lo sumo b. " +
+      "Cuesta Θ(n·B): sirve cuando B es moderado.";
+}
+
+function memoriaTabla(celdas) {
+  /* Estimación: ~38 bytes por celda (medido en el peor caso de la DP). */
+  const bytes = celdas * 38;
+  return bytes >= 1e6 ? coma(bytes / 1e6, 1) + " MB" : num(Math.max(1, Math.round(bytes / 1e3))) + " KB";
 }
 
 function dibujarResumen(res) {
@@ -274,21 +393,28 @@ function dibujarResumen(res) {
     '</span><span class="pie">antes: ' + num(res.duracion_original) + "</span></div>" +
     '<div class="stat"><span class="clave">Lo que tardó la DP</span><span class="medio">' + msTexto(res.tiempo_s) +
     '</span><span class="pie">solo el algoritmo</span></div>' +
+    '<div class="stat"><span class="clave">Celdas de la tabla</span><span class="grande">' + num(res.celdas) +
+    '</span><span class="pie">' + num(res.n + 1) + " filas × " + num(anchoTabla(res) + 1) + " columnas (" +
+    (res.enfoque === "valor" ? "por valor" : "por presupuesto") + ") · ≈ " + memoriaTabla(res.celdas) +
+    " en memoria · la otra tabla: " + num(res.enfoque === "valor" ? res.celdas_presupuesto : res.celdas_valor) + "</span></div>" +
     '<div class="stat ancha"><span class="clave">Comprobación</span><span class="texto">' +
     (res.valida ? "Solución válida" : "La solución NO es válida") + '</span><span class="pie">' + pieComprobacion + "</span></div>";
 }
 
 function dibujarCosto(res) {
-  const n = res.n, B = res.B;
-  const calculos = n * (B + 1);
-  const bytes = res.celdas * 38;
-  const memoria = bytes >= 1e6 ? coma(bytes / 1e6, 1) + " MB" : num(Math.max(1, Math.round(bytes / 1e3))) + " KB";
-  const bits = B === 0 ? 1 : Math.ceil(Math.log2(B + 1));
+  const n = res.n, B = res.B, D = res.D;
+  const valor = res.enfoque === "valor";
+  const ancho = valor ? D : B;
+  const calculos = n * (ancho + 1);
+  const memoria = memoriaTabla(res.celdas);
+  const bits = ancho === 0 ? 1 : Math.ceil(Math.log2(ancho + 1));
   const sumaC = res.aceleradas.reduce((a, i) => a + res.c[i - 1], 0);
   const sumaD = res.aceleradas.reduce((a, i) => a + res.d[i - 1], 0);
   const lista = (v) => (res.aceleradas.length
     ? res.aceleradas.slice(0, 6).map((i) => v[i - 1]).join(" + ") + (res.aceleradas.length > 6 ? " + …" : "") + " = "
     : "");
+  const letra = valor ? "D" : "B";
+  const quien = valor ? "ahorro máximo posible D = Σ d_i = " + num(D) : "presupuesto B = " + num(B);
   $("#tarjeta-costo").innerHTML =
     "<h3>Costo total</h3>" +
     '<div class="cols-costo">' +
@@ -297,13 +423,15 @@ function dibujarCosto(res) {
     '<p class="ecuacion">Σ ahorros = ' + lista(res.d) + num(sumaD) + "</p>" +
     '<p class="ecuacion">Duración final = ' + num(res.duracion_original) + " − " + num(sumaD) + " = " + num(res.duracion_final) + "</p>" +
     "<p>Se acelera lo que más ahorra sin pasarse del presupuesto: ese es el trabajo del algoritmo.</p></div>" +
-    '<div class="bloque-costo"><h4>Costo del algoritmo con los números del caso</h4>' +
-    '<p class="ecuacion">celdas de la tabla = (n+1)·(B+1) = ' + num(n + 1) + " · " + num(B + 1) + " = " + num(res.celdas) + "</p>" +
-    '<p class="ecuacion">cálculos de celda = n·(B+1) = ' + num(calculos) + "</p>" +
+    '<div class="bloque-costo"><h4>Costo del algoritmo (' + (valor ? "por valor" : "por presupuesto") + ") con los números del caso</h4>" +
+    '<p class="ecuacion">celdas de la tabla = (n+1)·(' + letra + "+1) = " + num(n + 1) + " · " + num(ancho + 1) + " = " + num(res.celdas) + "</p>" +
+    '<p class="ecuacion">cálculos de celda = n·(' + letra + "+1) = " + num(calculos) + "</p>" +
     "<p><b>Por qué:</b> los dos ciclos recorren siempre toda la tabla, sin importar los datos, y cada celda cuesta un número constante de operaciones. " +
-    "Por eso T(n, B) = Θ(n·B) en tiempo y en memoria (≈ " + memoria + " aquí).</p>" +
-    "<p><b>Pseudo-polinomial:</b> n·B es polinomial en el <i>valor</i> de B, pero B se escribe con solo " + bits +
-    " bits. Con 10 bits más, la tabla sería unas 1.024 veces más grande.</p></div>" +
+    "Por eso T = Θ(n·" + letra + ") en tiempo y en memoria (≈ " + memoria + " aquí).</p>" +
+    "<p><b>Pseudo-polinomial:</b> n·" + letra + " es polinomial en el <i>valor</i> de " + letra + ", pero " + letra + " se escribe con solo " + bits +
+    " bits. Con 10 bits más, la tabla sería unas 1.024 veces más grande.</p>" +
+    "<p><b>Contra la otra tabla:</b> por presupuesto tendría " + num(res.celdas_presupuesto) + " celdas y por valor " + num(res.celdas_valor) +
+    ". Entre las dos se paga Θ(n·mín(B, D)) (" + quien + ").</p></div>" +
     "</div>";
 }
 
@@ -369,18 +497,26 @@ function fijarPosicion(pos, centrar) {
 }
 
 function dibujarPaso(f) {
-  const res = estado.res, total = totalPasos();
+  const res = estado.res, total = totalPasos(), valor = esValor();
   $("#titulo-paso").textContent = f.fase === "inicio" ? "Inicio" : "Paso " + estado.pos + " de " + total;
   const elegida = (i) => '<span class="elegida">' + nombreEtapa(i) + "</span>";
+  const FORMULA_P = "DP[i][b] = máx( DP[i−1][b] , d_i + DP[i−1][b−c_i] )";
+  const FORMULA_V = "C[i][v] = mín( C[i−1][v] , c_i + C[i−1][v−d_i] )";
   let frase = "", expl = "", rotulo, numero, relleno, porQue;
 
   if (f.fase === "inicio") {
-    if (res.tabla) {
+    if (res.tabla && !valor) {
       frase = "Empezamos con la fila 0: con <strong>0 etapas</strong> no se puede acelerar nada, así que el ahorro es 0 con cualquier presupuesto.";
       expl = "<p>La tabla tiene una fila por etapa (de 0 a " + res.n + ") y una columna por presupuesto (de 0 a " + num(res.B) + "). " +
         "Cada celda guarda el <b>mayor ahorro posible</b> usando solo las primeras etapas y gastando a lo sumo ese presupuesto.</p>" +
-        '<p class="formula">DP[i][b] = máx( DP[i−1][b] , d_i + DP[i−1][b−c_i] )</p>' +
+        '<p class="formula">' + FORMULA_P + "</p>" +
         '<p class="pista">Primero se llena la tabla, fila por fila; después se recorre hacia atrás para saber qué etapas se aceleraron.</p>';
+    } else if (res.tabla) {
+      frase = "Empezamos con la fila 0: con <strong>0 etapas</strong> solo se logra el ahorro 0, y cuesta 0. Cualquier otro ahorro es imposible (∞).";
+      expl = "<p>La tabla tiene una fila por etapa (de 0 a " + res.n + ") y una columna por ahorro (de 0 a " + num(res.D) + "). " +
+        "Cada celda guarda el <b>menor costo</b> para lograr exactamente ese ahorro con las primeras etapas; ∞ si no se puede o si pasa de B = " + num(res.B) + ".</p>" +
+        '<p class="formula">' + FORMULA_V + "</p>" +
+        '<p class="pista">Primero se llena la tabla; después se toma el mayor ahorro cuyo costo cabe en B y se recorre hacia atrás.</p>';
     } else {
       frase = "La tabla es demasiado grande para dibujarla, pero el algoritmo sí la calculó. Aquí se ve la <strong>reconstrucción</strong>.";
       expl = "<p>La tabla tiene " + num(res.celdas) + " celdas. Para no saturar la página solo se muestran las decisiones, " +
@@ -391,21 +527,33 @@ function dibujarPaso(f) {
     relleno = 0;
     porQue = res.tabla ? "Cada fila se calcula usando solo la fila anterior." : "Se empieza por la última etapa.";
   } else if (f.fase === "llenar") {
-    const i = f.i, T = res.tabla, B = res.B;
+    const i = f.i, T = res.tabla, W = anchoTabla(res);
     const c = res.c[i - 1], d = res.d[i - 1], t = res.t[i - 1];
-    let noCabe = 0, igual = 0, mejora = 0;
-    for (let b = 0; b <= B; b++) {
-      if (c > b) noCabe++;
+    let aparte = 0, igual = 0, mejora = 0;
+    for (let b = 0; b <= W; b++) {
+      if (valor) {
+        if (b < d) aparte++;
+        else if (T[i][b] < T[i - 1][b]) mejora++;
+        else igual++;
+      } else if (c > b) aparte++;
       else if (T[i][b] > T[i - 1][b]) mejora++;
       else igual++;
     }
     frase = "Llenamos la fila de " + elegida(i) + ": dura <strong>" + t + "</strong>, cuesta <strong>" + c +
       "</strong> acelerarla y ahorra <strong>" + d + "</strong>.";
-    expl = '<p class="formula">DP[' + i + "][b] = máx( DP[" + (i - 1) + "][b] , " + d + " + DP[" + (i - 1) + "][b−" + c + "] )</p>" +
-      "<p>En cada una de las " + num(B + 1) + " celdas se pregunta lo mismo: ¿conviene acelerar esta etapa?</p><ul>" +
-      "<li><b>" + num(noCabe) + "</b> celdas: no cabe (cuesta " + c + " y hay menos) → se copia lo de arriba.</li>" +
-      "<li><b>" + num(igual) + "</b> celdas: cabe, pero acelerarla no mejora el ahorro → igual que arriba.</li>" +
-      "<li><b>" + num(mejora) + "</b> celdas: acelerarla ahorra más → celda verde.</li></ul>";
+    if (valor) {
+      expl = '<p class="formula">C[' + i + "][v] = mín( C[" + (i - 1) + "][v] , " + c + " + C[" + (i - 1) + "][v−" + d + "] )</p>" +
+        "<p>En cada una de las " + num(W + 1) + " celdas se pregunta: ¿cuál es el menor costo para lograr <i>exactamente</i> este ahorro?</p><ul>" +
+        "<li><b>" + num(aparte) + "</b> celdas: este ahorro es menor que lo que ahorra la etapa (" + d + ") → no se puede usar; se copia lo de arriba.</li>" +
+        "<li><b>" + num(igual) + "</b> celdas: se puede usar, pero no sale más barato (o pasa de B) → igual que arriba.</li>" +
+        "<li><b>" + num(mejora) + "</b> celdas: acelerarla logra ese ahorro más barato, o lo hace posible → celda verde.</li></ul>";
+    } else {
+      expl = '<p class="formula">DP[' + i + "][b] = máx( DP[" + (i - 1) + "][b] , " + d + " + DP[" + (i - 1) + "][b−" + c + "] )</p>" +
+        "<p>En cada una de las " + num(W + 1) + " celdas se pregunta lo mismo: ¿conviene acelerar esta etapa?</p><ul>" +
+        "<li><b>" + num(aparte) + "</b> celdas: no cabe (cuesta " + c + " y hay menos) → se copia lo de arriba.</li>" +
+        "<li><b>" + num(igual) + "</b> celdas: cabe, pero acelerarla no mejora el ahorro → igual que arriba.</li>" +
+        "<li><b>" + num(mejora) + "</b> celdas: acelerarla ahorra más → celda verde.</li></ul>";
+    }
     rotulo = "Filas calculadas";
     numero = i + " <small>de " + res.n + "</small>";
     relleno = i / res.n;
@@ -413,23 +561,47 @@ function dibujarPaso(f) {
   } else {
     const dec = f.dec;
     const c = res.c[dec.i - 1], d = res.d[dec.i - 1];
-    if (dec.acelerada) {
+    if (valor) {
+      const arranque = f.m === 1
+        ? "<p>Se parte del <b>mayor ahorro que cabe en B = " + num(res.B) + "</b>: " + num(res.ahorro) + " (lograrlo cuesta " + num(res.costo) + ").</p>"
+        : "";
+      if (dec.acelerada) {
+        frase = "Hacia atrás, en " + elegida(dec.i) + ": <strong>se acelera</strong>.";
+        expl = arranque + "<p>Con <b>" + num(dec.b) + "</b> de ahorro por lograr, la tabla dice que cuesta C[" + dec.i + "][" + dec.b + "] = <b>" + fmt(dec.valor) +
+          "</b>. Sin esta etapa costaría C[" + (dec.i - 1) + "][" + dec.b + "] = <b>" + fmt(dec.sin) + "</b>.</p>" +
+          "<p>Como <b>" + fmt(dec.valor) + " ≠ " + fmt(dec.sin) + "</b>, el mínimo viene de acelerarla.</p>" +
+          '<p class="razon">Se ahorran ' + d + " (faltan por lograr " + num(dec.b_despues) + ") y se pagan " + c + ".</p>";
+      } else {
+        frase = "Hacia atrás, en " + elegida(dec.i) + ": <strong>no se acelera</strong>.";
+        expl = arranque + "<p>Con <b>" + num(dec.b) + "</b> de ahorro por lograr, la tabla dice que cuesta C[" + dec.i + "][" + dec.b + "] = <b>" + fmt(dec.valor) +
+          "</b>, y sin esta etapa también cuesta C[" + (dec.i - 1) + "][" + dec.b + "] = <b>" + fmt(dec.sin) + "</b>.</p>" +
+          '<p class="razon">Son iguales: acelerarla no abarata nada. No se acelera y el ahorro por lograr sigue en ' + num(dec.b) + ".</p>";
+      }
+      rotulo = "Ahorro asegurado";
+      numero = num(res.ahorro - dec.b_despues) + " <small>de " + num(res.ahorro) + "</small>";
+      relleno = res.ahorro > 0 ? (res.ahorro - dec.b_despues) / res.ahorro : 1;
+      porQue = "Se parte del ahorro final y se resta lo que ahorra cada etapa elegida, hasta llegar a 0.";
+    } else if (dec.acelerada) {
       frase = "Hacia atrás, en " + elegida(dec.i) + ": <strong>se acelera</strong>.";
       expl = "<p>Con <b>" + num(dec.b) + "</b> de presupuesto restante, la tabla dice DP[" + dec.i + "][" + dec.b + "] = <b>" + dec.valor +
         "</b>. Sin acelerar esta etapa solo se lograría DP[" + (dec.i - 1) + "][" + dec.b + "] = <b>" + dec.sin + "</b>.</p>" +
         "<p>Como <b>" + dec.valor + " ≠ " + dec.sin + "</b>, el máximo viene de acelerarla.</p>" +
         '<p class="razon">Se pagan ' + c + " (el presupuesto restante pasa de " + num(dec.b) + " a " + num(dec.b_despues) +
         ") y se ahorran " + d + ".</p>";
+      rotulo = "Presupuesto gastado";
+      numero = num(res.B - dec.b_despues) + " <small>de " + num(res.B) + "</small>";
+      relleno = res.B > 0 ? (res.B - dec.b_despues) / res.B : 0;
+      porQue = "Se empieza con todo el presupuesto y se resta lo que cuesta cada etapa que se acelera.";
     } else {
       frase = "Hacia atrás, en " + elegida(dec.i) + ": <strong>no se acelera</strong>.";
       expl = "<p>Con <b>" + num(dec.b) + "</b> de presupuesto restante, la tabla dice DP[" + dec.i + "][" + dec.b + "] = <b>" + dec.valor +
         "</b>, y sin acelerar esta etapa también se logra DP[" + (dec.i - 1) + "][" + dec.b + "] = <b>" + dec.sin + "</b>.</p>" +
         '<p class="razon">Son iguales: acelerarla no aporta nada. No se gasta presupuesto (sigue en ' + num(dec.b) + ").</p>";
+      rotulo = "Presupuesto gastado";
+      numero = num(res.B - dec.b_despues) + " <small>de " + num(res.B) + "</small>";
+      relleno = res.B > 0 ? (res.B - dec.b_despues) / res.B : 0;
+      porQue = "Se empieza con todo el presupuesto y se resta lo que cuesta cada etapa que se acelera.";
     }
-    rotulo = "Presupuesto gastado";
-    numero = num(res.B - dec.b_despues) + " <small>de " + num(res.B) + "</small>";
-    relleno = res.B > 0 ? (res.B - dec.b_despues) / res.B : 0;
-    porQue = "Se empieza con todo el presupuesto y se resta lo que cuesta cada etapa que se acelera.";
   }
 
   $("#frase-paso").innerHTML = frase;
@@ -445,16 +617,32 @@ function detalleCelda(f) {
   const res = estado.res, sel = estado.celda;
   if (!res.tabla) return "";
   if (!sel) return f.fase === "decidir" ? "" : '<p class="pista">Toca cualquier celda de la tabla para ver cómo se calculó.</p>';
-  const { i, b } = sel, T = res.tabla;
-  const cab = "Celda <b>DP[" + i + "][" + b + "]</b>";
+  const { i, b } = sel, T = res.tabla, valor = esValor();
+  const pref = valor ? "C" : "DP";
+  const cab = "Celda <b>" + pref + "[" + i + "][" + b + "]</b>";
   if (i > filasCalculadas(f)) {
     return '<div class="detalle-celda">' + cab + ": la fila de " + nombreEtapa(i) + " todavía no se calcula.</div>";
   }
   if (i === 0) {
-    return '<div class="detalle-celda">' + cab + ": con 0 etapas no se puede acelerar nada → ahorro <b>0</b>.</div>";
+    return '<div class="detalle-celda">' + cab + (valor
+      ? (b === 0 ? ": con 0 etapas se logra el ahorro 0 con costo <b>0</b>." : ": con 0 etapas no se puede lograr un ahorro de " + b + " → <b>∞</b>.")
+      : ": con 0 etapas no se puede acelerar nada → ahorro <b>0</b>.") + "</div>";
   }
   const c = res.c[i - 1], d = res.d[i - 1], v = T[i][b], sin = T[i - 1][b];
   const et = nombreEtapa(i);
+  if (valor) {
+    if (b < d) {
+      return '<div class="detalle-celda">' + cab + ": " + et + " ahorra " + d + " y aquí se pide exactamente " + b +
+        " → no se puede usar. Se copia " + pref + "[" + (i - 1) + "][" + b + "] = <b>" + fmt(v) + "</b>.</div>";
+    }
+    const resto = T[i - 1][b - d], con = resto + c;
+    const conTxt = resto === Infinity ? "∞ (no se puede lograr " + (b - d) + " antes)" : (con > res.B ? con + " → pasa de B, cuenta como ∞" : con);
+    const gana = v < sin ? "gana acelerarla" : "gana no acelerarla (o empatan)";
+    return '<div class="detalle-celda">' + cab + " (etapa " + et + ", ahorro " + b + ")" +
+      "<br>Sin acelerar: " + pref + "[" + (i - 1) + "][" + b + "] = <b>" + fmt(sin) + "</b>" +
+      "<br>Acelerando (ahorra " + d + ", falta " + (b - d) + "): " + c + " + " + pref + "[" + (i - 1) + "][" + (b - d) + "] = <b>" + conTxt + "</b>" +
+      "<br>El menor es <b>" + fmt(v) + "</b> (" + gana + ").</div>";
+  }
   if (c > b) {
     return '<div class="detalle-celda">' + cab + ": acelerar " + et + " cuesta " + c + " y solo hay " + b +
       " → no cabe. Se copia DP[" + (i - 1) + "][" + b + "] = <b>" + v + "</b>.</div>";
@@ -494,7 +682,7 @@ function dibujarTabla(f, centrar) {
       num(res.B + 1) + " columnas): demasiado grande para dibujarla. El algoritmo sí la calculó; mira a la izquierda las decisiones.</div>";
     return;
   }
-  const T = res.tabla, B = res.B, n = res.n, W = B + 1;
+  const T = res.tabla, valor = esValor(), B = anchoTabla(res), n = res.n, W = B + 1;
   const R = filasCalculadas(f);
   const sel = estado.celda;
 
@@ -511,12 +699,12 @@ function dibujarTabla(f, centrar) {
   const origen = new Set();
   if (sel && sel.i >= 1 && sel.i <= R) {
     origen.add((sel.i - 1) * W + sel.b);
-    const c = res.c[sel.i - 1];
-    if (c <= sel.b) origen.add((sel.i - 1) * W + (sel.b - c));
+    const paso = valor ? res.d[sel.i - 1] : res.c[sel.i - 1];   // cuánto se retrocede en la fila de arriba
+    if (paso <= sel.b) origen.add((sel.i - 1) * W + (sel.b - paso));
   }
 
   let html = '<div class="tabla-dp" style="grid-template-columns: 112px repeat(' + W + ', 46px)">' +
-    '<div class="t-esquina">etapa ╲ b</div>';
+    '<div class="t-esquina">etapa ╲ ' + (valor ? "v" : "b") + "</div>";
   for (let b = 0; b <= B; b++) html += '<div class="t-cab">' + b + "</div>";
   for (let i = 0; i <= n; i++) {
     const actual = f.fase === "llenar" && i === f.i;
@@ -524,11 +712,13 @@ function dibujarTabla(f, centrar) {
       (i === 0 ? "sin etapas" : nombreEtapa(i)) + "</small></div>";
     for (let b = 0; b <= B; b++) {
       const clave = i * W + b;
-      let cls, txt;
+      let cls, txt, cls0 = "";
       if (i > R) { cls = "c-pendiente"; txt = "·"; }
       else {
-        txt = T[i][b];
-        if (actual && T[i][b] > T[i - 1][b]) cls = "c-nuevo";
+        txt = fmt(T[i][b]);
+        if (T[i][b] === Infinity) cls0 = " inf";
+        const mejora = actual && (valor ? T[i][b] < T[i - 1][b] : T[i][b] > T[i - 1][b]);
+        if (mejora) cls = "c-nuevo";
         else if (actual) cls = "c-igual";
         else cls = "c-cubierto";
       }
@@ -537,7 +727,7 @@ function dibujarTabla(f, centrar) {
       if (clave === destino) cls += " c-destino";
       if (origen.has(clave)) cls += " c-origen";
       if (sel && sel.i === i && sel.b === b) cls += " c-sel";
-      html += '<div class="tcelda celda ' + cls + '" data-i="' + i + '" data-b="' + b + '" role="cell">' + txt + "</div>";
+      html += '<div class="tcelda celda ' + cls + cls0 + '" data-i="' + i + '" data-b="' + b + '" role="cell">' + txt + "</div>";
     }
   }
   zona.innerHTML = html + "</div>";
@@ -667,6 +857,17 @@ $("#btn-analizar-archivo").addEventListener("click", () => {
   if (!estado.archivo) return;
   analizar(estado.archivo.texto, estado.archivo.nombre);
 });
+
+/* Dos selectores independientes: el de arriba cambia las tarjetas de resultado; el de la simulación, la tabla y el paso a paso. */
+function elegirEnfoque(selector, actual, cambiar) {
+  $(selector).addEventListener("click", (e) => {
+    const boton = e.target.closest(".btn-ing");
+    if (!boton || boton.disabled || !estado.res || !estado.ultimo || boton.dataset.enf === actual()) return;
+    cambiar(boton.dataset.enf);
+  });
+}
+elegirEnfoque("#enfoques-res", () => estado.resTop.enfoque, cambiarEnfoqueTop);
+elegirEnfoque("#enfoques", () => estado.res.enfoque, cambiarEnfoqueSim);
 
 $("#manual-n").addEventListener("change", generarFilas);
 $("#manual-B").addEventListener("input", actualizarRevision);
