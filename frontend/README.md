@@ -92,6 +92,15 @@ Los textos son fijos (están en `index.html` y `aceleracion.html`); si cambian l
   de 1.500.000 celdas no se corre y el cálculo se corta a los 25 s. Mismo código que `python3 src/aceleracion/enfoques/dp_por_valor/pruebas_aleatorias.py`.
 - Las rutas validan los parámetros (cantidades, rangos y al menos una densidad) y responden 400 con el motivo.
 
+## Casos aleatorios (`/aleatorios`)
+
+Tercera entrada del visor: **genera casos al azar y los prueba al instante**, con las tres partes (DP, voraz y variante ponderada) y la traza de cada una.
+
+- **Generar** (`POST /api/aleatorios/generar`, `estatico/aleatorios.js`): se elige la cantidad de casos (hasta 200), la semilla, el rango de n (hasta 100), el de r (hasta 60) y las densidades (ralo, medio, denso). Los casos se escriben como `.json` (formato de la profesora) en **`Casos/casos_temporales/`**, que se **vacía y reescribe** en cada generación (también se vacía `Resultados/resultados_temporales/`, porque ya no corresponde). La lista aparece en pantalla y cada caso se puede abrir (`GET /api/aleatorios/caso`).
+- **Probar** (`POST /api/aleatorios/probar`): el servidor llama a **`run_all.py`** (el del integrante 3, sin reimplementar nada) con `--casos Casos/casos_temporales/ --salida Resultados/resultados_temporales/`, que también se vacía antes. La tabla muestra resultado y tiempo por parte y caso, con un enlace a su traza (`GET /api/aleatorios/traza`), y debajo las tablas de comparación completas.
+- Las dos carpetas están en `.gitignore`: no se acumula información ni se sube nada. Solo se borran archivos sueltos `.json`, `.txt`, `.csv` o `.md` dentro de carpetas que se llamen exactamente así, nunca de forma recursiva. Las rutas de caso y de traza solo aceptan nombres que existan en esas carpetas (sin rutas).
+- Mismo código que la terminal: `python3 probar_aleatorios.py` (ver `COMANDOS.md`). La lógica vive en `src/generacion_casos/`.
+
 ## Parte 1: aceleración de la cadena (`/aceleracion`)
 
 Mismo esquema y misma paleta que el visor de la Parte 2: primero se carga el caso y luego se ve el resultado paso a paso.
@@ -143,11 +152,13 @@ Mismo esquema y misma paleta que el visor de la Parte 2: primero se carga el cas
 ```
 frontend/
     servidor.py             servidor local (páginas, API de la Parte 2: /api/resolver y /api/previsualizar,
-                            API de la Parte 1: /api/aceleracion/resolver y /api/aceleracion/previsualizar)
+                            API de la Parte 1: /api/aceleracion/resolver y /api/aceleracion/previsualizar,
+                            API de casos aleatorios: /api/aleatorios/{estado,caso,traza,generar,probar})
     fuerza_bruta_demo.py    demostración de la fuerza bruta (Parte 2): módulo del servidor y comando de terminal
     estatico/
         inicio.html, inicio.css            página de inicio (elegir la parte)
         aceleracion.html, .js, .css        visor de la Parte 1 (tabla de la DP)
+        aleatorios.html, .js               generar casos al azar y probarlos (se sirve en /aleatorios)
         index.html, app.js                 visor de la Parte 2 (voraz; se sirve en /auditoria)
         explicacion.js                     botones de la sección 2 (muestran un enfoque a la vez), común a las dos páginas
         combinador.js                      armador de combinaciones de la sección 2 del visor del voraz

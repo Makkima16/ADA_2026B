@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Casos aleatorios — Generar y probar</title>
+  <link rel="stylesheet" href="/estatico/estilos.css">
+  <link rel="stylesheet" href="/estatico/aceleracion.css">
+</head>
+<body>
+<div class="pagina">
+
+  <header class="cabecera">
+    <div class="marca-titulo">
+      <div class="logo logo-escalera" aria-hidden="true"><span class="l1"></span><span class="l2"></span><span class="l3"></span><span class="l4"></span></div>
+      <div>
+        <h1>Casos aleatorios</h1>
+        <p class="subtitulo">Generar y probar al instante · Análisis y Diseño de Algoritmos · Universidad de Caldas</p>
+      </div>
+    </div>
+    <div class="acciones-cab">
+      <nav class="selector-parte" aria-label="Cambiar de parte">
+        <a href="/">Inicio</a>
+        <a href="/aceleracion">Parte 1 · Aceleración</a>
+        <a href="/auditoria">Parte 2 · Auditoría</a>
+        <a href="/aleatorios" aria-current="page">Casos aleatorios</a>
+      </nav>
+      <div class="pildora"><i class="punto" aria-hidden="true"></i>Funcionando en este equipo <span class="mono" id="direccion"></span></div>
+    </div>
+  </header>
+
+  <!-- ============ 1. Generar ============ -->
+  <section class="panel" aria-labelledby="titulo-generar">
+    <div class="encabezado-seccion">
+      <span class="num-paso" aria-hidden="true">1</span>
+      <div>
+        <h2 id="titulo-generar">Generar casos</h2>
+        <p class="ayuda-corta">Casos al azar con los rangos que elijas; cada uno trae la Parte 1, la Parte 2 y los costos de la variante</p>
+      </div>
+    </div>
+    <div class="intro-explicacion">
+      <p><strong>Qué hace.</strong> Escribe los casos en <span class="mono">Casos/casos_temporales/</span> en el mismo formato JSON de la profesora. Cada vez que generas,
+        <b>esa carpeta se vacía y se reescribe</b> (y también se vacía <span class="mono">Resultados/resultados_temporales/</span>, porque ya no corresponde). Nada se acumula y las dos carpetas no se suben a git.
+        Con la misma semilla y los mismos rangos salen siempre los mismos casos.</p>
+    </div>
+    <div class="form-pruebas">
+      <label>Casos<input type="number" id="al-cantidad" min="1" max="200" value="20"></label>
+      <label>Semilla<input type="number" id="al-semilla" value="2026"></label>
+      <label>Etapas n (mín.)<input type="number" id="al-nmin" min="1" max="100" value="8"></label>
+      <label>Etapas n (máx.)<input type="number" id="al-nmax" min="1" max="100" value="16"></label>
+      <label>Categorías r (mín.)<input type="number" id="al-rmin" min="1" max="60" value="6"></label>
+      <label>Categorías r (máx.)<input type="number" id="al-rmax" min="1" max="60" value="15"></label>
+      <fieldset class="al-densidades">
+        <legend>Densidad (cuánto cubre cada interacción)</legend>
+        <label class="al-check"><input type="checkbox" name="densidad" value="ralo" checked> ralo</label>
+        <label class="al-check"><input type="checkbox" name="densidad" value="medio" checked> medio</label>
+        <label class="al-check"><input type="checkbox" name="densidad" value="denso" checked> denso</label>
+      </fieldset>
+      <button class="btn primario grande" id="al-generar" type="button">Generar casos</button>
+    </div>
+    <p class="nota">Hasta 200 casos, n hasta 100 y r hasta 60. La fuerza bruta solo se usa para comparar cuando n ≤ 12.</p>
+    <div class="banner-error oculto" id="al-error" role="alert">
+      <span class="icono-error" aria-hidden="true">!</span>
+      <div class="cuerpo-error"><div class="titulo-error">No se pudo completar</div><div id="al-mensaje-error"></div></div>
+    </div>
+  </section>
+
+  <!-- ============ 2. Casos generados ============ -->
+  <section class="panel" aria-labelledby="titulo-casos">
+    <div class="encabezado-seccion">
+      <span class="num-paso" aria-hidden="true">2</span>
+      <div>
+        <h2 id="titulo-casos">Casos generados</h2>
+        <p class="ayuda-corta" id="al-resumen-casos">Todavía no hay casos: genera primero.</p>
+      </div>
+    </div>
+    <div class="form-pruebas">
+      <button class="btn primario grande" id="al-probar" type="button" disabled>Probar todos los casos</button>
+    </div>
+    <div style="overflow-x:auto"><table class="tabla-cmp" id="al-tabla-casos"></table></div>
+    <div class="oculto" id="al-vista-caso">
+      <h3 class="subtitulo-pruebas" id="al-titulo-caso"></h3>
+      <pre class="mono" id="al-texto-caso" style="max-height:340px;overflow:auto"></pre>
+    </div>
+  </section>
+
+  <!-- ============ 3. Resultados ============ -->
+  <section class="panel oculto" id="al-panel-resultados" aria-labelledby="titulo-resultados">
+    <div class="encabezado-seccion">
+      <span class="num-paso" aria-hidden="true">3</span>
+      <div>
+        <h2 id="titulo-resultados">Resultados de la prueba</h2>
+        <p class="ayuda-corta">Resultado y tiempo de cada parte por caso, con su traza. Se guardan en <span class="mono">Resultados/resultados_temporales/</span></p>
+      </div>
+    </div>
+    <div style="overflow-x:auto"><table class="tabla-cmp" id="al-tabla-resultados"></table></div>
+    <div class="oculto" id="al-vista-traza">
+      <h3 class="subtitulo-pruebas" id="al-titulo-traza"></h3>
+      <pre class="mono" id="al-texto-traza" style="max-height:420px;overflow:auto"></pre>
+    </div>
+    <details>
+      <summary><b>Tablas de comparación completas</b> (las mismas de <span class="mono">comparacion.md</span>)</summary>
+      <pre class="mono" id="al-comparacion" style="overflow:auto"></pre>
+    </details>
+  </section>
+
+  <footer>
+    Herramienta de apoyo local para la sustentación. Las pruebas las hace el mismo <span class="mono">run_all.py</span>
+    que produce las evidencias; esta página solo las muestra. Desde la terminal: <span class="mono">python3 probar_aleatorios.py</span>. No es parte de la entrega.
+  </footer>
+</div>
+
+<script src="/estatico/aleatorios.js"></script>
+</body>
+</html>

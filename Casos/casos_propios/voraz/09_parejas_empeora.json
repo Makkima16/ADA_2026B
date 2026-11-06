@@ -1,0 +1,20 @@
+{
+  "descripcion": "Caso 09_parejas_empeora. El enfoque de las parejas EMPEORA al voraz normal: hay tres pares que cubren 6 categorías, gana el primero en orden y no era el del óptimo. r = 8, n = 4. Interacciones usadas: voraz normal 3, esenciales 3, parejas 4, rareza 3, todo (esenciales + rareza + parejas) 3; mínimo real (fuerza bruta) 3.",
+  "parametros": {"numero_etapas": 4, "numero_categorias_riesgo": 8},
+  "categorias_riesgo": [
+    {"id": "R01", "categoria": "Riesgo 1"},
+    {"id": "R02", "categoria": "Riesgo 2"},
+    {"id": "R03", "categoria": "Riesgo 3"},
+    {"id": "R04", "categoria": "Riesgo 4"},
+    {"id": "R05", "categoria": "Riesgo 5"},
+    {"id": "R06", "categoria": "Riesgo 6"},
+    {"id": "R07", "categoria": "Riesgo 7"},
+    {"id": "R08", "categoria": "Riesgo 8"}
+  ],
+  "etapas": [
+    {"id": "E01", "riesgos_cubiertos_auditoria_completa": ["R05", "R06", "R07"]},
+    {"id": "E02", "riesgos_cubiertos_auditoria_completa": ["R02", "R04", "R05", "R07"]},
+    {"id": "E03", "riesgos_cubiertos_auditoria_completa": ["R01", "R06"]},
+    {"id": "E04", "riesgos_cubiertos_auditoria_completa": ["R03", "R04", "R08"]}
+  ]
+}

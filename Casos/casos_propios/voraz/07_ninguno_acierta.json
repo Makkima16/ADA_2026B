@@ -1,0 +1,22 @@
+{
+  "descripcion": "Caso 07_ninguno_acierta. Los cinco métodos (voraz normal, esenciales, parejas, ambas y rareza) usan una interacción de más. Es un caso donde ningún voraz alcanza el mínimo real. r = 7, n = 7. Interacciones usadas: voraz normal 4, esenciales 4, parejas 4, rareza 4, todo (esenciales + rareza + parejas) 4; mínimo real (fuerza bruta) 3.",
+  "parametros": {"numero_etapas": 7, "numero_categorias_riesgo": 7},
+  "categorias_riesgo": [
+    {"id": "R01", "categoria": "Riesgo 1"},
+    {"id": "R02", "categoria": "Riesgo 2"},
+    {"id": "R03", "categoria": "Riesgo 3"},
+    {"id": "R04", "categoria": "Riesgo 4"},
+    {"id": "R05", "categoria": "Riesgo 5"},
+    {"id": "R06", "categoria": "Riesgo 6"},
+    {"id": "R07", "categoria": "Riesgo 7"}
+  ],
+  "etapas": [
+    {"id": "E01", "riesgos_cubiertos_auditoria_completa": ["R01", "R04", "R07"]},
+    {"id": "E02", "riesgos_cubiertos_auditoria_completa": ["R05"]},
+    {"id": "E03", "riesgos_cubiertos_auditoria_completa": ["R02", "R04", "R06"]},
+    {"id": "E04", "riesgos_cubiertos_auditoria_completa": ["R06"]},
+    {"id": "E05", "riesgos_cubiertos_auditoria_completa": ["R03"]},
+    {"id": "E06", "riesgos_cubiertos_auditoria_completa": ["R01", "R03"]},
+    {"id": "E07", "riesgos_cubiertos_auditoria_completa": ["R02", "R05", "R07"]}
+  ]
+}

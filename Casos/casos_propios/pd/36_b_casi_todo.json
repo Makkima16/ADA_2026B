@@ -1,0 +1,18 @@
+{
+  "descripcion": "El presupuesto alcanza para casi todo (B = costo total − 1): hay que dejar fuera una sola etapa, la que menos ahorra por lo que cuesta. Celdas de la tabla: por presupuesto 1222, por valor 2613. Enfoque recomendado: presupuesto. Resultado: ahorro 197, costo 84 de B = 93, 11 etapas aceleradas, duración final 124 de 321. Fuerza bruta: ahorro 197.",
+  "parametros": {"numero_etapas": 12, "presupuesto_aceleracion_B": 93},
+  "etapas": [
+    {"id": "E01", "duracion_normal": 30, "costo_aceleracion": 11, "reduccion_tiempo_si_acelera": 18},
+    {"id": "E02", "duracion_normal": 16, "costo_aceleracion": 2, "reduccion_tiempo_si_acelera": 9},
+    {"id": "E03", "duracion_normal": 30, "costo_aceleracion": 1, "reduccion_tiempo_si_acelera": 18},
+    {"id": "E04", "duracion_normal": 8, "costo_aceleracion": 10, "reduccion_tiempo_si_acelera": 3},
+    {"id": "E05", "duracion_normal": 22, "costo_aceleracion": 3, "reduccion_tiempo_si_acelera": 19},
+    {"id": "E06", "duracion_normal": 30, "costo_aceleracion": 1, "reduccion_tiempo_si_acelera": 14},
+    {"id": "E07", "duracion_normal": 42, "costo_aceleracion": 17, "reduccion_tiempo_si_acelera": 27},
+    {"id": "E08", "duracion_normal": 22, "costo_aceleracion": 6, "reduccion_tiempo_si_acelera": 16},
+    {"id": "E09", "duracion_normal": 29, "costo_aceleracion": 8, "reduccion_tiempo_si_acelera": 13},
+    {"id": "E10", "duracion_normal": 21, "costo_aceleracion": 9, "reduccion_tiempo_si_acelera": 12},
+    {"id": "E11", "duracion_normal": 30, "costo_aceleracion": 14, "reduccion_tiempo_si_acelera": 25},
+    {"id": "E12", "duracion_normal": 41, "costo_aceleracion": 12, "reduccion_tiempo_si_acelera": 26}
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "descripcion": "Justo en el límite de la fuerza bruta (n = 12): se puede comparar con el óptimo exacto. Celdas de la tabla: por presupuesto 1118, por valor 2301. Enfoque recomendado: presupuesto. Resultado: ahorro 144, costo 85 de B = 85, 7 etapas aceleradas, duración final 161 de 305. Fuerza bruta: ahorro 144.",
+  "parametros": {"numero_etapas": 12, "presupuesto_aceleracion_B": 85},
+  "etapas": [
+    {"id": "E01", "duracion_normal": 16, "costo_aceleracion": 15, "reduccion_tiempo_si_acelera": 4},
+    {"id": "E02", "duracion_normal": 29, "costo_aceleracion": 18, "reduccion_tiempo_si_acelera": 15},
+    {"id": "E03", "duracion_normal": 30, "costo_aceleracion": 15, "reduccion_tiempo_si_acelera": 10},
+    {"id": "E04", "duracion_normal": 24, "costo_aceleracion": 15, "reduccion_tiempo_si_acelera": 5},
+    {"id": "E05", "duracion_normal": 23, "costo_aceleracion": 17, "reduccion_tiempo_si_acelera": 3},
+    {"id": "E06", "duracion_normal": 23, "costo_aceleracion": 19, "reduccion_tiempo_si_acelera": 18},
+    {"id": "E07", "duracion_normal": 45, "costo_aceleracion": 7, "reduccion_tiempo_si_acelera": 26},
+    {"id": "E08", "duracion_normal": 29, "costo_aceleracion": 6, "reduccion_tiempo_si_acelera": 29},
+    {"id": "E09", "duracion_normal": 39, "costo_aceleracion": 17, "reduccion_tiempo_si_acelera": 23},
+    {"id": "E10", "duracion_normal": 23, "costo_aceleracion": 16, "reduccion_tiempo_si_acelera": 21},
+    {"id": "E11", "duracion_normal": 3, "costo_aceleracion": 20, "reduccion_tiempo_si_acelera": 2},
+    {"id": "E12", "duracion_normal": 21, "costo_aceleracion": 6, "reduccion_tiempo_si_acelera": 20}
+  ]
+}

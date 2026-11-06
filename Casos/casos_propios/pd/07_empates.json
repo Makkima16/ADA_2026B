@@ -1,0 +1,12 @@
+{
+  "descripcion": "Seis etapas idénticas: hay muchas soluciones óptimas con el mismo ahorro (se aceleran 2). Celdas de la tabla: por presupuesto 42, por valor 133. Enfoque recomendado: presupuesto. Resultado: ahorro 6, costo 4 de B = 5, 2 etapas aceleradas, duración final 30 de 36. Fuerza bruta: ahorro 6.",
+  "parametros": {"numero_etapas": 6, "presupuesto_aceleracion_B": 5},
+  "etapas": [
+    {"id": "E01", "duracion_normal": 6, "costo_aceleracion": 2, "reduccion_tiempo_si_acelera": 3},
+    {"id": "E02", "duracion_normal": 6, "costo_aceleracion": 2, "reduccion_tiempo_si_acelera": 3},
+    {"id": "E03", "duracion_normal": 6, "costo_aceleracion": 2, "reduccion_tiempo_si_acelera": 3},
+    {"id": "E04", "duracion_normal": 6, "costo_aceleracion": 2, "reduccion_tiempo_si_acelera": 3},
+    {"id": "E05", "duracion_normal": 6, "costo_aceleracion": 2, "reduccion_tiempo_si_acelera": 3},
+    {"id": "E06", "duracion_normal": 6, "costo_aceleracion": 2, "reduccion_tiempo_si_acelera": 3}
+  ]
+}

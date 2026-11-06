@@ -1,0 +1,17 @@
+{
+  "descripcion": "Caso 03_clasico_no_optimo. Instancia clásica donde el voraz normal NO es óptimo: toma la 1 (4 categorías nuevas) y luego necesita la 2 y la 3. Las categorías 3 y 6 solo las cubren la 2 y la 3 (esenciales). r = 6, n = 3. Interacciones usadas: voraz normal 3, esenciales 2, parejas 2, rareza 3, todo (esenciales + rareza + parejas) 2; mínimo real (fuerza bruta) 2.",
+  "parametros": {"numero_etapas": 3, "numero_categorias_riesgo": 6},
+  "categorias_riesgo": [
+    {"id": "R01", "categoria": "Riesgo 1"},
+    {"id": "R02", "categoria": "Riesgo 2"},
+    {"id": "R03", "categoria": "Riesgo 3"},
+    {"id": "R04", "categoria": "Riesgo 4"},
+    {"id": "R05", "categoria": "Riesgo 5"},
+    {"id": "R06", "categoria": "Riesgo 6"}
+  ],
+  "etapas": [
+    {"id": "E01", "riesgos_cubiertos_auditoria_completa": ["R01", "R02", "R04", "R05"]},
+    {"id": "E02", "riesgos_cubiertos_auditoria_completa": ["R01", "R02", "R03"]},
+    {"id": "E03", "riesgos_cubiertos_auditoria_completa": ["R04", "R05", "R06"]}
+  ]
+}

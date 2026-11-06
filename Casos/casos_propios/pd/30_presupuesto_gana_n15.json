@@ -1,0 +1,21 @@
+{
+  "descripcion": "n = 15 con costos y ahorros de escala parecida (como el ejemplo de la profesora). Celdas de la tabla: por presupuesto 1440, por valor 4080. Enfoque recomendado: presupuesto. Resultado: ahorro 216, costo 86 de B = 89, 10 etapas aceleradas, duración final 209 de 425.",
+  "parametros": {"numero_etapas": 15, "presupuesto_aceleracion_B": 89},
+  "etapas": [
+    {"id": "E01", "duracion_normal": 14, "costo_aceleracion": 18, "reduccion_tiempo_si_acelera": 1},
+    {"id": "E02", "duracion_normal": 52, "costo_aceleracion": 10, "reduccion_tiempo_si_acelera": 34},
+    {"id": "E03", "duracion_normal": 19, "costo_aceleracion": 20, "reduccion_tiempo_si_acelera": 16},
+    {"id": "E04", "duracion_normal": 10, "costo_aceleracion": 1, "reduccion_tiempo_si_acelera": 2},
+    {"id": "E05", "duracion_normal": 25, "costo_aceleracion": 20, "reduccion_tiempo_si_acelera": 5},
+    {"id": "E06", "duracion_normal": 28, "costo_aceleracion": 21, "reduccion_tiempo_si_acelera": 11},
+    {"id": "E07", "duracion_normal": 37, "costo_aceleracion": 7, "reduccion_tiempo_si_acelera": 34},
+    {"id": "E08", "duracion_normal": 45, "costo_aceleracion": 9, "reduccion_tiempo_si_acelera": 26},
+    {"id": "E09", "duracion_normal": 38, "costo_aceleracion": 2, "reduccion_tiempo_si_acelera": 23},
+    {"id": "E10", "duracion_normal": 44, "costo_aceleracion": 13, "reduccion_tiempo_si_acelera": 35},
+    {"id": "E11", "duracion_normal": 9, "costo_aceleracion": 13, "reduccion_tiempo_si_acelera": 5},
+    {"id": "E12", "duracion_normal": 35, "costo_aceleracion": 21, "reduccion_tiempo_si_acelera": 26},
+    {"id": "E13", "duracion_normal": 11, "costo_aceleracion": 5, "reduccion_tiempo_si_acelera": 2},
+    {"id": "E14", "duracion_normal": 24, "costo_aceleracion": 3, "reduccion_tiempo_si_acelera": 16},
+    {"id": "E15", "duracion_normal": 34, "costo_aceleracion": 15, "reduccion_tiempo_si_acelera": 18}
+  ]
+}

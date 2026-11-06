@@ -1,0 +1,22 @@
+{
+  "descripcion": "Caso 20_rareza_acierta. Acierta el enfoque de rareza (y el combinado); el voraz normal, las esenciales y las parejas usan una interacción de más. Los riesgos que pocas interacciones revisan pesan más y la rareza los atiende a tiempo. r = 7, n = 7. Interacciones usadas: voraz normal 4, esenciales 4, parejas 4, rareza 3, todo (esenciales + rareza + parejas) 3; mínimo real (fuerza bruta) 3.",
+  "parametros": {"numero_etapas": 7, "numero_categorias_riesgo": 7},
+  "categorias_riesgo": [
+    {"id": "R01", "categoria": "Riesgo 1"},
+    {"id": "R02", "categoria": "Riesgo 2"},
+    {"id": "R03", "categoria": "Riesgo 3"},
+    {"id": "R04", "categoria": "Riesgo 4"},
+    {"id": "R05", "categoria": "Riesgo 5"},
+    {"id": "R06", "categoria": "Riesgo 6"},
+    {"id": "R07", "categoria": "Riesgo 7"}
+  ],
+  "etapas": [
+    {"id": "E01", "riesgos_cubiertos_auditoria_completa": ["R03", "R06"]},
+    {"id": "E02", "riesgos_cubiertos_auditoria_completa": ["R01", "R05", "R06"]},
+    {"id": "E03", "riesgos_cubiertos_auditoria_completa": ["R05"]},
+    {"id": "E04", "riesgos_cubiertos_auditoria_completa": ["R04", "R07"]},
+    {"id": "E05", "riesgos_cubiertos_auditoria_completa": ["R01", "R02", "R04"]},
+    {"id": "E06", "riesgos_cubiertos_auditoria_completa": ["R03", "R04"]},
+    {"id": "E07", "riesgos_cubiertos_auditoria_completa": ["R02", "R07"]}
+  ]
+}

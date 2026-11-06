@@ -1,0 +1,27 @@
+{
+  "descripcion": "Caso 05_solo_parejas. Acierta el enfoque de las parejas (y el combinado), pero NO las esenciales ni la rareza: dos conjuntos (1 y 2) cubren todo y hay tres 'cebos' (3, 4 y 5) que mezclan ambas mitades. No hay esenciales, y el par (1, 2) cubre las 14 categorías. r = 14, n = 5. Interacciones usadas: voraz normal 3, esenciales 3, parejas 2, rareza 3, todo (esenciales + rareza + parejas) 2; mínimo real (fuerza bruta) 2.",
+  "parametros": {"numero_etapas": 5, "numero_categorias_riesgo": 14},
+  "categorias_riesgo": [
+    {"id": "R01", "categoria": "Riesgo 1"},
+    {"id": "R02", "categoria": "Riesgo 2"},
+    {"id": "R03", "categoria": "Riesgo 3"},
+    {"id": "R04", "categoria": "Riesgo 4"},
+    {"id": "R05", "categoria": "Riesgo 5"},
+    {"id": "R06", "categoria": "Riesgo 6"},
+    {"id": "R07", "categoria": "Riesgo 7"},
+    {"id": "R08", "categoria": "Riesgo 8"},
+    {"id": "R09", "categoria": "Riesgo 9"},
+    {"id": "R10", "categoria": "Riesgo 10"},
+    {"id": "R11", "categoria": "Riesgo 11"},
+    {"id": "R12", "categoria": "Riesgo 12"},
+    {"id": "R13", "categoria": "Riesgo 13"},
+    {"id": "R14", "categoria": "Riesgo 14"}
+  ],
+  "etapas": [
+    {"id": "E01", "riesgos_cubiertos_auditoria_completa": ["R01", "R02", "R03", "R04", "R05", "R06", "R07"]},
+    {"id": "E02", "riesgos_cubiertos_auditoria_completa": ["R08", "R09", "R10", "R11", "R12", "R13", "R14"]},
+    {"id": "E03", "riesgos_cubiertos_auditoria_completa": ["R01", "R02", "R03", "R04", "R08", "R09", "R10", "R11"]},
+    {"id": "E04", "riesgos_cubiertos_auditoria_completa": ["R05", "R06", "R12", "R13"]},
+    {"id": "E05", "riesgos_cubiertos_auditoria_completa": ["R07", "R14"]}
+  ]
+}

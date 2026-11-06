@@ -56,9 +56,17 @@ src/aceleracion/      # Parte 1 completa: algoritmo (DP), resolver de un caso, f
 src/aceleracion/enfoques/ # enfoques aparte de la DP base (Parte 1): DP por valor y elección automática; no reemplazan a src/aceleracion/aceleracion.py
 src/auditoria/        # Parte 2 completa: voraz, fuerza bruta, lectura de casos, resolución, traza y variante ponderada
 src/auditoria/enfoques/  # enfoques aparte del voraz base (Parte 2) y su experimento; no reemplazan a src/auditoria/auditoria.py
-frontend/             # visor local de apoyo (inicio, Parte 1 y Parte 2); solo importa de src/aceleracion/ y src/auditoria/
+src/generacion_casos/ # generador de casos aleatorios (formato JSON de la profesora), vaciado seguro de las carpetas temporales y prueba vía run_all.py
+frontend/             # visor local de apoyo (inicio, Parte 1, Parte 2 y casos aleatorios); solo importa de src/aceleracion/, src/auditoria/ y src/generacion_casos/
 casos/                # casos de la profesora (SOLO LECTURA)
 resultados/           # salida, tiempo y traza por caso (se regenera completo)
+Casos/                # casos propios y temporales (carpeta del grupo, no confundir con casos/ de la profesora)
+  casos_propios/      #   casos propios fijos: pd/ (Parte 1) y voraz/ (Parte 2); se versionan
+  casos_temporales/   #   casos aleatorios del visor o de probar_aleatorios.py (se vacía y reescribe en cada generación; en .gitignore)
+Resultados/           # evidencias del grupo (no confundir con resultados/ de la entrega oficial)
+  resultados_propios/ #   evidencias de los casos propios; se versionan
+  resultados_temporales/ # evidencias de los casos temporales (se vacía y reescribe en cada prueba; en .gitignore)
+probar_aleatorios.py  # genera casos aleatorios y los prueba desde la terminal (llama a run_all.py, no lo reemplaza)
 tests/                # pruebas (DP vs fuerza bruta, voraz vs óptimo y cota H(d))
 ```
 
@@ -78,6 +86,7 @@ tests/                # pruebas (DP vs fuerza bruta, voraz vs óptimo y cota H(d
 ```
 python3 run_all.py --casos casos/ --salida resultados/    # todas las evidencias
 python3 -m pytest tests/                                   # pruebas
+python3 probar_aleatorios.py                               # genera casos aleatorios y los prueba (carpetas temporales)
 ```
 
 Si un comando no existe todavía, créalo siguiendo esta convención en vez de inventar otra. **Excepción: `run_all.py`.** Lo está creando el integrante 3 y todavía no está en el repositorio; los demás integrantes no deben crear su propia versión. Cuando llegue, debe cumplir esto:
