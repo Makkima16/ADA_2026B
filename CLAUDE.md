@@ -53,6 +53,7 @@ requirements.txt
 run_all.py            # corre todos los casos y genera evidencias (lo crea el integrante 3; aún no está en el repo)
 context/                 # enunciado, guía de entrega, manual técnico, informe
 src/aceleracion/      # Parte 1 completa: algoritmo (DP), resolver de un caso, fuerza bruta de verificación, lectura de casos y traza
+src/aceleracion/enfoques/ # enfoques aparte de la DP base (Parte 1): DP por valor y elección automática; no reemplazan a src/aceleracion/aceleracion.py
 src/auditoria/        # Parte 2 completa: voraz, fuerza bruta, lectura de casos, resolución, traza y variante ponderada
 src/auditoria/enfoques/  # enfoques aparte del voraz base (Parte 2) y su experimento; no reemplazan a src/auditoria/auditoria.py
 frontend/             # visor local de apoyo (inicio, Parte 1 y Parte 2); solo importa de src/aceleracion/ y src/auditoria/

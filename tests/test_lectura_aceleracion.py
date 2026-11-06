@@ -84,7 +84,7 @@ def test_json_invalido(tmp_path):
 
 def test_ejemplo_real_de_la_profesora_si_esta():
     from pathlib import Path
-    ruta = Path(__file__).resolve().parents[1] / "casos_propios" / "entrada_G3_mochila_20_nodos.json"
+    ruta = Path(__file__).resolve().parents[1] / "casos_propios" / "pd" / "entrada_G3_mochila_20_nodos.json"
     if not ruta.exists():
         pytest.skip("el ejemplo está solo en el material local")
     inst = leer_instancia(ruta)

@@ -10,11 +10,26 @@ aporta cada ingrediente. Todo con semilla fija.
 
 Las combinaciones sin `parejas` cuestan O(n·r·min(n, r)); las que llevan `parejas`,
 O(n²·r·min(n, r)).
+
+Uso (desde la raíz del proyecto), con la tabla de las ocho combinaciones:
+
+    python3 src/auditoria/enfoques/comparacion/ablacion.py [--instancias N] [--semilla S]
+
+Genera N instancias aleatorias por familia de densidad (ralo, medio, denso; n <= 12 para poder
+calcular el mínimo real por fuerza bruta) y cuenta, por combinación, cuántas veces no llega al
+mínimo, cuántas mejora, empata o empeora al voraz base y cuánto se aleja del mínimo.
 """
 
+import argparse
 import random
+import sys
 import time
+from pathlib import Path
 from typing import Dict, List, Optional, Sequence, Set, Tuple
+
+SRC = Path(__file__).resolve().parents[3]
+if str(SRC) not in sys.path:
+    sys.path.insert(0, str(SRC))
 
 from auditoria.enfoques.combinado.combinado import paso_parejas_rareza
 from auditoria.enfoques.rareza.rareza import frecuencias, paso_rareza
@@ -108,3 +123,88 @@ def ablacion(cantidad: int, semilla: int) -> Dict[str, dict]:
         salida[fam] = cuentas
     salida["total"] = {nombre: sum(salida[fam][nombre] for fam in FAMILIAS) for nombre, *_ in COMBINACIONES}
     return salida
+
+
+def ablacion_detalle(cantidad: int, semilla: int, familias: Optional[Sequence[str]] = None,
+                     ejemplos: int = 0) -> Dict[str, dict]:
+    """Por combinación (suma de las familias): cuántas veces no llega al óptimo, cuántas mejora, empata o
+    empeora al voraz base, la razón máxima respecto del óptimo y cuántas veces se pasa de H(d) veces el óptimo.
+
+    `familias` elige las densidades (por defecto, ralo, medio y denso). Con `ejemplos` > 0 guarda, por combinación,
+    hasta esa cantidad de las instancias más chicas donde empeoró al voraz base (clave `ejemplos`). `por_familia`
+    desglosa `no_optimo`. Usa las mismas instancias que `ablacion` (misma semilla y mismo orden), así que
+    `no_optimo` coincide con ella.
+    """
+    from auditoria.auditoria import cota_aproximacion
+    from auditoria.enfoques.comparacion.experimento import FAMILIAS, TAMANOS, instancia_aleatoria, optimo_de
+    (n_min, n_max), (r_min, r_max) = TAMANOS["pequenos"]
+    elegidas = list(FAMILIAS) if familias is None else [f for f in FAMILIAS if f in familias]
+    salida = {nombre: {"clave": clave(e, ra, pa), "no_optimo": 0, "mejora": 0, "igual": 0, "peor": 0,
+                       "razon_max": 0.0, "viola_cota": 0} for nombre, e, ra, pa in COMBINACIONES}
+    por_familia = {fam: {nombre: 0 for nombre, *_ in COMBINACIONES} for fam in elegidas}
+    peores: Dict[str, list] = {nombre: [] for nombre, *_ in COMBINACIONES}
+    total = 0
+    for fam in elegidas:
+        p = FAMILIAS[fam]
+        rng = random.Random(semilla)
+        for _ in range(cantidad):
+            n = rng.randint(n_min, n_max)
+            r = rng.randint(r_min, r_max)
+            rr, S = instancia_aleatoria(rng, n, r, p)
+            optimo = optimo_de(rr, S)
+            opt = len(optimo)
+            cota = cota_aproximacion(S)
+            J_base = voraz_ablacion(rr, S, False, False, False)
+            total += 1
+            for nombre, e, ra, pa in COMBINACIONES:
+                J = J_base if nombre == "Voraz base" else voraz_ablacion(rr, S, e, ra, pa)
+                tam = len(J)
+                d = salida[nombre]
+                d["no_optimo"] += tam > opt
+                por_familia[fam][nombre] += tam > opt
+                d["razon_max"] = max(d["razon_max"], tam / opt)
+                d["viola_cota"] += tam > cota * opt + 1e-9
+                if nombre != "Voraz base":
+                    d["mejora" if tam < len(J_base) else "peor" if tam > len(J_base) else "igual"] += 1
+                    if tam > len(J_base) and ejemplos:
+                        peores[nombre].append((n * rr, {"r": rr, "S": [sorted(s) for s in S], "familia": fam,
+                                                        "voraz": list(J_base), "combinacion": list(J),
+                                                        "optimo": list(optimo)}))
+    salida["instancias"] = total
+    salida["por_familia"] = por_familia
+    if ejemplos:
+        salida["ejemplos"] = {nombre: [x for _, x in sorted(lista, key=lambda y: y[0])[:ejemplos]]
+                              for nombre, lista in peores.items() if lista}
+    return salida
+
+
+def formatear_detalle(d: Dict[str, dict], cantidad: int, semilla: int) -> str:
+    """Tabla de texto con el resultado de `ablacion_detalle`."""
+    total = d["instancias"]
+    lineas = ["Ocho combinaciones sobre %d instancias aleatorias (3 familias x %d, n <= 12, semilla %d)." % (total, cantidad, semilla),
+              "'Llega al mínimo' = usa tantas interacciones como el mínimo real (fuerza bruta). 'Frente al voraz base' = en cuántas usa menos / igual / más.",
+              "",
+              "%-22s %14s %9s | %8s %8s %8s | %10s %10s" % ("Combinación", "no llega al", "% de", "mejora", "igual", "peor", "razón", "pasa"),
+              "%-22s %14s %9s | %8s %8s %8s | %10s %10s" % ("", "mínimo", "casos", "", "", "", "máxima", "H(d)")]
+    for nombre, *_ in COMBINACIONES:
+        x = d[nombre]
+        base = nombre == "Voraz base"
+        lineas.append("%-22s %14d %8.2f%% | %8s %8s %8s | %10.2f %10d" % (
+            nombre, x["no_optimo"], x["no_optimo"] / total * 100,
+            "-" if base else x["mejora"], "-" if base else x["igual"], "-" if base else x["peor"],
+            x["razon_max"], x["viola_cota"]))
+    lineas += ["", "Llegan al mínimo: " + ", ".join("%s %d" % (nombre, total - d[nombre]["no_optimo"]) for nombre, *_ in COMBINACIONES)]
+    return "\n".join(lineas)
+
+
+def main(argv=None) -> int:
+    ap = argparse.ArgumentParser(description="Tabla de las ocho combinaciones de ingredientes (Parte 2).")
+    ap.add_argument("--instancias", type=int, default=3000, help="instancias aleatorias por familia (por defecto 3000)")
+    ap.add_argument("--semilla", type=int, default=2026, help="semilla fija (por defecto 2026)")
+    args = ap.parse_args(argv)
+    print(formatear_detalle(ablacion_detalle(args.instancias, args.semilla), args.instancias, args.semilla))
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

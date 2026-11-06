@@ -452,7 +452,7 @@ footer { font-size: 13px; color: var(--texto-3); text-align: center; }
 .barra-metodo { display: flex; flex-wrap: wrap; align-items: flex-end; gap: 14px 22px; margin-bottom: 6px; }
 .barra-metodo .rotulo { display: block; font-size: 13px; font-weight: 700; color: var(--texto-2); margin-bottom: 6px; }
 .grupo-voraz, .grupo-ing, .grupo-nombre { display: flex; flex-direction: column; }
-#ingredientes { display: flex; flex-wrap: wrap; gap: 8px; }
+#ingredientes, #ingredientes-res { display: flex; flex-wrap: wrap; gap: 8px; }
 .sep-metodo { align-self: stretch; width: 2px; background: var(--borde); border-radius: 2px; min-height: 56px; }
 .btn-voraz, .btn-ing { min-height: 44px; padding: 0 18px; border-radius: 14px; font-size: 16px; font-weight: 700; cursor: pointer; transition: background .15s, color .15s, border-color .15s; }
 .btn-voraz { border: 2px solid var(--voraz); background: var(--voraz-suave); color: var(--voraz); }
@@ -484,3 +484,74 @@ footer { font-size: 13px; color: var(--texto-3); text-align: center; }
 .mini-tabla .n1 { background: var(--primario-suave); color: var(--texto-2); }
 .mini-tabla .nv { background: var(--acento); color: var(--acento-tinta); box-shadow: 0 3px 8px rgba(var(--sa), .35); }
 .mini-tabla .p { background: #fff; border: 2px dashed var(--punteado); color: var(--texto-3); }
+
+/* Sección "Cómo funciona cada enfoque" (Parte 1 y Parte 2) */
+.panel-explicacion { gap: 22px; }
+.intro-explicacion { display: flex; flex-direction: column; gap: 10px; max-width: 980px; font-size: 17px; color: var(--texto-2); }
+.intro-explicacion strong { color: var(--texto); }
+.cards-enfoque { display: grid; grid-template-columns: minmax(0, 980px); gap: 16px; }
+.enfoque-card {
+  display: flex; flex-direction: column; gap: 10px; padding: 20px 22px; border-radius: 22px;
+  background: var(--panel-2); font-size: 16px; color: var(--texto-2);
+}
+.enfoque-card h3 { font-size: 24px; font-weight: 800; letter-spacing: -0.01em; color: var(--texto); }
+.etiqueta-enfoque {
+  align-self: flex-start; font: 800 12px var(--sans); letter-spacing: .06em; text-transform: uppercase;
+  color: var(--primario); background: var(--primario-suave); padding: 3px 11px; border-radius: 999px;
+}
+.etiqueta-enfoque.base { color: var(--voraz); background: var(--voraz-suave); }
+.enfoque-card .lema {
+  font-size: 18px; line-height: 1.4; color: var(--tinta-int); padding: 10px 14px; border-radius: 14px;
+  background: var(--panel); border-left: 4px solid var(--acento);
+}
+.enfoque-card b { color: var(--texto); }
+.lista-explicacion { margin: 0; padding-left: 20px; display: flex; flex-direction: column; gap: 4px; }
+.enfoque-card .cuando { margin-top: auto; padding: 10px 14px; border-radius: 14px; background: var(--acento-suave); color: var(--exito-texto); font-size: 15px; }
+.ejemplo-explicacion { font-size: 16px; color: var(--texto-2); }
+.ejemplo-explicacion p { margin: 10px 0 6px; }
+.comparativa-explicacion { display: flex; flex-direction: column; gap: 10px; }
+.comparativa-explicacion h3 { font-size: 21px; font-weight: 750; }
+.comparativa-explicacion p { font-size: 16px; color: var(--texto-2); }
+.tabs-enfoque { flex: 0 1 auto; flex-wrap: wrap; align-self: flex-start; }
+.tabs-enfoque .tab { flex: 0 1 auto; padding: 0 22px; }
+.comparativa-explicacion h4 { font-size: 17px; font-weight: 750; color: var(--texto); margin-top: 6px; }
+.tabla-fallas small { color: var(--texto-3); font-weight: 500; }
+.tabla-fallas .celda-barra { min-width: 140px; width: 22%; }
+.barra-falla { display: block; height: 14px; border-radius: 7px; background: var(--acento); min-width: 4px; }
+.barra-falla.base { background: var(--voraz); }
+
+/* Armador de combinaciones (sección 2 del visor del voraz) */
+.armador { display: flex; flex-direction: column; gap: 14px; max-width: 980px; }
+.armador-controles { display: flex; flex-wrap: wrap; align-items: flex-end; gap: 14px 28px; }
+#ingredientes-armador { display: flex; flex-wrap: wrap; gap: 8px; }
+.detalle-armador { max-width: 980px; }
+.enfoque-card h4 { margin: 8px 0 0; font-size: 16px; font-weight: 750; color: var(--texto); }
+.armador-controles .rotulo { display: block; font-size: 13px; font-weight: 700; color: var(--texto-2); margin-bottom: 6px; }
+.armador-controles .grupo-ing, .armador-controles .grupo-nombre { display: flex; flex-direction: column; }
+.enfoque-card ol { margin: 0; padding-left: 22px; display: flex; flex-direction: column; gap: 6px; }
+.mini-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px; }
+.mini-stat { display: flex; flex-direction: column; gap: 2px; padding: 12px 14px; border-radius: 16px; background: var(--panel); font-size: 14px; color: var(--texto-2); }
+.mini-stat .clave { font-size: 13px; font-weight: 700; color: var(--texto-2); }
+.mini-stat b { font: 800 28px/1.15 var(--sans); color: var(--texto); }
+.mini-stat b.chico { font: 700 16px/1.4 var(--sans); }
+.mini-stat b.chico b { font: 800 16px/1.4 var(--sans); }
+
+/* Sección "Crear tus propias pruebas" (Parte 1 y Parte 2) */
+.panel-pruebas { gap: 18px; }
+.form-pruebas { display: flex; flex-wrap: wrap; align-items: flex-end; gap: 12px 18px; }
+.form-pruebas label { display: flex; flex-direction: column; gap: 5px; font-size: 14px; font-weight: 650; color: var(--texto-2); min-width: 120px; }
+.form-pruebas input[type="number"] { height: 44px; font-size: 17px; padding: 0 12px; }
+.form-pd label { min-width: 130px; flex: 1 1 130px; max-width: 200px; }
+.densidades { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 16px; border: 1.5px solid var(--borde); border-radius: 14px; padding: 6px 14px 8px; }
+.densidades legend { font-size: 13px; font-weight: 700; color: var(--texto-2); padding: 0 6px; }
+.densidades label { flex-direction: row; align-items: center; gap: 8px; font-size: 16px; min-width: 0; }
+.densidades input { width: 20px; height: 20px; accent-color: var(--primario); margin: 0; }
+.presets-pruebas { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 10px; }
+.presets-pruebas .rotulo { font-size: 13px; font-weight: 700; color: var(--texto-2); margin-right: 4px; }
+.resumen-pruebas { font-size: 17px; color: var(--texto-2); }
+.subtitulo-pruebas { font-size: 19px; font-weight: 750; margin-top: 8px; }
+.tabla-pruebas td small { color: var(--texto-3); font-weight: 500; }
+.lista-ejemplos { list-style: none; margin: 10px 0 0; padding: 0; display: flex; flex-direction: column; gap: 10px; font-size: 15px; color: var(--texto-2); }
+.lista-ejemplos li { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; padding: 10px 12px; border-radius: 12px; background: var(--panel); }
+.lista-ejemplos li span { flex: 1 1 420px; }
+#panel-pruebas details.plegable { margin-top: 2px; }

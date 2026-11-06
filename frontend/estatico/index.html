@@ -139,10 +139,188 @@
     </div>
   </section>
 
-  <!-- ============ 2. Resultado ============ -->
+  <!-- ============ 2. Cómo funciona cada enfoque ============ -->
+  <section class="panel panel-explicacion" id="panel-enfoques" aria-labelledby="titulo-enfoques">
+    <div class="encabezado-seccion">
+      <span class="num-paso" aria-hidden="true">2</span>
+      <div>
+        <h2 id="titulo-enfoques">Cómo funciona cada enfoque</h2>
+        <p class="ayuda-corta">El método voraz y las variantes que se le pueden sumar: qué hace cada una y cuándo ayuda</p>
+      </div>
+    </div>
+
+    <div class="intro-explicacion">
+      <p><strong>El problema.</strong> Imagina que debes revisar un conjunto de <em>riesgos</em> y tienes varias <em>interacciones</em> que puedes
+        auditar. Cada interacción revisa solo algunos riesgos. Quieres que <strong>todos los riesgos queden revisados</strong> auditando la
+        <strong>menor cantidad posible</strong> de interacciones. Es como contratar revisores: cada uno sabe revisar ciertas cosas y quieres
+        el equipo más pequeño que cubra todo.</p>
+      <p><strong>Qué es un método voraz.</strong> Probar todas las combinaciones sería lentísimo. Un método <em>voraz</em> (o &laquo;goloso&raquo;) hace
+        algo mucho más simple: <strong>en cada paso toma la mejor decisión del momento y no se arrepiente</strong>. Es muy rápido y suele dar
+        muy buenos resultados, pero <strong>no siempre encuentra el mínimo</strong>: a veces una decisión que parecía la mejor obliga a auditar
+        más interacciones después. Por eso abajo se compara cada método con el mínimo real.</p>
+      <p>Hay un método base, el <strong>voraz normal</strong>, y tres &laquo;ingredientes&raquo; que se le pueden sumar para decidir con más criterio.
+        Los ingredientes se pueden combinar entre sí.</p>
+    </div>
+
+    <div class="tabs tabs-enfoque" role="tablist" aria-label="Elegir qué enfoque se explica" data-selector-explicacion>
+        <button class="tab activa" role="tab" aria-selected="true" data-vista="normal">Voraz normal</button>
+        <button class="tab" role="tab" aria-selected="false" data-vista="esenciales">Esenciales</button>
+        <button class="tab" role="tab" aria-selected="false" data-vista="rareza">Rareza</button>
+        <button class="tab" role="tab" aria-selected="false" data-vista="parejas">Parejas</button>
+        <button class="tab" role="tab" aria-selected="false" data-vista="armar">Armar una combinación</button>
+        <button class="tab" role="tab" aria-selected="false" data-vista="comparar">Las combinaciones</button>
+    </div>
+
+    <div class="cards-enfoque">
+      <article class="enfoque-card" data-vista-panel="normal">
+        <span class="etiqueta-enfoque base">El método base</span>
+        <h3>Voraz normal</h3>
+        <p class="lema">&laquo;Audita la interacción que revisa <b>más riesgos que todavía no están revisados</b>.&raquo;</p>
+        <p>En cada paso cuenta, para cada interacción, cuántos riesgos <em>nuevos</em> revisaría (los que aún no cubre ninguna de las ya elegidas)
+          y elige la que más. Repite hasta que todos los riesgos estén revisados. Si dos empatan, gana la de número menor.</p>
+        <p><b>Su límite:</b> no mira más allá del paso actual. Puede elegir primero una interacción muy &laquo;grande&raquo; y luego necesitar
+          dos más para completar lo que falta, cuando otra combinación de solo dos habría bastado.</p>
+        <p class="cuando"><b>Garantía:</b> es la única con una garantía matemática demostrada: nunca usa más de H(d) veces el mínimo
+          (d es la mayor cantidad de riesgos que revisa una sola interacción; H(d) crece muy despacio, aproximadamente ln r + 1).</p>
+      </article>
+
+      <article class="enfoque-card" data-vista-panel="esenciales">
+        <span class="etiqueta-enfoque">Ingrediente</span>
+        <h3>Esenciales</h3>
+        <p class="lema">&laquo;Si solo una interacción revisa cierto riesgo, <b>hay que auditarla sí o sí</b>.&raquo;</p>
+        <p>Una interacción es <b>esencial</b> cuando es la única que revisa algún riesgo. Cualquier solución tiene que incluirla,
+          así que no hay nada que decidir: se eligen <b>primero</b> todas las esenciales y, con lo que falte, se sigue con el voraz normal.</p>
+        <p><b>Cuándo ayuda:</b> cuando hay riesgos &laquo;huérfanos&raquo; que solo cubre una interacción. Si ningún riesgo es único, no cambia nada.</p>
+        <p class="cuando"><b>Garantía:</b> conserva la misma del voraz normal.</p>
+      </article>
+
+      <article class="enfoque-card" data-vista-panel="rareza">
+        <span class="etiqueta-enfoque">Ingrediente</span>
+        <h3>Rareza</h3>
+        <p class="lema">&laquo;Un riesgo que casi nadie revisa <b>vale más</b> que uno que revisan muchos.&raquo;</p>
+        <p>El voraz normal trata todos los riesgos por igual. Aquí cada riesgo pendiente vale <b>1 dividido entre cuántas interacciones lo revisan</b>:
+          si lo revisa una sola vale 1, si lo revisan cuatro vale ¼. En cada paso se elige la interacción cuyos riesgos pendientes <b>suman más valor</b>.</p>
+        <p><b>Cuándo ayuda:</b> cuando hay riesgos difíciles de cubrir que conviene atender antes de que se pierda la oportunidad.
+          Si todos los riesgos son igual de comunes, se comporta como el voraz normal.</p>
+        <p class="cuando"><b>Garantía: ninguna.</b> No existe ninguna garantía matemática demostrada para este método (no hay prueba de que se acerque al mínimo en todos los casos, ni se encontró una en la literatura). Solo se ha medido en experimentos: en instancias pequeñas nunca superó la cota del voraz normal, pero eso no es una prueba.</p>
+      </article>
+
+      <article class="enfoque-card" data-vista-panel="parejas">
+        <span class="etiqueta-enfoque">Ingrediente</span>
+        <h3>Parejas</h3>
+        <p class="lema">&laquo;Antes de elegir, <b>mira un paso al futuro</b>.&raquo;</p>
+        <p>En lugar de evaluar interacciones sueltas, evalúa <b>parejas</b>: qué par de interacciones revisa más riesgos nuevos trabajando juntas.
+          De esa pareja ganadora se compromete solo la que más revisa por sí sola, y vuelve a evaluar.</p>
+        <p><b>Cuándo ayuda:</b> en los casos donde el voraz normal cae en una &laquo;trampa&raquo;, porque una interacción grande tapa que dos
+          pequeñas juntas serían mejores. <b>El costo:</b> revisa todas las parejas, así que es más lento (un factor n más).</p>
+        <p class="cuando"><b>Garantía: ninguna.</b> No existe ninguna garantía matemática demostrada para este método (no hay prueba de que se acerque al mínimo en todos los casos, ni se encontró una en la literatura). Solo se ha medido en experimentos: en instancias pequeñas nunca superó la cota del voraz normal, pero eso no es una prueba.</p>
+      </article>
+    </div>
+
+    <div class="armador" data-vista-panel="armar">
+      <p class="ayuda">Enciende los ingredientes que quieras sumarle al voraz normal, de a uno o varios, y abajo verás el detalle de <b>esa combinación</b>:
+        cómo decide, qué aporta cada ingrediente, qué se midió y qué cuesta.</p>
+      <div class="armador-controles">
+        <div class="grupo-ing">
+          <span class="rotulo">Sumarle ingredientes (se combinan)</span>
+          <div id="ingredientes-armador" role="group" aria-label="Ingredientes de la combinación">
+            <button class="btn-ing" type="button" data-ing="e" aria-pressed="false">Esenciales</button>
+            <button class="btn-ing" type="button" data-ing="r" aria-pressed="false">Rareza</button>
+            <button class="btn-ing" type="button" data-ing="p" aria-pressed="false">Parejas</button>
+          </div>
+        </div>
+        <div class="grupo-nombre">
+          <span class="rotulo">Mostrando</span>
+          <span class="nombre-combinacion" id="nombre-armador">Voraz normal</span>
+        </div>
+      </div>
+      <article class="enfoque-card detalle-armador" id="detalle-armador" aria-live="polite"></article>
+    </div>
+
+    <div class="comparativa-explicacion" data-vista-panel="comparar">
+      <h3>Combinar los ingredientes</h3>
+      <p>Los tres ingredientes no compiten entre sí: <b>cada uno arregla un tipo distinto de error</b> del voraz normal. Por eso los botones se pueden
+        encender de a varios. Con tres ingredientes hay <b>ocho combinaciones</b> (contando el voraz normal sin ninguno).</p>
+
+      <h4>Qué arregla cada ingrediente</h4>
+      <ul class="lista-explicacion">
+        <li><b>Esenciales</b> arregla el caso de las interacciones <em>obligatorias</em>: si un riesgo solo lo revisa una interacción, esa decisión no debería
+          dejarse al azar del orden. Las toma primero.</li>
+        <li><b>Rareza</b> arregla el caso de los riesgos <em>difíciles de cubrir</em>: el voraz normal los trata igual que a los comunes y puede dejarlos para el final,
+          cuando ya obligan a gastar una interacción entera para uno solo.</li>
+        <li><b>Parejas</b> arregla el caso de las <em>trampas</em>: a veces una interacción grande parece la mejor pero tapa que dos pequeñas, juntas, cubrían más.
+          Mirando pares se ve lo que una sola no muestra.</li>
+      </ul>
+
+      <h4>Por qué juntos funcionan tan bien</h4>
+      <p>Cuando se combinan, <b>lo que no ve uno lo ve otro</b>. Las esenciales quitan las decisiones obligatorias del medio; con lo que queda, la rareza ordena
+        las prioridades y las parejas evitan las trampas. Un detalle: las esenciales son un caso extremo de la rareza (un riesgo que revisa una sola interacción
+        es el más raro posible), así que se solapan en parte; aun así sumarlas ayuda, porque las esenciales se <em>fuerzan</em> primero y la rareza solo las <em>favorece</em>.</p>
+
+      <h4>Qué se midió: cuántas veces falla cada combinación</h4>
+      <p class="nota-cmp">9.000 instancias pequeñas generadas al azar (3 densidades × 3.000, con hasta 12 interacciones), comparadas con el mínimo real calculado por fuerza bruta.
+        &laquo;Falla&raquo; significa que usó más interacciones que el mínimo.</p>
+      <div style="overflow-x:auto">
+        <table class="tabla-cmp tabla-fallas">
+          <thead><tr><th>Combinación</th><th class="num">Casos que falla</th><th class="num">De las 9.000</th><th>Comparado con el voraz normal</th><th></th></tr></thead>
+          <tbody>
+            <tr><td><b>Voraz normal</b><br><small>El punto de partida.</small></td><td class="num"><b>513</b></td><td class="num">5,70 %</td><td class="celda-barra"><span class="barra-falla base" style="width:100.0%"></span></td><td>—</td></tr>
+            <tr><td><b>Esenciales</b><br><small>Obliga a elegir primero las interacciones únicas.</small></td><td class="num"><b>211</b></td><td class="num">2,34 %</td><td class="celda-barra"><span class="barra-falla" style="width:41.1%"></span></td><td>2,4 veces menos</td></tr>
+            <tr><td><b>Rareza</b><br><small>Da más peso a los riesgos que casi nadie revisa.</small></td><td class="num"><b>135</b></td><td class="num">1,50 %</td><td class="celda-barra"><span class="barra-falla" style="width:26.3%"></span></td><td>3,8 veces menos</td></tr>
+            <tr><td><b>Parejas</b><br><small>Mira un paso al futuro con pares de interacciones.</small></td><td class="num"><b>138</b></td><td class="num">1,53 %</td><td class="celda-barra"><span class="barra-falla" style="width:26.9%"></span></td><td>3,7 veces menos</td></tr>
+            <tr><td><b>Esenciales + rareza</b><br><small>Obligatorias primero y, con lo que falte, puntúa por rareza.</small></td><td class="num"><b>97</b></td><td class="num">1,08 %</td><td class="celda-barra"><span class="barra-falla" style="width:18.9%"></span></td><td>5,3 veces menos</td></tr>
+            <tr><td><b>Esenciales + parejas</b><br><small>Obligatorias primero y, con lo que falte, evalúa parejas.</small></td><td class="num"><b>25</b></td><td class="num">0,28 %</td><td class="celda-barra"><span class="barra-falla" style="width:4.9%"></span></td><td>21 veces menos</td></tr>
+            <tr><td><b>Rareza + parejas</b><br><small>Evalúa parejas, valoradas por la rareza de lo que cubren.</small></td><td class="num"><b>13</b></td><td class="num">0,14 %</td><td class="celda-barra"><span class="barra-falla" style="width:2.5%"></span></td><td>39 veces menos</td></tr>
+            <tr><td><b>Los tres juntos</b><br><small>Obligatorias primero y luego parejas valoradas por rareza.</small></td><td class="num"><b>9</b></td><td class="num">0,10 %</td><td class="celda-barra"><span class="barra-falla" style="width:1.8%"></span></td><td>57 veces menos</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h4>Cuándo brilla cada una</h4>
+      <ul class="lista-explicacion">
+        <li><b>Hay riesgos huérfanos</b> (los revisa una sola interacción): las esenciales. Si no hay ninguno, no cambian nada.</li>
+        <li><b>Hay riesgos raros mezclados con comunes:</b> la rareza. En las instancias densas, donde casi todo se repite, ayuda menos.</li>
+        <li><b>Hay trampas</b> (una interacción grande que tapa a dos pequeñas): las parejas. En una familia de trampas armada a propósito, con mínimo 2, el voraz normal
+          usó 3, 4 y hasta 5 interacciones, mientras que las parejas y los tres juntos encontraron siempre 2. Ahí ni las esenciales ni la rareza ayudan: ningún riesgo
+          es único y todos son igual de raros.</li>
+        <li><b>Hay de todo un poco</b> (lo normal): los tres juntos. Fallaron en 9 de 9.000 casos (0,1 %), contra 513 (5,7 %) del voraz normal, y casi todos esos 9 estaban
+          en las instancias de densidad media.</li>
+      </ul>
+
+      <h4>Lo que cuesta, y lo que hay que tener presente</h4>
+      <ul class="lista-explicacion">
+        <li><b>Tiempo:</b> las esenciales casi no suman, la rareza es unas 4 veces más lenta y las <b>parejas</b> son las que pesan: de 6 a 46 veces más lentas que el voraz
+          normal al pasar de 20 a 160 interacciones, porque revisan todos los pares. Los tres juntos llegan a ser unas 14 a 138 veces más lentos. Aun así siguen siendo rápidos con estos tamaños: con 160 interacciones los tres juntos tardan menos de 0,2 segundos.</li>
+
+        <li><b>No siempre mejoran:</b> en unas pocas instancias una combinación sale peor que el voraz normal (los tres juntos, en 2 de 9.000).</li>
+        <li><b>Ninguna garantía demostrada:</b> solo el voraz normal y las esenciales tienen una garantía matemática. Cualquier combinación con rareza o parejas no tiene ninguna;
+          lo anterior es evidencia medida, no una prueba.</li>
+        <li><b>Cuidado al generalizar:</b> las instancias son pequeñas y sintéticas, y los ingredientes se eligieron mirando estos mismos resultados. No se puede asegurar que
+          el comportamiento sea el mismo en casos grandes o de otra forma.</li>
+      </ul>
+
+      <h4>Resumen de los cuatro métodos</h4>
+      <div style="overflow-x:auto">
+        <table class="tabla-cmp">
+          <thead><tr><th>Método</th><th>Cómo decide</th><th>Cuándo ayuda</th><th>Velocidad</th><th>Garantía demostrada</th></tr></thead>
+          <tbody>
+            <tr><td>Voraz normal</td><td>La que revisa más riesgos nuevos</td><td>Casos comunes</td><td>La base</td><td>Sí</td></tr>
+            <tr><td>Esenciales</td><td>Primero las obligatorias</td><td>Riesgos que revisa una sola interacción</td><td>Igual a la base</td><td>Sí</td></tr>
+            <tr><td>Rareza</td><td>Da más valor a los riesgos raros</td><td>Riesgos difíciles de cubrir</td><td>Igual a la base</td><td><b>Ninguna</b></td></tr>
+            <tr><td>Parejas</td><td>Evalúa pares de interacciones</td><td>Trampas del voraz normal</td><td>Más lento</td><td><b>Ninguna</b></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="nota-cmp"><b>Solo el voraz normal y las esenciales tienen una garantía matemática demostrada.</b> Rareza y parejas <b>no tienen ninguna</b>, y por lo tanto tampoco las combinaciones que las incluyan (por ejemplo, esenciales + rareza). <b>Ninguno de los métodos garantiza el mínimo.</b> Por eso la sección de resultados compara cada uno con el mínimo real,
+        calculado probando todas las combinaciones (solo posible con 12 interacciones o menos). Los ingredientes son un estudio aparte: no reemplazan
+        al voraz normal, que es la solución de la entrega.</p>
+    </div>
+  </section>
+
+  <!-- ============ 3. Resultado ============ -->
   <section id="panel-resultado" aria-labelledby="titulo-resultado">
     <div class="encabezado-seccion">
-      <span class="num-paso verde" aria-hidden="true">2</span>
+      <span class="num-paso verde" aria-hidden="true">3</span>
       <div>
         <h2 id="titulo-resultado">Resultado y decisión, paso a paso</h2>
         <p class="ayuda-corta">Cómo el algoritmo elige qué auditar hasta revisar todos los riesgos</p>
@@ -164,6 +342,26 @@
     </div>
 
     <div class="oculto" id="salida">
+      <div class="barra-metodo" id="barra-metodo-res">
+        <div class="grupo-voraz">
+          <span class="rotulo">Ver el resultado de</span>
+          <button class="btn-voraz activo" id="btn-voraz-res" type="button" aria-pressed="true">Voraz normal</button>
+        </div>
+        <span class="sep-metodo" aria-hidden="true"></span>
+        <div class="grupo-ing">
+          <span class="rotulo">Sumarle ingredientes (se combinan)</span>
+          <div id="ingredientes-res" role="group" aria-label="Ingredientes del resultado">
+            <button class="btn-ing" type="button" data-ing="e" aria-pressed="false">Esenciales</button>
+            <button class="btn-ing" type="button" data-ing="r" aria-pressed="false">Rareza</button>
+            <button class="btn-ing" type="button" data-ing="p" aria-pressed="false">Parejas</button>
+          </div>
+        </div>
+        <div class="grupo-nombre">
+          <span class="rotulo">Mostrando (no cambia la simulación de abajo)</span>
+          <span class="nombre-combinacion" id="nombre-res">Voraz normal</span>
+        </div>
+      </div>
+
       <div class="resumen" id="resumen"></div>
 
       <div class="tarjeta costo" id="tarjeta-costo"></div>
@@ -187,7 +385,7 @@
           </div>
         </div>
         <div class="grupo-nombre">
-          <span class="rotulo">Mostrando</span>
+          <span class="rotulo">Simulando</span>
           <span class="nombre-combinacion" id="nombre-combinacion">Voraz normal</span>
         </div>
       </div>
@@ -263,12 +461,74 @@
     </div>
   </section>
 
+  <!-- ============ 4. Crear tus propias pruebas ============ -->
+  <section class="panel panel-pruebas" id="panel-pruebas" aria-labelledby="titulo-pruebas">
+    <div class="encabezado-seccion">
+      <span class="num-paso" aria-hidden="true">4</span>
+      <div>
+        <h2 id="titulo-pruebas">Crear tus propias pruebas</h2>
+        <p class="ayuda-corta">Genera casos al azar y mira cuántas veces cada método llega al mínimo y en cuántos empeora</p>
+      </div>
+    </div>
+
+    <div class="intro-explicacion">
+      <p><strong>Qué hace.</strong> Crea casos de prueba al azar y, para cada uno, corre los <b>ocho métodos</b> (el voraz normal y las combinaciones de
+        ingredientes). Luego los compara con el <b>mínimo real</b>, que se calcula probando todas las combinaciones. Por eso los casos son pequeños
+        (hasta 12 interacciones y 14 riesgos). Al final cuenta, por método, en cuántos casos <b>llegó al mínimo</b>, en cuántos fue <b>mejor, igual o peor
+        que el voraz normal</b> y cuánto se alejó del mínimo en el peor caso.</p>
+      <p><strong>Qué es la densidad.</strong> Es cuántos riesgos revisa cada interacción: <em>ralo</em> revisa pocos (cerca del 10 %), <em>medio</em> cerca del 25 % y
+        <em>denso</em> cerca del 45 %. Con la misma semilla siempre salen los mismos casos, así que el resultado se puede repetir.</p>
+    </div>
+
+    <div class="form-pruebas">
+      <label>Casos por densidad
+        <input type="number" id="pv-instancias" min="1" max="5000" value="500">
+      </label>
+      <label>Semilla
+        <input type="number" id="pv-semilla" value="2026">
+      </label>
+      <fieldset class="densidades">
+        <legend>Densidades a probar</legend>
+        <label><input type="checkbox" class="pv-familia" value="ralo" checked> Ralo</label>
+        <label><input type="checkbox" class="pv-familia" value="medio" checked> Medio</label>
+        <label><input type="checkbox" class="pv-familia" value="denso" checked> Denso</label>
+      </fieldset>
+      <button class="btn primario grande" id="pv-correr" type="button">Correr la prueba</button>
+    </div>
+    <p class="nota" id="pv-nota">Hasta 5.000 casos por densidad. Con 500 por densidad tarda un par de segundos; con 5.000, cerca de diez.</p>
+
+    <div class="banner-error oculto" id="pv-error" role="alert">
+      <span class="icono-error" aria-hidden="true">!</span>
+      <div class="cuerpo-error"><div class="titulo-error">No se pudo correr la prueba</div><div id="pv-mensaje-error"></div></div>
+    </div>
+
+    <div class="oculto" id="pv-resultado">
+      <p class="resumen-pruebas" id="pv-resumen"></p>
+      <div style="overflow-x:auto">
+        <table class="tabla-cmp tabla-pruebas" id="pv-tabla"></table>
+      </div>
+      <p class="nota-cmp">Cómo leerla: <b>Llega al mínimo</b> es en cuántos casos el método usó tantas interacciones como el mínimo real. <b>Mejor / Igual / Peor</b> comparan
+        contra el voraz normal, caso por caso. <b>Razón máxima</b> es cuántas veces el mínimo llegó a usar en su peor caso (1,00 = nunca se alejó).
+        <b>Pasa H(d)</b> cuenta los casos que superaron la cota teórica del voraz normal. La fila resaltada es la que más veces llegó al mínimo.</p>
+
+      <h3 class="subtitulo-pruebas">Cuántas veces no llegó al mínimo, según la densidad</h3>
+      <div style="overflow-x:auto"><table class="tabla-cmp tabla-pruebas" id="pv-tabla-familias"></table></div>
+
+      <h3 class="subtitulo-pruebas">Casos donde un método empeoró al voraz normal</h3>
+      <p class="nota-cmp" id="pv-ejemplos-nota"></p>
+      <div id="pv-ejemplos"></div>
+    </div>
+  </section>
+
   <footer>
     Herramienta de apoyo local para la sustentación. Los cálculos los hace el mismo código del proyecto
     que produce las evidencias; esta página solo los muestra. No es parte de la entrega.
   </footer>
 </div>
 
+<script src="/estatico/explicacion.js"></script>
+<script src="/estatico/combinador.js"></script>
+<script src="/estatico/pruebas.js"></script>
 <script src="/estatico/app.js"></script>
 </body>
 </html>
