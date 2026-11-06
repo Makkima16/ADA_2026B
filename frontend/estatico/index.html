@@ -318,6 +318,13 @@
     </div>
   </section>
 
+  <!-- Qué ver: el voraz normal con sus enfoques o la variante ponderada (con costos) -->
+  <nav class="vista-selector" id="vista-selector" aria-label="Qué quieres ver">
+    <span class="rotulo">Qué quieres ver</span>
+    <button class="btn-voraz activo" type="button" data-vista="voraz">Voraz normal y enfoques</button>
+    <button class="btn-voraz" type="button" data-vista="variante">Variante ponderada (con costos)</button>
+  </nav>
+
   <!-- ============ 3. Resultado ============ -->
   <section id="panel-resultado" aria-labelledby="titulo-resultado">
     <div class="encabezado-seccion">
@@ -463,6 +470,71 @@
   </section>
 
 
+  <!-- ============ 3 (variante). Variante ponderada ============ -->
+  <section class="oculto" id="panel-variante" aria-labelledby="titulo-variante">
+    <div class="encabezado-seccion">
+      <span class="num-paso verde" aria-hidden="true">3</span>
+      <div>
+        <h2 id="titulo-variante">Variante ponderada: gastar lo menos posible</h2>
+        <p class="ayuda-corta">Cada interacción cuesta distinto. En cada paso se elige la que sale más barata por riesgo nuevo</p>
+      </div>
+    </div>
+
+    <div class="vacio" id="var-vacio">
+      <div class="vacio-titulo">Todavía no hay nada que mostrar</div>
+      <div class="vacio-texto">Carga un caso arriba y pulsa <strong>Analizar</strong>. Aquí verás la variante con costos, paso a paso.</div>
+    </div>
+    <div class="tarjeta-grande oculto" id="var-sin-costos">
+      <div class="nf-titulo">Este caso no trae costos de auditoría</div>
+      <div>La variante ponderada necesita un costo por interacción. Los trae el JSON de la profesora (<span class="mono">variaciones_auditoria</span>), el campo <span class="mono">costo_auditoria</span> o una línea <span class="mono"># costos:</span> en el <span class="mono">.txt</span>. Sin costos no hay variante que mostrar.</div>
+    </div>
+    <div class="tarjeta-grande oculto" id="var-no-factible" role="alert">
+      <div class="nf-titulo">Este caso no tiene solución</div>
+      <div id="var-texto-no-factible"></div>
+    </div>
+
+    <div class="oculto" id="var-salida">
+      <div class="tarjeta" id="var-versiones">
+        <div class="barra-version">
+          <span class="rotulo">Versión</span>
+          <button class="btn-ing activo" type="button" data-version="completas">Solo completas</button>
+          <button class="btn-ing" type="button" data-version="parciales" id="btn-parciales">Con parciales</button>
+        </div>
+        <p class="nota" id="var-nota-version"></p>
+      </div>
+
+      <div class="resumen" id="var-tarjetas"></div>
+
+      <div class="tarjeta">
+        <div class="controles-var">
+          <button class="btn redondo" type="button" id="var-ant" aria-label="Paso anterior">‹</button>
+          <button class="btn reproducir" type="button" id="var-play">Reproducir</button>
+          <button class="btn redondo" type="button" id="var-sig" aria-label="Paso siguiente">›</button>
+          <input type="range" id="var-slider" min="0" max="0" value="0" aria-label="Paso">
+          <span class="contador-caso" id="var-contador"></span>
+        </div>
+        <div class="chips-categorias" id="var-categorias" aria-label="Riesgos: cubiertos, nuevos en este paso y pendientes"></div>
+        <ul class="leyenda" aria-label="Leyenda">
+          <li><span class="celda c-nuevo">+</span>se cubre en este paso</li>
+          <li><span class="celda c-cubierto"></span>ya cubierto</li>
+          <li><span class="celda c-pendiente">·</span>pendiente</li>
+        </ul>
+        <div id="var-paso"></div>
+        <div id="var-lista"></div>
+      </div>
+
+      <div class="tarjeta oculto" id="var-cobertura-final">
+        <h3>Así queda: cada riesgo y quién lo cubre</h3>
+        <div class="cobertura" id="var-tabla-cobertura"></div>
+      </div>
+
+      <details class="tarjeta evidencia">
+        <summary>Vista técnica · evidencia</summary>
+        <pre class="desplazable" id="var-evidencia"></pre>
+      </details>
+    </div>
+  </section>
+
   <footer>
     Herramienta de apoyo local para la sustentación. Los cálculos los hace el mismo código del proyecto
     que produce las evidencias; esta página solo los muestra. No es parte de la entrega.
@@ -472,5 +544,6 @@
 <script src="/estatico/explicacion.js"></script>
 <script src="/estatico/combinador.js"></script>
 <script src="/estatico/app.js"></script>
+<script src="/estatico/variante.js"></script>
 </body>
 </html>

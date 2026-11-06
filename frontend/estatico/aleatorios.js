@@ -222,7 +222,8 @@
     return '<div class="ficha-cab"><h4>' + esc(nombre) + '</h4><div class="chips"><span class="chip">' + esc(c.n) + ' etapas</span><span class="chip">' + esc(c.r) + ' categorías</span><span class="chip">B = ' + esc(c.B) + "</span></div></div>" +
       '<div class="resumen">' + t1 + t2 + t3 + "</div>" + tabla +
       '<div class="ficha-acciones"><a class="btn primario" href="' + hrefP1 + '"' + (p1 ? "" : ' aria-disabled="true"') + ">Ver paso a paso en Aceleración (Parte 1) →</a>" +
-      '<a class="btn primario" href="' + hrefP2 + '"' + (p2 ? "" : ' aria-disabled="true"') + ">Ver paso a paso en Auditoría (Parte 2) →</a></div>" +
+      '<a class="btn primario" href="' + hrefP2 + '"' + (p2 ? "" : ' aria-disabled="true"') + ">Ver paso a paso en Auditoría (Parte 2) →</a>" +
+      '<a class="btn primario" href="' + hrefP2 + '&modo=variante"' + (v1 ? "" : ' aria-disabled="true"') + ">Ver la variante ponderada paso a paso →</a></div>" +
       '<div class="ficha-enlaces"><a href="#" class="al-ver-caso" data-nombre="' + esc(nombre) + '">Ver el caso (.json)</a>' +
       [enlaceTraza(p1, "traza Parte 1"), enlaceTraza(filas.parte1_presupuesto, "las dos tablas de la DP"), enlaceTraza(p2, "traza Parte 2"), enlaceTraza(filas.parte2_voraz, "los ocho enfoques"), enlaceTraza(v1, "traza variante"), enlaceTraza(vp, "traza variante con parciales")].filter(Boolean).join(" ") + "</div>";
   }

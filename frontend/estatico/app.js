@@ -260,6 +260,7 @@ async function pedir(ruta, texto, nombre) {
 
 async function analizar(texto, nombre, desdeFormulario) {
   ocultarError();
+  estado.caso = { texto: texto, nombre: nombre };             // lo usa la vista de la variante ponderada (variante.js)
   const { ok, datos } = await pedir("/api/resolver", texto, nombre);
   if (!ok) {
     mostrarErrorServidor(datos.error || "Error desconocido del servidor.", desdeFormulario);
@@ -268,8 +269,11 @@ async function analizar(texto, nombre, desdeFormulario) {
   estado.res = datos;
   estado.pos = 0;
   dibujarSalida();
-  $("#panel-resultado").scrollIntoView({ behavior: "smooth", block: "start" });
-  if (datos.factible) reproducir();
+  if (window.alAnalizar) window.alAnalizar();                 // variante.js: actualiza la vista de la variante ponderada
+  if (!window.vistaVariante || !window.vistaVariante()) {
+    $("#panel-resultado").scrollIntoView({ behavior: "smooth", block: "start" });
+    if (datos.factible) reproducir();
+  }
 }
 
 /* ------------------------- mensajes de error --------------------------- */
