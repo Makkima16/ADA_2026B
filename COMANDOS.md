@@ -1,7 +1,7 @@
 # Comandos del proyecto
 
 > Documento vivo: se agrega una fila cada vez que el proyecto suma un comando nuevo.
-> Última actualización: 2026-11-04 (el visor entra al repositorio; limpieza de archivos que ya no se usan).
+> Última actualización: 2026-11-06 (llega `run_all.py` y `generador_casos.py` desde `develop`).
 > Salvo que se indique otra cosa, todos los comandos se ejecutan **desde la raíz del proyecto** (la carpeta que contiene `README.md`).
 
 ## Entorno virtual
@@ -34,6 +34,13 @@ print(formatear_resultado(resolver_caso(leer_instancia('ruta/al/caso.json'))))  
 ```
 
 Imprime la traza de elecciones, la cobertura final, el tiempo y, si n ≤ 12, el óptimo por fuerza bruta. El visor (más abajo) hace lo mismo con una interfaz.
+
+## Correr todos los casos y generar evidencias (`run_all.py`, del integrante 3)
+
+| Comando | Ruta desde donde se ejecuta | Para qué sirve |
+| --- | --- | --- |
+| `python3 run_all.py --casos casos/ --salida resultados/` | Raíz | Corre la Parte 1, la Parte 2 y la variante ponderada sobre cada caso de `--casos` y regenera `--salida` (resultado, tiempo y traza por caso, `resumen.csv`, `comparacion.md` y `version.txt`). Con `--sin-tabla` no imprime la tabla en la terminal. Si un caso no trae costos `costo_auditoria`, la variante no se ejecuta y la evidencia lo dice. |
+| `python3 generador_casos.py [--malla] [--salida DIR] [--semilla S]` | Raíz | Genera casos propios en el formato JSON de la profesora (22 por defecto; 110 con `--malla`; semilla fija). Por defecto escribe en `casos/`. |
 
 ## Resolver un caso con la DP de la Parte 1
 
