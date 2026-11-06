@@ -24,8 +24,11 @@ def test_caso_no_factible_no_ejecuta_el_voraz():
     assert "NO factible" in formatear_resultado(res)
 
 
-def test_sin_optimo_si_n_supera_el_limite_o_no_se_pide():
-    grande = Instancia("grande", 1, [{1}] * (N_MAX_FUERZA_BRUTA + 1))
+def test_sin_optimo_si_no_hay_como_calcularlo_o_no_se_pide():
+    n_grande_r_chico = Instancia("a", 1, [{1}] * (N_MAX_FUERZA_BRUTA + 1))           # n > 12 pero r <= 16: subconjuntos de categorías
+    res = resolver_caso(n_grande_r_chico)
+    assert res.optimo == [1] and res.optimo_metodo == "subconjuntos de categorías"
+    grande = Instancia("grande", 17, [set(range(1, 10)), set(range(10, 18))] + [{1}] * (N_MAX_FUERZA_BRUTA - 1))   # n = 13 y r = 17
     assert resolver_caso(grande).optimo is None
     assert resolver_caso(CLASICA, comparar_con_optimo=False).optimo is None
 
@@ -37,7 +40,7 @@ def test_formatear_resultado_incluye_lo_pedido_por_la_guia():
     assert "Interacciones auditadas: [1, 2, 3] (3)" in texto
     assert "Cubre todas las categorías: sí" in texto
     assert "Tiempo:" in texto
-    assert "Óptimo por fuerza bruta: [2, 3] (2)" in texto
+    assert "Óptimo (fuerza bruta): [2, 3] (2)" in texto
     assert "Cota H(d):" in texto
 
 

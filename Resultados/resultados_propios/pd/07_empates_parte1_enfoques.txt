@@ -1,0 +1,16 @@
+Versión del código: e42e041 (con cambios sin commit) | Generado: 2026-11-06 17:39:58 | Archivo: 07_empates.json
+==============================================================================
+Caso: 07_empates   (n = 6 etapas, B = 5, D = suma de ahorros = 18)
+
+Límite de celdas por tabla: 10000000
+
+DP por presupuesto (base): 42 celdas, cabe
+    etapas aceleradas [1, 2] | costo 4 de B = 5 | ahorro 6 | duración 36 -> 30 | tiempo 0.029 ms | válida: sí
+    fuerza bruta (n <= 12): ahorro 6 (coincide)
+DP por valor: 133 celdas, cabe
+    etapas aceleradas [1, 2] | costo 4 de B = 5 | ahorro 6 | duración 36 -> 30 | tiempo 0.031 ms | válida: sí
+    fuerza bruta (n <= 12): ahorro 6 (coincide)
+
+Las dos tablas dieron el mismo ahorro (6).
+Más rápida en este caso: DP por presupuesto. Menos celdas: DP por presupuesto.
+Solución del caso (la que se reporta en la evidencia de la Parte 1): DP por presupuesto (base).

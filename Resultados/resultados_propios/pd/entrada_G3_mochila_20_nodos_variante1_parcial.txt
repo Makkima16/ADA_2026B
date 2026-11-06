@@ -1,0 +1,37 @@
+Versión del código: e42e041 (con cambios sin commit) | Generado: 2026-11-06 17:39:58 | Archivo: entrada_G3_mochila_20_nodos.json
+==============================================================================
+Caso: entrada_G3_mochila_20_nodos
+Voraz ponderado — traza de elecciones
+  Paso 1: interacción 1 (E01 (completa)) | costo 6 | categorías nuevas {R01, R02, R03, R10} (4) | costo por categoría 1.5000 | acumulado 6 | faltan {R04, R05, R06, R07, R08, R09, R11, R12}
+  Paso 2: interacción 16 (E16 (completa)) | costo 7 | categorías nuevas {R04, R05, R09, R12} (4) | costo por categoría 1.7500 | acumulado 13 | faltan {R06, R07, R08, R11}
+  Paso 3: interacción 6 (E06 (completa)) | costo 8 | categorías nuevas {R07, R08, R11} (3) | costo por categoría 2.6667 | acumulado 21 | faltan {R06}
+  Paso 4: interacción 23 (E03 (parcial)) | costo 5 | categorías nuevas {R06} (1) | costo por categoría 5.0000 | acumulado 26 | faltan {}
+Cobertura final (categoría -> interacción):
+  categoría R01 (sesgo) -> interacción E01 (completa)
+  categoría R02 (privacidad) -> interacción E01 (completa)
+  categoría R03 (formato) -> interacción E01 (completa)
+  categoría R04 (seguridad) -> interacción E16 (completa)
+  categoría R05 (trazabilidad) -> interacción E16 (completa)
+  categoría R06 (equidad) -> interacción E03 (parcial)
+  categoría R07 (coherencia) -> interacción E06 (completa)
+  categoría R08 (robustez) -> interacción E06 (completa)
+  categoría R09 (disponibilidad) -> interacción E16 (completa)
+  categoría R10 (cumplimiento) -> interacción E01 (completa)
+  categoría R11 (integridad) -> interacción E06 (completa)
+  categoría R12 (transparencia) -> interacción E16 (completa)
+Interacciones auditadas: [1, 16, 6, 23] (4): E01 (completa), E16 (completa), E06 (completa), E03 (parcial)
+Costo total: 26
+Cubre todas las categorías: sí
+Tiempo: 0.000064 s
+Óptimo (subconjuntos de categorías): costo 24 con [7, 17, 35, 18]: E07 (completa), E17 (completa), E19 (parcial), E18 (completa)
+Razón voraz / óptimo: 1.0833
+Cota H(d): 2.0833
+
+------------------------------------------------------------------------------
+Opciones de auditoría
+Interacciones: 20 | opciones: 35 (20 completas, 15 parciales)
+Versión CON PARCIALES (extensión): el voraz ponderado (sin cambios) eligió entre las 35 opciones; cada opción es un conjunto con su costo.
+Opciones elegidas por el voraz: E01 (completa), E16 (completa), E06 (completa), E03 (parcial)
+Interacciones a auditar: E01 (completa), E16 (completa), E06 (completa), E03 (parcial)
+Costo del voraz: 26 | Costo real tras depurar: 26 | Ahorro por depurar: 0
+Óptimo sobre las 35 opciones (subconjuntos de categorías): 24 | razón costo real / óptimo: 1.0833

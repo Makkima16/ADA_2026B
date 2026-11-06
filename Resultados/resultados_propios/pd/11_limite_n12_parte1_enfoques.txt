@@ -1,0 +1,16 @@
+Versión del código: e42e041 (con cambios sin commit) | Generado: 2026-11-06 17:39:58 | Archivo: 11_limite_n12.json
+==============================================================================
+Caso: 11_limite_n12   (n = 12 etapas, B = 85, D = suma de ahorros = 176)
+
+Límite de celdas por tabla: 10000000
+
+DP por presupuesto (base): 1118 celdas, cabe
+    etapas aceleradas [2, 3, 7, 8, 9, 10, 12] | costo 85 de B = 85 | ahorro 144 | duración 305 -> 161 | tiempo 0.358 ms | válida: sí
+    fuerza bruta (n <= 12): ahorro 144 (coincide)
+DP por valor: 2301 celdas, cabe
+    etapas aceleradas [2, 3, 7, 8, 9, 10, 12] | costo 85 de B = 85 | ahorro 144 | duración 305 -> 161 | tiempo 0.348 ms | válida: sí
+    fuerza bruta (n <= 12): ahorro 144 (coincide)
+
+Las dos tablas dieron el mismo ahorro (144).
+Más rápida en este caso: DP por valor. Menos celdas: DP por presupuesto.
+Solución del caso (la que se reporta en la evidencia de la Parte 1): DP por presupuesto (base).

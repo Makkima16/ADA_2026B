@@ -6,6 +6,7 @@ carpeta de casos y la de resultados temporales. Después se leen sus archivos (`
 """
 
 import csv
+import json
 import subprocess
 import sys
 from pathlib import Path
@@ -41,6 +42,12 @@ def leer_comparacion(salida: Path = RESULTADOS_TEMPORALES) -> str:
 
 def leer_traza(archivo: str, salida: Path = RESULTADOS_TEMPORALES) -> str:
     """Texto de una traza. Solo acepta nombres que aparezcan en `resumen.csv` (sin rutas)."""
-    if archivo not in {fila["traza"] for fila in leer_resumen(salida)}:
+    if not archivo or archivo not in {fila["traza"] for fila in leer_resumen(salida)}:      # las filas «no aplica» tienen la traza vacía
         raise FileNotFoundError(archivo)
     return (Path(salida) / archivo).read_text(encoding="utf-8")
+
+
+def leer_resumen_enfoques(salida: Path = RESULTADOS_TEMPORALES) -> dict:
+    """`resumen_enfoques.json` de la última prueba (los resúmenes por parte que arma run_all.py). {} si aún no se probó."""
+    ruta = Path(salida) / "resumen_enfoques.json"
+    return json.loads(ruta.read_text(encoding="utf-8")) if ruta.is_file() else {}

@@ -1,0 +1,21 @@
+Versión del código: e42e041 (con cambios sin commit) | Generado: 2026-11-06 17:39:59 | Archivo: 04_solo_esenciales.json
+==============================================================================
+Caso: 04_solo_esenciales
+Voraz — traza de elecciones
+  Paso 1: interacción 1 (E01) | categorías nuevas {R01, R02, R06} | faltan {R03, R04, R05}
+  Paso 2: interacción 2 (E02) | categorías nuevas {R04} | faltan {R03, R05}
+  Paso 3: interacción 3 (E03) | categorías nuevas {R03} | faltan {R05}
+  Paso 4: interacción 4 (E04) | categorías nuevas {R05} | faltan {}
+Cobertura final (categoría -> interacción):
+  categoría R01 (Riesgo 1) -> interacción E01
+  categoría R02 (Riesgo 2) -> interacción E01
+  categoría R03 (Riesgo 3) -> interacción E03
+  categoría R04 (Riesgo 4) -> interacción E02
+  categoría R05 (Riesgo 5) -> interacción E04
+  categoría R06 (Riesgo 6) -> interacción E01
+Interacciones auditadas: [1, 2, 3, 4] (4): E01, E02, E03, E04
+Cubre todas las categorías: sí
+Tiempo: 0.000017 s
+Óptimo (fuerza bruta): [2, 3, 4] (3): E02, E03, E04
+Razón voraz / óptimo: 1.3333
+Cota H(d): 1.8333

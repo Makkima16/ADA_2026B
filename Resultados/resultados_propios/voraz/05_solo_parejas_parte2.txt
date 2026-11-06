@@ -1,0 +1,28 @@
+Versión del código: e42e041 (con cambios sin commit) | Generado: 2026-11-06 17:39:59 | Archivo: 05_solo_parejas.json
+==============================================================================
+Caso: 05_solo_parejas
+Voraz — traza de elecciones
+  Paso 1: interacción 3 (E03) | categorías nuevas {R01, R02, R03, R04, R08, R09, R10, R11} | faltan {R05, R06, R07, R12, R13, R14}
+  Paso 2: interacción 4 (E04) | categorías nuevas {R05, R06, R12, R13} | faltan {R07, R14}
+  Paso 3: interacción 5 (E05) | categorías nuevas {R07, R14} | faltan {}
+Cobertura final (categoría -> interacción):
+  categoría R01 (Riesgo 1) -> interacción E03
+  categoría R02 (Riesgo 2) -> interacción E03
+  categoría R03 (Riesgo 3) -> interacción E03
+  categoría R04 (Riesgo 4) -> interacción E03
+  categoría R05 (Riesgo 5) -> interacción E04
+  categoría R06 (Riesgo 6) -> interacción E04
+  categoría R07 (Riesgo 7) -> interacción E05
+  categoría R08 (Riesgo 8) -> interacción E03
+  categoría R09 (Riesgo 9) -> interacción E03
+  categoría R10 (Riesgo 10) -> interacción E03
+  categoría R11 (Riesgo 11) -> interacción E03
+  categoría R12 (Riesgo 12) -> interacción E04
+  categoría R13 (Riesgo 13) -> interacción E04
+  categoría R14 (Riesgo 14) -> interacción E05
+Interacciones auditadas: [3, 4, 5] (3): E03, E04, E05
+Cubre todas las categorías: sí
+Tiempo: 0.000018 s
+Óptimo (fuerza bruta): [1, 2] (2): E01, E02
+Razón voraz / óptimo: 1.5000
+Cota H(d): 2.7179

@@ -12,9 +12,10 @@ import time
 from dataclasses import dataclass
 from typing import Dict, List, Optional, Sequence
 
-from .auditoria import N_MAX_FUERZA_BRUTA, cobertura_final, cota_aproximacion, cubre_todo, verificar_factibilidad
-from .ponderada import PasoPonderado, fuerza_bruta_ponderada, validar_costos, voraz_ponderado
+from .auditoria import cobertura_final, cota_aproximacion, cubre_todo, verificar_factibilidad
+from .ponderada import PasoPonderado, validar_costos, voraz_ponderado
 from .resolver import Instancia
+from .verificacion_exacta import optimo_de_referencia
 
 
 @dataclass(frozen=True)
@@ -32,9 +33,10 @@ class ResultadoPonderado:
     cubre: bool                           # comprobación independiente de la cobertura
     tiempo_s: float                       # solo el voraz ponderado (incluye su factibilidad)
     cota: float                           # H(d), d = máx |S_j|
-    optimo_costo: Optional[float]         # por fuerza bruta; None si n > N_MAX_FUERZA_BRUTA
+    optimo_costo: Optional[float]         # mínimo real; None si no se puede calcular
     optimo_J: Optional[List[int]]
     instancia: Optional[Instancia] = None  # para que la traza muestre los nombres
+    optimo_metodo: str = ""                # cómo se obtuvo el óptimo: fuerza bruta (<= 12 opciones) o subconjuntos de categorías (r <= 16)
 
 
 def resolver_caso_ponderado(inst: Instancia, costos: Sequence[float],
@@ -56,9 +58,11 @@ def resolver_caso_ponderado(inst: Instancia, costos: Sequence[float],
     J, costo, pasos = voraz_ponderado(inst.r, inst.S, a)             # O(n·r·min(n, r)): el algoritmo, dentro de la medición
     tiempo = time.perf_counter() - t0                                # C (1)
 
-    opt_costo, opt_J = None, None                                    # C (2)
-    if comparar_con_optimo and n <= N_MAX_FUERZA_BRUTA:              # C (2)
-        opt_costo, opt_J = fuerza_bruta_ponderada(inst.r, inst.S, a)   # O(2^n·n·r) solo si n <= 12
+    opt_costo, opt_J, metodo = None, None, ""                        # C (3)
+    if comparar_con_optimo:                                          # C (1)
+        ref = optimo_de_referencia(inst.r, inst.S, a)                # fuerza bruta (n <= 12) o subconjuntos de categorías (r <= 16)
+        if ref is not None:
+            opt_costo, opt_J, metodo = ref
     return ResultadoPonderado(inst.nombre, n, inst.r, True, frozenset(), a, J, costo, pasos,
                               cobertura_final(inst.S, J), cubre_todo(inst.r, inst.S, J),
-                              tiempo, cota, opt_costo, opt_J, inst)  # O(n·r)
+                              tiempo, cota, opt_costo, opt_J, inst, metodo)  # O(n·r)

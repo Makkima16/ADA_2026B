@@ -1,0 +1,75 @@
+Versión del código: e42e041 (con cambios sin commit) | Generado: 2026-11-06 17:39:59 | Archivo: 03_clasico_no_optimo.json
+==============================================================================
+Caso: 03_clasico_no_optimo   (n = 3 interacciones, r = 6 categorías)
+
+Cota H(d): 2.0833
+Óptimo exacto: 2 interacciones [2, 3]
+
+==============================================================================
+Enfoque: Voraz base   [clave voraz base]
+==============================================================================
+  Paso 1: interacción 1 (E01) | categorías nuevas {R01, R02, R04, R05} | faltan {R03, R06}
+  Paso 2: interacción 2 (E02) | categorías nuevas {R03} | faltan {R06}
+  Paso 3: interacción 3 (E03) | categorías nuevas {R06} | faltan {}
+Interacciones auditadas: [1, 2, 3] (3) | cubre todo: sí | tiempo 0.017 ms | razón al óptimo 1.500
+
+==============================================================================
+Enfoque: Esenciales   [clave e]
+==============================================================================
+Interacciones esenciales (únicas de alguna categoría): 2 (E02), 3 (E03)
+  Paso 1: interacción 2 (E02) | categorías nuevas {R01, R02, R03} | faltan {R04, R05, R06}
+  Paso 2: interacción 3 (E03) | categorías nuevas {R04, R05, R06} | faltan {}
+Interacciones auditadas: [2, 3] (2) | cubre todo: sí | tiempo 0.011 ms | razón al óptimo 1.000
+Contra el voraz base: 1 interacciones menos (mejor)
+
+==============================================================================
+Enfoque: Rareza   [clave r]
+==============================================================================
+  Paso 1: interacción 1 (E01) | categorías nuevas {R01, R02, R04, R05} | faltan {R03, R06}
+  Paso 2: interacción 2 (E02) | categorías nuevas {R03} | faltan {R06}
+  Paso 3: interacción 3 (E03) | categorías nuevas {R06} | faltan {}
+Interacciones auditadas: [1, 2, 3] (3) | cubre todo: sí | tiempo 0.032 ms | razón al óptimo 1.500
+Contra el voraz base: igual
+
+==============================================================================
+Enfoque: Parejas   [clave p]
+==============================================================================
+  Paso 1: interacción 2 (E02) | categorías nuevas {R01, R02, R03} | faltan {R04, R05, R06} | pareja (2, 3)
+  Paso 2: interacción 3 (E03) | categorías nuevas {R04, R05, R06} | faltan {}
+Interacciones auditadas: [2, 3] (2) | cubre todo: sí | tiempo 0.017 ms | razón al óptimo 1.000
+Contra el voraz base: 1 interacciones menos (mejor)
+
+==============================================================================
+Enfoque: Esenciales + rareza   [clave er]
+==============================================================================
+Interacciones esenciales (únicas de alguna categoría): 2 (E02), 3 (E03)
+  Paso 1: interacción 2 (E02) | categorías nuevas {R01, R02, R03} | faltan {R04, R05, R06}
+  Paso 2: interacción 3 (E03) | categorías nuevas {R04, R05, R06} | faltan {}
+Interacciones auditadas: [2, 3] (2) | cubre todo: sí | tiempo 0.010 ms | razón al óptimo 1.000
+Contra el voraz base: 1 interacciones menos (mejor)
+
+==============================================================================
+Enfoque: Esenciales + parejas   [clave ep]
+==============================================================================
+Interacciones esenciales (únicas de alguna categoría): 2 (E02), 3 (E03)
+  Paso 1: interacción 2 (E02) | categorías nuevas {R01, R02, R03} | faltan {R04, R05, R06}
+  Paso 2: interacción 3 (E03) | categorías nuevas {R04, R05, R06} | faltan {}
+Interacciones auditadas: [2, 3] (2) | cubre todo: sí | tiempo 0.015 ms | razón al óptimo 1.000
+Contra el voraz base: 1 interacciones menos (mejor)
+
+==============================================================================
+Enfoque: Rareza + parejas   [clave rp]
+==============================================================================
+  Paso 1: interacción 2 (E02) | categorías nuevas {R01, R02, R03} | faltan {R04, R05, R06} | pareja (2, 3)
+  Paso 2: interacción 3 (E03) | categorías nuevas {R04, R05, R06} | faltan {}
+Interacciones auditadas: [2, 3] (2) | cubre todo: sí | tiempo 0.040 ms | razón al óptimo 1.000
+Contra el voraz base: 1 interacciones menos (mejor)
+
+==============================================================================
+Enfoque: Los tres (enfoque D)   [clave erp]
+==============================================================================
+Interacciones esenciales (únicas de alguna categoría): 2 (E02), 3 (E03)
+  Paso 1: interacción 2 (E02) | categorías nuevas {R01, R02, R03} | faltan {R04, R05, R06}
+  Paso 2: interacción 3 (E03) | categorías nuevas {R04, R05, R06} | faltan {}
+Interacciones auditadas: [2, 3] (2) | cubre todo: sí | tiempo 0.010 ms | razón al óptimo 1.000
+Contra el voraz base: 1 interacciones menos (mejor)

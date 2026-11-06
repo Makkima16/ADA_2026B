@@ -1,0 +1,25 @@
+# Los 20 casos de PD cuyas evidencias quedan en Resultados/resultados_propios/pd/ (uno por línea, sin extensión).
+# Selección representativa: el ejemplo de la profesora, los bordes, el límite de la fuerza bruta, casos medianos,
+# los que la tabla por presupuesto no resuelve (solo por valor y ninguna), los que gana cada tabla y B = D.
+#
+# python3 run_all.py --casos Casos/casos_propios/pd --lista Casos/casos_propios/pd/resultados_propios.txt --salida Resultados/resultados_propios/pd
+entrada_G3_mochila_20_nodos      # ejemplo de la profesora (las dos partes)
+01_b_cero                        # bordes
+03_nada_cabe
+07_empates
+11_limite_n12                    # límite de la fuerza bruta
+12_n13_sin_fuerza_bruta
+13_n20_b_moderado                # medianos
+15_n50_b_un_tercio
+17_n200_b_enorme_base_no_cabe    # la tabla por presupuesto no cabe: se resuelve solo por valor
+19_n400_ninguna_tabla_cabe       # ninguna tabla cabe: error a propósito
+20_valor_gana_n8_costos_enormes  # gana la tabla por valor
+21_valor_gana_n12_presupuesto_en_millones
+24_valor_gana_n60_ahorro_unitario
+26_valor_gana_n150_base_no_cabe
+28_cruce_empate_b_igual_d        # B = D
+29_presupuesto_gana_n10          # gana la tabla por presupuesto
+31_presupuesto_gana_n40_b_un_cuarto
+33_presupuesto_gana_n150
+35_mezcla_d_cero_y_c_cero        # mezclas
+40_valor_gana_base_si_cabe_n30   # gana valor aunque la base también cabe

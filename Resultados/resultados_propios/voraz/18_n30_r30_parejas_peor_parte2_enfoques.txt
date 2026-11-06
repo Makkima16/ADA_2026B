@@ -1,0 +1,111 @@
+Versión del código: e42e041 (con cambios sin commit) | Generado: 2026-11-06 17:39:59 | Archivo: 18_n30_r30_parejas_peor.json
+==============================================================================
+Caso: 18_n30_r30_parejas_peor   (n = 30 interacciones, r = 30 categorías)
+
+Cota H(d): 3.0199
+Óptimo exacto: no se calcula (n > 12 y r > 16)
+
+==============================================================================
+Enfoque: Voraz base   [clave voraz base]
+==============================================================================
+  Paso 1: interacción 30 (E30) | categorías nuevas {R01, R04, R07, R08, R09, R14, R15, R16, R17, R23, R28} | faltan {R02, R03, R05, R06, R10, R11, R12, R13, R18, R19, R20, R21, R22, R24, R25, R26, R27, R29, R30}
+  Paso 2: interacción 6 (E06) | categorías nuevas {R03, R05, R12, R19, R20, R25} | faltan {R02, R06, R10, R11, R13, R18, R21, R22, R24, R26, R27, R29, R30}
+  Paso 3: interacción 19 (E19) | categorías nuevas {R06, R10, R11, R27, R30} | faltan {R02, R13, R18, R21, R22, R24, R26, R29}
+  Paso 4: interacción 7 (E07) | categorías nuevas {R18, R21, R22} | faltan {R02, R13, R24, R26, R29}
+  Paso 5: interacción 23 (E23) | categorías nuevas {R02, R13, R24} | faltan {R26, R29}
+  Paso 6: interacción 4 (E04) | categorías nuevas {R26, R29} | faltan {}
+Interacciones auditadas: [30, 6, 19, 7, 23, 4] (6) | cubre todo: sí | tiempo 0.114 ms
+
+==============================================================================
+Enfoque: Esenciales   [clave e]
+==============================================================================
+Interacciones esenciales (únicas de alguna categoría): ninguna
+  Paso 1: interacción 30 (E30) | categorías nuevas {R01, R04, R07, R08, R09, R14, R15, R16, R17, R23, R28} | faltan {R02, R03, R05, R06, R10, R11, R12, R13, R18, R19, R20, R21, R22, R24, R25, R26, R27, R29, R30}
+  Paso 2: interacción 6 (E06) | categorías nuevas {R03, R05, R12, R19, R20, R25} | faltan {R02, R06, R10, R11, R13, R18, R21, R22, R24, R26, R27, R29, R30}
+  Paso 3: interacción 19 (E19) | categorías nuevas {R06, R10, R11, R27, R30} | faltan {R02, R13, R18, R21, R22, R24, R26, R29}
+  Paso 4: interacción 7 (E07) | categorías nuevas {R18, R21, R22} | faltan {R02, R13, R24, R26, R29}
+  Paso 5: interacción 23 (E23) | categorías nuevas {R02, R13, R24} | faltan {R26, R29}
+  Paso 6: interacción 4 (E04) | categorías nuevas {R26, R29} | faltan {}
+Interacciones auditadas: [30, 6, 19, 7, 23, 4] (6) | cubre todo: sí | tiempo 0.112 ms
+Contra el voraz base: igual
+
+==============================================================================
+Enfoque: Rareza   [clave r]
+==============================================================================
+  Paso 1: interacción 7 (E07) | categorías nuevas {R04, R05, R07, R15, R17, R18, R21, R22, R30} | faltan {R01, R02, R03, R06, R08, R09, R10, R11, R12, R13, R14, R16, R19, R20, R23, R24, R25, R26, R27, R28, R29}
+  Paso 2: interacción 6 (E06) | categorías nuevas {R03, R08, R12, R16, R19, R20, R25} | faltan {R01, R02, R06, R09, R10, R11, R13, R14, R23, R24, R26, R27, R28, R29}
+  Paso 3: interacción 30 (E30) | categorías nuevas {R01, R09, R14, R23, R28} | faltan {R02, R06, R10, R11, R13, R24, R26, R27, R29}
+  Paso 4: interacción 14 (E14) | categorías nuevas {R02, R11, R13, R27} | faltan {R06, R10, R24, R26, R29}
+  Paso 5: interacción 4 (E04) | categorías nuevas {R26, R29} | faltan {R06, R10, R24}
+  Paso 6: interacción 11 (E11) | categorías nuevas {R10, R24} | faltan {R06}
+  Paso 7: interacción 8 (E08) | categorías nuevas {R06} | faltan {}
+Interacciones auditadas: [7, 6, 30, 14, 4, 11, 8] (7) | cubre todo: sí | tiempo 0.464 ms
+Contra el voraz base: 1 interacciones más (peor)
+
+==============================================================================
+Enfoque: Parejas   [clave p]
+==============================================================================
+  Paso 1: interacción 8 (E08) | categorías nuevas {R01, R02, R04, R06, R09, R13, R15, R20, R25, R30} | faltan {R03, R05, R07, R08, R10, R11, R12, R14, R16, R17, R18, R19, R21, R22, R23, R24, R26, R27, R28, R29} | pareja (6, 8)
+  Paso 2: interacción 6 (E06) | categorías nuevas {R03, R05, R07, R08, R12, R16, R19} | faltan {R10, R11, R14, R17, R18, R21, R22, R23, R24, R26, R27, R28, R29} | pareja (6, 7)
+  Paso 3: interacción 7 (E07) | categorías nuevas {R17, R18, R21, R22} | faltan {R10, R11, R14, R23, R24, R26, R27, R28, R29} | pareja (7, 19)
+  Paso 4: interacción 19 (E19) | categorías nuevas {R10, R11, R27} | faltan {R14, R23, R24, R26, R28, R29} | pareja (19, 21)
+  Paso 5: interacción 29 (E29) | categorías nuevas {R23, R24, R28} | faltan {R14, R26, R29} | pareja (4, 29)
+  Paso 6: interacción 4 (E04) | categorías nuevas {R26, R29} | faltan {R14} | pareja (2, 4)
+  Paso 7: interacción 2 (E02) | categorías nuevas {R14} | faltan {}
+Interacciones auditadas: [8, 6, 7, 19, 29, 4, 2] (7) | cubre todo: sí | tiempo 0.928 ms
+Contra el voraz base: 1 interacciones más (peor)
+
+==============================================================================
+Enfoque: Esenciales + rareza   [clave er]
+==============================================================================
+Interacciones esenciales (únicas de alguna categoría): ninguna
+  Paso 1: interacción 7 (E07) | categorías nuevas {R04, R05, R07, R15, R17, R18, R21, R22, R30} | faltan {R01, R02, R03, R06, R08, R09, R10, R11, R12, R13, R14, R16, R19, R20, R23, R24, R25, R26, R27, R28, R29}
+  Paso 2: interacción 6 (E06) | categorías nuevas {R03, R08, R12, R16, R19, R20, R25} | faltan {R01, R02, R06, R09, R10, R11, R13, R14, R23, R24, R26, R27, R28, R29}
+  Paso 3: interacción 30 (E30) | categorías nuevas {R01, R09, R14, R23, R28} | faltan {R02, R06, R10, R11, R13, R24, R26, R27, R29}
+  Paso 4: interacción 14 (E14) | categorías nuevas {R02, R11, R13, R27} | faltan {R06, R10, R24, R26, R29}
+  Paso 5: interacción 4 (E04) | categorías nuevas {R26, R29} | faltan {R06, R10, R24}
+  Paso 6: interacción 11 (E11) | categorías nuevas {R10, R24} | faltan {R06}
+  Paso 7: interacción 8 (E08) | categorías nuevas {R06} | faltan {}
+Interacciones auditadas: [7, 6, 30, 14, 4, 11, 8] (7) | cubre todo: sí | tiempo 0.439 ms
+Contra el voraz base: 1 interacciones más (peor)
+
+==============================================================================
+Enfoque: Esenciales + parejas   [clave ep]
+==============================================================================
+Interacciones esenciales (únicas de alguna categoría): ninguna
+  Paso 1: interacción 8 (E08) | categorías nuevas {R01, R02, R04, R06, R09, R13, R15, R20, R25, R30} | faltan {R03, R05, R07, R08, R10, R11, R12, R14, R16, R17, R18, R19, R21, R22, R23, R24, R26, R27, R28, R29} | pareja (6, 8)
+  Paso 2: interacción 6 (E06) | categorías nuevas {R03, R05, R07, R08, R12, R16, R19} | faltan {R10, R11, R14, R17, R18, R21, R22, R23, R24, R26, R27, R28, R29} | pareja (6, 7)
+  Paso 3: interacción 7 (E07) | categorías nuevas {R17, R18, R21, R22} | faltan {R10, R11, R14, R23, R24, R26, R27, R28, R29} | pareja (7, 19)
+  Paso 4: interacción 19 (E19) | categorías nuevas {R10, R11, R27} | faltan {R14, R23, R24, R26, R28, R29} | pareja (19, 21)
+  Paso 5: interacción 29 (E29) | categorías nuevas {R23, R24, R28} | faltan {R14, R26, R29} | pareja (4, 29)
+  Paso 6: interacción 4 (E04) | categorías nuevas {R26, R29} | faltan {R14} | pareja (2, 4)
+  Paso 7: interacción 2 (E02) | categorías nuevas {R14} | faltan {}
+Interacciones auditadas: [8, 6, 7, 19, 29, 4, 2] (7) | cubre todo: sí | tiempo 0.963 ms
+Contra el voraz base: 1 interacciones más (peor)
+
+==============================================================================
+Enfoque: Rareza + parejas   [clave rp]
+==============================================================================
+  Paso 1: interacción 7 (E07) | categorías nuevas {R04, R05, R07, R15, R17, R18, R21, R22, R30} | faltan {R01, R02, R03, R06, R08, R09, R10, R11, R12, R13, R14, R16, R19, R20, R23, R24, R25, R26, R27, R28, R29} | pareja (6, 7)
+  Paso 2: interacción 30 (E30) | categorías nuevas {R01, R08, R09, R14, R16, R23, R28} | faltan {R02, R03, R06, R10, R11, R12, R13, R19, R20, R24, R25, R26, R27, R29} | pareja (22, 30)
+  Paso 3: interacción 14 (E14) | categorías nuevas {R02, R03, R11, R13, R27} | faltan {R06, R10, R12, R19, R20, R24, R25, R26, R29} | pareja (6, 14)
+  Paso 4: interacción 6 (E06) | categorías nuevas {R12, R19, R20, R25} | faltan {R06, R10, R24, R26, R29} | pareja (4, 6)
+  Paso 5: interacción 4 (E04) | categorías nuevas {R26, R29} | faltan {R06, R10, R24} | pareja (4, 11)
+  Paso 6: interacción 11 (E11) | categorías nuevas {R10, R24} | faltan {R06} | pareja (8, 11)
+  Paso 7: interacción 8 (E08) | categorías nuevas {R06} | faltan {}
+Interacciones auditadas: [7, 30, 14, 6, 4, 11, 8] (7) | cubre todo: sí | tiempo 3.570 ms
+Contra el voraz base: 1 interacciones más (peor)
+
+==============================================================================
+Enfoque: Los tres (enfoque D)   [clave erp]
+==============================================================================
+Interacciones esenciales (únicas de alguna categoría): ninguna
+  Paso 1: interacción 7 (E07) | categorías nuevas {R04, R05, R07, R15, R17, R18, R21, R22, R30} | faltan {R01, R02, R03, R06, R08, R09, R10, R11, R12, R13, R14, R16, R19, R20, R23, R24, R25, R26, R27, R28, R29} | pareja (6, 7)
+  Paso 2: interacción 30 (E30) | categorías nuevas {R01, R08, R09, R14, R16, R23, R28} | faltan {R02, R03, R06, R10, R11, R12, R13, R19, R20, R24, R25, R26, R27, R29} | pareja (22, 30)
+  Paso 3: interacción 14 (E14) | categorías nuevas {R02, R03, R11, R13, R27} | faltan {R06, R10, R12, R19, R20, R24, R25, R26, R29} | pareja (6, 14)
+  Paso 4: interacción 6 (E06) | categorías nuevas {R12, R19, R20, R25} | faltan {R06, R10, R24, R26, R29} | pareja (4, 6)
+  Paso 5: interacción 4 (E04) | categorías nuevas {R26, R29} | faltan {R06, R10, R24} | pareja (4, 11)
+  Paso 6: interacción 11 (E11) | categorías nuevas {R10, R24} | faltan {R06} | pareja (8, 11)
+  Paso 7: interacción 8 (E08) | categorías nuevas {R06} | faltan {}
+Interacciones auditadas: [7, 30, 14, 6, 4, 11, 8] (7) | cubre todo: sí | tiempo 3.469 ms
+Contra el voraz base: 1 interacciones más (peor)

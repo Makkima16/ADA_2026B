@@ -1,0 +1,167 @@
+Versión del código: e42e041 (con cambios sin commit) | Generado: 2026-11-06 17:39:58 | Archivo: 26_valor_gana_n150_base_no_cabe.json
+==============================================================================
+AVISO: la tabla por presupuesto no cabe (4291397350 celdas > límite 10000000); este caso se resolvió SOLO con la DP por valor (D = 357, 54058 celdas).
+
+Caso: 26_valor_gana_n150_base_no_cabe   (n = 150 etapas, B = 28419849)   [DP por valor, D = 357]
+
+Etapas aceleradas: [2, 4, 5, 8, 9, 13, 14, 17, 18, 19, 24, 26, 30, 34, 38, 43, 45, 46, 47, 48, 49, 55, 57, 64, 67, 71, 72, 74, 76, 78, 79, 80, 81, 82, 83, 84, 86, 87, 89, 90, 92, 96, 98, 99, 100, 101, 103, 108, 109, 111, 113, 115, 116, 117, 118, 119, 121, 124, 126, 127, 129, 131, 133, 134, 135, 137, 138, 139, 142, 143, 144, 149]   (E02, E04, E05, E08, E09, E13, E14, E17, E18, E19, E24, E26, E30, E34, E38, E43, E45, E46, E47, E48, E49, E55, E57, E64, E67, E71, E72, E74, E76, E78, E79, E80, E81, E82, E83, E84, E86, E87, E89, E90, E92, E96, E98, E99, E100, E101, E103, E108, E109, E111, E113, E115, E116, E117, E118, E119, E121, E124, E126, E127, E129, E131, E133, E134, E135, E137, E138, E139, E142, E143, E144, E149)
+Costo usado: 28301223 de B = 28419849
+Ahorro: 225
+Duración final: 538 (original 763)
+Tiempo de la DP por valor: 0.009678 s
+Solución válida (costo <= B y sumas coherentes): sí
+Fuerza bruta: no se corre (n > 12)
+
+Decisiones (de la última etapa a la primera):
+Etapa 150 (E150): no se acelera (C[150][225] = C[149][225] = 28301223)
+Etapa 149 (E149): acelerada, costo 135726, ahorro 2; ahorro por lograr 225 -> 223
+Etapa 148 (E148): no se acelera (C[148][223] = C[147][223] = 28165497)
+Etapa 147 (E147): no se acelera (C[147][223] = C[146][223] = 28165497)
+Etapa 146 (E146): no se acelera (C[146][223] = C[145][223] = 28165497)
+Etapa 145 (E145): no se acelera (C[145][223] = C[144][223] = 28165497)
+Etapa 144 (E144): acelerada, costo 134883, ahorro 2; ahorro por lograr 223 -> 221
+Etapa 143 (E143): acelerada, costo 599653, ahorro 4; ahorro por lograr 221 -> 217
+Etapa 142 (E142): acelerada, costo 821375, ahorro 4; ahorro por lograr 217 -> 213
+Etapa 141 (E141): no se acelera (C[141][213] = C[140][213] = 26609586)
+Etapa 140 (E140): no se acelera (C[140][213] = C[139][213] = 26609586)
+Etapa 139 (E139): acelerada, costo 216956, ahorro 3; ahorro por lograr 213 -> 210
+Etapa 138 (E138): acelerada, costo 648133, ahorro 4; ahorro por lograr 210 -> 206
+Etapa 137 (E137): acelerada, costo 108549, ahorro 4; ahorro por lograr 206 -> 202
+Etapa 136 (E136): no se acelera (C[136][202] = C[135][202] = 25635948)
+Etapa 135 (E135): acelerada, costo 259317, ahorro 4; ahorro por lograr 202 -> 198
+Etapa 134 (E134): acelerada, costo 146229, ahorro 1; ahorro por lograr 198 -> 197
+Etapa 133 (E133): acelerada, costo 133864, ahorro 4; ahorro por lograr 197 -> 193
+Etapa 132 (E132): no se acelera (C[132][193] = C[131][193] = 25096538)
+Etapa 131 (E131): acelerada, costo 509019, ahorro 3; ahorro por lograr 193 -> 190
+Etapa 130 (E130): no se acelera (C[130][190] = C[129][190] = 24587519)
+Etapa 129 (E129): acelerada, costo 592485, ahorro 3; ahorro por lograr 190 -> 187
+Etapa 128 (E128): no se acelera (C[128][187] = C[127][187] = 23995034)
+Etapa 127 (E127): acelerada, costo 464533, ahorro 2; ahorro por lograr 187 -> 185
+Etapa 126 (E126): acelerada, costo 557445, ahorro 3; ahorro por lograr 185 -> 182
+Etapa 125 (E125): no se acelera (C[125][182] = C[124][182] = 22973056)
+Etapa 124 (E124): acelerada, costo 815067, ahorro 4; ahorro por lograr 182 -> 178
+Etapa 123 (E123): no se acelera (C[123][178] = C[122][178] = 22157989)
+Etapa 122 (E122): no se acelera (C[122][178] = C[121][178] = 22157989)
+Etapa 121 (E121): acelerada, costo 897793, ahorro 4; ahorro por lograr 178 -> 174
+Etapa 120 (E120): no se acelera (C[120][174] = C[119][174] = 21260196)
+Etapa 119 (E119): acelerada, costo 464823, ahorro 3; ahorro por lograr 174 -> 171
+Etapa 118 (E118): acelerada, costo 389897, ahorro 3; ahorro por lograr 171 -> 168
+Etapa 117 (E117): acelerada, costo 811686, ahorro 4; ahorro por lograr 168 -> 164
+Etapa 116 (E116): acelerada, costo 240284, ahorro 2; ahorro por lograr 164 -> 162
+Etapa 115 (E115): acelerada, costo 185706, ahorro 4; ahorro por lograr 162 -> 158
+Etapa 114 (E114): no se acelera (C[114][158] = C[113][158] = 19167800)
+Etapa 113 (E113): acelerada, costo 351317, ahorro 4; ahorro por lograr 158 -> 154
+Etapa 112 (E112): no se acelera (C[112][154] = C[111][154] = 18816483)
+Etapa 111 (E111): acelerada, costo 200939, ahorro 3; ahorro por lograr 154 -> 151
+Etapa 110 (E110): no se acelera (C[110][151] = C[109][151] = 18615544)
+Etapa 109 (E109): acelerada, costo 142492, ahorro 4; ahorro por lograr 151 -> 147
+Etapa 108 (E108): acelerada, costo 178465, ahorro 2; ahorro por lograr 147 -> 145
+Etapa 107 (E107): no se acelera (C[107][145] = C[106][145] = 18294587)
+Etapa 106 (E106): no se acelera (C[106][145] = C[105][145] = 18294587)
+Etapa 105 (E105): no se acelera (C[105][145] = C[104][145] = 18294587)
+Etapa 104 (E104): no se acelera (C[104][145] = C[103][145] = 18294587)
+Etapa 103 (E103): acelerada, costo 147212, ahorro 1; ahorro por lograr 145 -> 144
+Etapa 102 (E102): no se acelera (C[102][144] = C[101][144] = 18147375)
+Etapa 101 (E101): acelerada, costo 527025, ahorro 3; ahorro por lograr 144 -> 141
+Etapa 100 (E100): acelerada, costo 209246, ahorro 4; ahorro por lograr 141 -> 137
+Etapa 99 (E99): acelerada, costo 442664, ahorro 2; ahorro por lograr 137 -> 135
+Etapa 98 (E98): acelerada, costo 670098, ahorro 3; ahorro por lograr 135 -> 132
+Etapa 97 (E97): no se acelera (C[97][132] = C[96][132] = 16298342)
+Etapa 96 (E96): acelerada, costo 194988, ahorro 4; ahorro por lograr 132 -> 128
+Etapa 95 (E95): no se acelera (C[95][128] = C[94][128] = 16103354)
+Etapa 94 (E94): no se acelera (C[94][128] = C[93][128] = 16103354)
+Etapa 93 (E93): no se acelera (C[93][128] = C[92][128] = 16103354)
+Etapa 92 (E92): acelerada, costo 328635, ahorro 3; ahorro por lograr 128 -> 125
+Etapa 91 (E91): no se acelera (C[91][125] = C[90][125] = 15774719)
+Etapa 90 (E90): acelerada, costo 149294, ahorro 3; ahorro por lograr 125 -> 122
+Etapa 89 (E89): acelerada, costo 146922, ahorro 1; ahorro por lograr 122 -> 121
+Etapa 88 (E88): no se acelera (C[88][121] = C[87][121] = 15478503)
+Etapa 87 (E87): acelerada, costo 848779, ahorro 4; ahorro por lograr 121 -> 117
+Etapa 86 (E86): acelerada, costo 675306, ahorro 3; ahorro por lograr 117 -> 114
+Etapa 85 (E85): no se acelera (C[85][114] = C[84][114] = 13954418)
+Etapa 84 (E84): acelerada, costo 231940, ahorro 4; ahorro por lograr 114 -> 110
+Etapa 83 (E83): acelerada, costo 178528, ahorro 3; ahorro por lograr 110 -> 107
+Etapa 82 (E82): acelerada, costo 204255, ahorro 3; ahorro por lograr 107 -> 104
+Etapa 81 (E81): acelerada, costo 161778, ahorro 3; ahorro por lograr 104 -> 101
+Etapa 80 (E80): acelerada, costo 263567, ahorro 3; ahorro por lograr 101 -> 98
+Etapa 79 (E79): acelerada, costo 643497, ahorro 4; ahorro por lograr 98 -> 94
+Etapa 78 (E78): acelerada, costo 736616, ahorro 4; ahorro por lograr 94 -> 90
+Etapa 77 (E77): no se acelera (C[77][90] = C[76][90] = 11534237)
+Etapa 76 (E76): acelerada, costo 502976, ahorro 4; ahorro por lograr 90 -> 86
+Etapa 75 (E75): no se acelera (C[75][86] = C[74][86] = 11031261)
+Etapa 74 (E74): acelerada, costo 306963, ahorro 3; ahorro por lograr 86 -> 83
+Etapa 73 (E73): no se acelera (C[73][83] = C[72][83] = 10724298)
+Etapa 72 (E72): acelerada, costo 158933, ahorro 1; ahorro por lograr 83 -> 82
+Etapa 71 (E71): acelerada, costo 310482, ahorro 2; ahorro por lograr 82 -> 80
+Etapa 70 (E70): no se acelera (C[70][80] = C[69][80] = 10254883)
+Etapa 69 (E69): no se acelera (C[69][80] = C[68][80] = 10254883)
+Etapa 68 (E68): no se acelera (C[68][80] = C[67][80] = 10254883)
+Etapa 67 (E67): acelerada, costo 544022, ahorro 4; ahorro por lograr 80 -> 76
+Etapa 66 (E66): no se acelera (C[66][76] = C[65][76] = 9710861)
+Etapa 65 (E65): no se acelera (C[65][76] = C[64][76] = 9710861)
+Etapa 64 (E64): acelerada, costo 434690, ahorro 4; ahorro por lograr 76 -> 72
+Etapa 63 (E63): no se acelera (C[63][72] = C[62][72] = 9276171)
+Etapa 62 (E62): no se acelera (C[62][72] = C[61][72] = 9276171)
+Etapa 61 (E61): no se acelera (C[61][72] = C[60][72] = 9276171)
+Etapa 60 (E60): no se acelera (C[60][72] = C[59][72] = 9276171)
+Etapa 59 (E59): no se acelera (C[59][72] = C[58][72] = 9276171)
+Etapa 58 (E58): no se acelera (C[58][72] = C[57][72] = 9276171)
+Etapa 57 (E57): acelerada, costo 108063, ahorro 2; ahorro por lograr 72 -> 70
+Etapa 56 (E56): no se acelera (C[56][70] = C[55][70] = 9168108)
+Etapa 55 (E55): acelerada, costo 145956, ahorro 2; ahorro por lograr 70 -> 68
+Etapa 54 (E54): no se acelera (C[54][68] = C[53][68] = 9022152)
+Etapa 53 (E53): no se acelera (C[53][68] = C[52][68] = 9022152)
+Etapa 52 (E52): no se acelera (C[52][68] = C[51][68] = 9022152)
+Etapa 51 (E51): no se acelera (C[51][68] = C[50][68] = 9022152)
+Etapa 50 (E50): no se acelera (C[50][68] = C[49][68] = 9022152)
+Etapa 49 (E49): acelerada, costo 407714, ahorro 2; ahorro por lograr 68 -> 66
+Etapa 48 (E48): acelerada, costo 872817, ahorro 4; ahorro por lograr 66 -> 62
+Etapa 47 (E47): acelerada, costo 131858, ahorro 2; ahorro por lograr 62 -> 60
+Etapa 46 (E46): acelerada, costo 132286, ahorro 4; ahorro por lograr 60 -> 56
+Etapa 45 (E45): acelerada, costo 712525, ahorro 4; ahorro por lograr 56 -> 52
+Etapa 44 (E44): no se acelera (C[44][52] = C[43][52] = 6764952)
+Etapa 43 (E43): acelerada, costo 355480, ahorro 3; ahorro por lograr 52 -> 49
+Etapa 42 (E42): no se acelera (C[42][49] = C[41][49] = 6409472)
+Etapa 41 (E41): no se acelera (C[41][49] = C[40][49] = 6409472)
+Etapa 40 (E40): no se acelera (C[40][49] = C[39][49] = 6409472)
+Etapa 39 (E39): no se acelera (C[39][49] = C[38][49] = 6409472)
+Etapa 38 (E38): acelerada, costo 606650, ahorro 4; ahorro por lograr 49 -> 45
+Etapa 37 (E37): no se acelera (C[37][45] = C[36][45] = 5802822)
+Etapa 36 (E36): no se acelera (C[36][45] = C[35][45] = 5802822)
+Etapa 35 (E35): no se acelera (C[35][45] = C[34][45] = 5802822)
+Etapa 34 (E34): acelerada, costo 251208, ahorro 2; ahorro por lograr 45 -> 43
+Etapa 33 (E33): no se acelera (C[33][43] = C[32][43] = 5551614)
+Etapa 32 (E32): no se acelera (C[32][43] = C[31][43] = 5551614)
+Etapa 31 (E31): no se acelera (C[31][43] = C[30][43] = 5551614)
+Etapa 30 (E30): acelerada, costo 130190, ahorro 4; ahorro por lograr 43 -> 39
+Etapa 29 (E29): no se acelera (C[29][39] = C[28][39] = 5421424)
+Etapa 28 (E28): no se acelera (C[28][39] = C[27][39] = 5421424)
+Etapa 27 (E27): no se acelera (C[27][39] = C[26][39] = 5421424)
+Etapa 26 (E26): acelerada, costo 311753, ahorro 3; ahorro por lograr 39 -> 36
+Etapa 25 (E25): no se acelera (C[25][36] = C[24][36] = 5109671)
+Etapa 24 (E24): acelerada, costo 852060, ahorro 4; ahorro por lograr 36 -> 32
+Etapa 23 (E23): no se acelera (C[23][32] = C[22][32] = 4257611)
+Etapa 22 (E22): no se acelera (C[22][32] = C[21][32] = 4257611)
+Etapa 21 (E21): no se acelera (C[21][32] = C[20][32] = 4257611)
+Etapa 20 (E20): no se acelera (C[20][32] = C[19][32] = 4257611)
+Etapa 19 (E19): acelerada, costo 766311, ahorro 4; ahorro por lograr 32 -> 28
+Etapa 18 (E18): acelerada, costo 279953, ahorro 3; ahorro por lograr 28 -> 25
+Etapa 17 (E17): acelerada, costo 627158, ahorro 4; ahorro por lograr 25 -> 21
+Etapa 16 (E16): no se acelera (C[16][21] = C[15][21] = 2584189)
+Etapa 15 (E15): no se acelera (C[15][21] = C[14][21] = 2584189)
+Etapa 14 (E14): acelerada, costo 865640, ahorro 4; ahorro por lograr 21 -> 17
+Etapa 13 (E13): acelerada, costo 143763, ahorro 1; ahorro por lograr 17 -> 16
+Etapa 12 (E12): no se acelera (C[12][16] = C[11][16] = 1574786)
+Etapa 11 (E11): no se acelera (C[11][16] = C[10][16] = 1574786)
+Etapa 10 (E10): no se acelera (C[10][16] = C[9][16] = 1574786)
+Etapa 9 (E09): acelerada, costo 234083, ahorro 2; ahorro por lograr 16 -> 14
+Etapa 8 (E08): acelerada, costo 159514, ahorro 3; ahorro por lograr 14 -> 11
+Etapa 7 (E07): no se acelera (C[7][11] = C[6][11] = 1181189)
+Etapa 6 (E06): no se acelera (C[6][11] = C[5][11] = 1181189)
+Etapa 5 (E05): acelerada, costo 553464, ahorro 4; ahorro por lograr 11 -> 7
+Etapa 4 (E04): acelerada, costo 315124, ahorro 3; ahorro por lograr 7 -> 4
+Etapa 3 (E03): no se acelera (C[3][4] = C[2][4] = 312601)
+Etapa 2 (E02): acelerada, costo 312601, ahorro 4; ahorro por lograr 4 -> 0
+Etapa 1 (E01): no se acelera (C[1][0] = C[0][0] = 0)
+
+Tabla por valor omitida: D = 357 > 100 (tendría 151 x 358 celdas).

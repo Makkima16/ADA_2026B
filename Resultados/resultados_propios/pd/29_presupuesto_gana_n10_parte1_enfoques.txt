@@ -1,0 +1,16 @@
+Versión del código: e42e041 (con cambios sin commit) | Generado: 2026-11-06 17:39:58 | Archivo: 29_presupuesto_gana_n10.json
+==============================================================================
+Caso: 29_presupuesto_gana_n10   (n = 10 etapas, B = 41, D = suma de ahorros = 208)
+
+Límite de celdas por tabla: 10000000
+
+DP por presupuesto (base): 462 celdas, cabe
+    etapas aceleradas [1, 2, 3, 7, 8, 9] | costo 33 de B = 41 | ahorro 157 | duración 320 -> 163 | tiempo 0.143 ms | válida: sí
+    fuerza bruta (n <= 12): ahorro 157 (coincide)
+DP por valor: 2299 celdas, cabe
+    etapas aceleradas [1, 2, 3, 7, 8, 9] | costo 33 de B = 41 | ahorro 157 | duración 320 -> 163 | tiempo 0.324 ms | válida: sí
+    fuerza bruta (n <= 12): ahorro 157 (coincide)
+
+Las dos tablas dieron el mismo ahorro (157).
+Más rápida en este caso: DP por presupuesto. Menos celdas: DP por presupuesto.
+Solución del caso (la que se reporta en la evidencia de la Parte 1): DP por presupuesto (base).

@@ -55,6 +55,28 @@ class ErrorDeLectura(ValueError):
     """Error de formato con el nombre del caso y la línea donde se rompió."""
 
 
+def trae_datos(ruta: Union[str, Path]) -> bool:
+    """¿El archivo trae datos de la Parte 2? Si no, el caso es «no aplica» para esta parte (no es un error).
+
+    Un .txt siempre es de la Parte 2. Un .json la trae si tiene `categorias_riesgo` o algún
+    `riesgos_cubiertos_auditoria_completa` en las etapas. Un JSON ilegible se deja pasar: `leer_instancia`
+    informa el error de formato.
+    """
+    camino = Path(ruta)
+    if camino.suffix.lower() != ".json":
+        return True
+    try:
+        with open(camino, encoding="utf-8") as f:
+            datos = json.load(f)
+    except (OSError, ValueError):
+        return True
+    if not isinstance(datos, dict):
+        return True
+    etapas = datos.get("etapas")
+    return "categorias_riesgo" in datos or (isinstance(etapas, list) and any(
+        isinstance(e, dict) and "riesgos_cubiertos_auditoria_completa" in e for e in etapas))
+
+
 def _lineas_utiles(camino: Path) -> List[tuple]:
     """(número de línea, texto) sin comentarios ni líneas vacías."""
     utiles: List[tuple] = []

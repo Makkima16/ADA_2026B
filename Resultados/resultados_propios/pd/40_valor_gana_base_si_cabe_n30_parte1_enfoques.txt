@@ -1,0 +1,14 @@
+Versión del código: e42e041 (con cambios sin commit) | Generado: 2026-11-06 17:39:58 | Archivo: 40_valor_gana_base_si_cabe_n30.json
+==============================================================================
+Caso: 40_valor_gana_base_si_cabe_n30   (n = 30 etapas, B = 24606, D = suma de ahorros = 133)
+
+Límite de celdas por tabla: 10000000
+
+DP por presupuesto (base): 762817 celdas, cabe
+    etapas aceleradas [3, 5, 6, 11, 13, 15, 16, 17, 23, 24, 28, 29] | costo 24367 de B = 24606 | ahorro 80 | duración 211 -> 131 | tiempo 247.736 ms | válida: sí
+DP por valor: 4154 celdas, cabe
+    etapas aceleradas [3, 5, 6, 11, 13, 15, 16, 17, 23, 24, 28, 29] | costo 24367 de B = 24606 | ahorro 80 | duración 211 -> 131 | tiempo 0.732 ms | válida: sí
+
+Las dos tablas dieron el mismo ahorro (80).
+Más rápida en este caso: DP por valor. Menos celdas: DP por valor.
+Solución del caso (la que se reporta en la evidencia de la Parte 1): DP por presupuesto (base).

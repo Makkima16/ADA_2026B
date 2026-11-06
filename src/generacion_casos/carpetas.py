@@ -6,8 +6,9 @@ una carpeta que se llame exactamente como una de las dos temporales. Nunca recur
 """
 
 import json
+import re
 from pathlib import Path
-from typing import Dict, List
+from typing import Dict, List, Tuple
 
 RAIZ = Path(__file__).resolve().parents[2]
 NOMBRE_CASOS = "casos_temporales"
@@ -43,6 +44,48 @@ def escribir_casos(casos: List[Dict], carpeta: Path = CASOS_TEMPORALES) -> List[
         ruta.write_text(json.dumps(caso, ensure_ascii=False, indent=1), encoding="utf-8")
         rutas.append(ruta)
     return rutas
+
+
+MAX_ARCHIVOS_SUBIDOS = 200
+
+
+class ErrorDeArchivos(ValueError):
+    """Los archivos que se quieren subir no sirven (vacíos, demasiados o JSON mal formado)."""
+
+
+def nombre_seguro(nombre: str) -> str:
+    """Nombre de caso saneado: sin carpetas, sin extensión y solo con letras, dígitos, '_', '-' y '.'."""
+    base = Path(str(nombre).replace("\\", "/")).name
+    if base.lower().endswith(".json"):
+        base = base[:-5]
+    return re.sub(r"[^A-Za-z0-9_.-]", "_", base).strip(".")[:80] or "caso"
+
+
+def escribir_archivos(archivos: List[Tuple[str, str]], carpeta: Path = CASOS_TEMPORALES) -> List[str]:
+    """Vacía `carpeta` y guarda los .json subidos (pares nombre, texto). Devuelve los nombres guardados.
+
+    Antes de borrar nada comprueba que haya entre 1 y 200 archivos y que cada uno sea un objeto JSON válido;
+    así un archivo malo no deja la carpeta vacía. Los nombres repetidos se numeran.
+    """
+    if not 1 <= len(archivos) <= MAX_ARCHIVOS_SUBIDOS:
+        raise ErrorDeArchivos("hay que subir entre 1 y %d archivos .json" % MAX_ARCHIVOS_SUBIDOS)
+    nombres, usados = [], set()
+    for nombre, texto in archivos:
+        try:
+            if not isinstance(json.loads(texto), dict):
+                raise ValueError("no es un objeto JSON")
+        except ValueError as e:
+            raise ErrorDeArchivos("%s no es un JSON válido (%s)" % (nombre, e))
+        base = nombre_seguro(nombre)
+        final, k = base, 2
+        while final in usados:
+            final, k = "%s_%d" % (base, k), k + 1
+        usados.add(final)
+        nombres.append(final)
+    vaciar(carpeta)
+    for nombre, (_, texto) in zip(nombres, archivos):
+        (Path(carpeta) / (nombre + ".json")).write_text(texto, encoding="utf-8")
+    return nombres
 
 
 def listar_casos(carpeta: Path = CASOS_TEMPORALES) -> List[Dict]:

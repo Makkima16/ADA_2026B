@@ -5,7 +5,9 @@ Cada caso trae las tres partes, así que `run_all.py` puede correrlo completo:
 * Parte 1: `parametros.presupuesto_aceleracion_B` y, por etapa, `duracion_normal` (t_i),
   `costo_aceleracion` (c_i) y `reduccion_tiempo_si_acelera` (d_i), con 0 <= d_i <= t_i.
 * Parte 2: `categorias_riesgo` (r categorías) y, por etapa, `riesgos_cubiertos_auditoria_completa` (S_j).
-* Variante 1: por etapa, `costo_auditoria` (a_j > 0; campo provisional).
+* Variante 1: por etapa, `variaciones_auditoria` como en el JSON de la profesora: una variación
+  `completa` (cubre S_j y cuesta a_j > 0) y, en cerca de tres de cada cuatro etapas con al menos dos
+  riesgos, una `parcial` (cubre un subconjunto de S_j y cuesta menos).
 
 Reproducible: misma semilla y mismos parámetros dan los mismos casos. Todos los casos son
 factibles (cada categoría la cubre al menos una interacción).
@@ -24,7 +26,7 @@ NOMBRES_RIESGO = ["sesgo", "privacidad", "formato", "toxicidad", "alucinacion", 
 DENSIDADES = {"ralo": 0.25, "medio": 0.33, "denso": 0.40}
 
 # Topes para que una petición del visor no deje colgado el servidor.
-MAX_CASOS = 200
+MAX_CASOS = 500
 MAX_N = 100
 MAX_R = 60
 
@@ -59,6 +61,17 @@ def generar_caso(nombre: str, n: int, r: int, semilla: int, densidad: float) -> 
     # Variante 1: costo de auditar, mayor en promedio si la interacción cubre más
     a = [max(1, len(s) * rng.randint(1, 4) + rng.randint(-2, 3)) for s in S]
 
+    # Variaciones de auditoría: generador aparte, para no cambiar los datos de las Partes 1 y 2 de cada semilla
+    rng_v = random.Random(semilla + 7919)
+    variaciones = []
+    for s, costo in zip(S, a):
+        var = [{"id": "completa", "costo": costo, "riesgos_cubiertos": ["R%02d" % k for k in sorted(s)]}]
+        if len(s) >= 2 and rng_v.random() < 0.75:
+            sub = sorted(rng_v.sample(sorted(s), rng_v.randint(1, len(s) - 1)))
+            var.insert(0, {"id": "parcial", "costo": max(1, round(costo * len(sub) / len(s))),
+                           "riesgos_cubiertos": ["R%02d" % k for k in sub]})
+        variaciones.append(var)
+
     return {
         "nombre": nombre,
         "semilla": semilla,
@@ -70,7 +83,7 @@ def generar_caso(nombre: str, n: int, r: int, semilla: int, densidad: float) -> 
                     "costo_aceleracion": c[i],
                     "reduccion_tiempo_si_acelera": d[i],
                     "riesgos_cubiertos_auditoria_completa": ["R%02d" % k for k in sorted(S[i])],
-                    "costo_auditoria": a[i]}
+                    "variaciones_auditoria": variaciones[i]}
                    for i in range(n)],
     }
 

@@ -67,8 +67,8 @@ En cada paso hay un recuadro con la razón concreta de la elección:
 
 ## Secciones de cada visor
 
-Cada visor (Parte 1 y Parte 2) tiene cuatro secciones: **1. Cargar el caso**, **2. Cómo funciona cada enfoque**,
-**3. Resultado y decisión, paso a paso** y **4. Crear tus propias pruebas**. La sección 2 es una explicación para quien no conoce los algoritmos: en la Parte 1
+Cada visor (Parte 1 y Parte 2) tiene tres secciones: **1. Cargar el caso**, **2. Cómo funciona cada enfoque** y
+**3. Resultado y decisión, paso a paso**. Las pruebas aleatorias (antes la sección 4 de cada visor) están ahora todas en `/aleatorios`. La sección 2 es una explicación para quien no conoce los algoritmos: en la Parte 1
 cuenta el problema, por qué no se prueba todo, qué es la programación dinámica, qué hace cada tabla (por presupuesto y por valor,
 con un ejemplo pequeño que se puede desplegar) y una comparación; en la Parte 2 cuenta el problema, qué es un método voraz y qué
 hace cada uno (voraz normal, esenciales, rareza, parejas), cómo se combinan y cuáles tienen garantía demostrada. Una barra de botones elige qué enfoque se explica y solo se muestra
@@ -79,27 +79,34 @@ combinación (9000 instancias con n ≤ 12, con barras), cuándo brilla cada una
 instancias pequeñas y ingredientes elegidos mirando los mismos resultados). Las cifras salen de `comparacion/experimento.py` con semilla 2026 y están escritas a mano en `index.html`: si cambia el experimento hay que actualizarlas.
 Los textos son fijos (están en `index.html` y `aceleracion.html`); si cambian los enfoques hay que actualizarlos a mano.
 
-### Sección 4: crear tus propias pruebas
+## Pruebas aleatorias (`/aleatorios`)
 
-- **Voraz (`estatico/pruebas.js`, ruta `POST /api/auditoria/experimento`):** se elige la cantidad de casos por densidad (hasta 5.000), la semilla y qué densidades
-  usar (ralo, medio, denso). Se generan casos al azar (n ≤ 12, r ≤ 14, para tener el mínimo real por fuerza bruta) y se corren las ocho combinaciones. La tabla muestra por
-  método cuántas veces llegó al mínimo, cuántas no, cuántas fue mejor / igual / peor que el voraz normal, la razón máxima respecto del mínimo y cuántas veces pasó de H(d); la
-  fila con más aciertos va resaltada. Debajo, el desglose por densidad y, por método, los casos más chicos donde empeoró al voraz normal, con un botón que carga ese caso en el
-  visor (sección 3). Mismo código que `python3 src/auditoria/enfoques/comparacion/ablacion.py`.
-- **PD (`estatico/pruebas_pd.js`, ruta `POST /api/aceleracion/experimento`):** se eligen los casos (hasta 500), la semilla, los rangos de etapas, costos y ahorros y B como % del
-  costo total, con tres ejemplos de parámetros (costos y ahorros parecidos, costos grandes con ahorros chicos, cerca del cruce). Como las dos tablas son exactas, la prueba comprueba
-  que dan el mismo ahorro y, con n ≤ 12, que aciertan a la fuerza bruta; lo que mide es cuántas celdas y cuánto tiempo gasta cada una según B < D, B = D o B > D. Una tabla de más
-  de 1.500.000 celdas no se corre y el cálculo se corta a los 25 s. Mismo código que `python3 src/aceleracion/enfoques/dp_por_valor/pruebas_aleatorias.py`.
-- Las rutas validan los parámetros (cantidades, rangos y al menos una densidad) y responden 400 con el motivo.
+Reúne lo que antes eran la sección 4 de `/auditoria` y la de `/aceleracion` y lo que hacía `probar_aleatorios.py` en el visor.
+Elegís **qué probar** (tres modos) y los resultados salen **separados por parte**, cada uno con su resumen, sus tarjetas y su tabla agrupada.
 
-## Casos aleatorios (`/aleatorios`)
+| Modo | Motor | Tope de casos | ¿Escribe archivos? | Qué se ve |
+| --- | --- | --- | --- | --- |
+| **Las dos partes y la variante** | `run_all.py` sobre `Casos/casos_temporales/` | 500 | Sí: resultado, tiempo y traza por caso en `Resultados/resultados_temporales/` | Resumen de la Parte 1, de la Parte 2 y de la variante (dos versiones) y un selector para ver un caso en detalle |
+| **Solo Parte 1 (DP)** | `pruebas_aleatorias.py`, en memoria | 500 (corte a los 25 s) | No | DP por presupuesto contra DP por valor, según B < D, B = D o B > D |
+| **Solo Parte 2 (voraz)** | `ablacion.py`, en memoria | 5.000 por densidad (15.000 en total; 9.000 con 3.000 por densidad) | No | Los ocho enfoques contra el mínimo real y contra el voraz normal, por densidad, y los casos donde un enfoque empeoró |
 
-Tercera entrada del visor: **genera casos al azar y los prueba al instante**, con las tres partes (DP, voraz y variante ponderada) y la traza de cada una.
+**Por qué hay modos.** Cada caso del modo completo deja unos 13 archivos de evidencia (500 casos son unos 6.500); con 9.000 casos serían unos 117.000
+archivos por corrida. Por eso, cuando se prueba una sola parte, los casos se generan y se miden en memoria, sin escribir archivos, y solo se ven los
+resultados agregados. Es el mismo experimento de siempre (los comandos `ablacion.py` y `pruebas_aleatorias.py` siguen existiendo).
 
-- **Generar** (`POST /api/aleatorios/generar`, `estatico/aleatorios.js`): se elige la cantidad de casos (hasta 200), la semilla, el rango de n (hasta 100), el de r (hasta 60) y las densidades (ralo, medio, denso). Los casos se escriben como `.json` (formato de la profesora) en **`Casos/casos_temporales/`**, que se **vacía y reescribe** en cada generación (también se vacía `Resultados/resultados_temporales/`, porque ya no corresponde). La lista aparece en pantalla y cada caso se puede abrir (`GET /api/aleatorios/caso`).
-- **Probar** (`POST /api/aleatorios/probar`): el servidor llama a **`run_all.py`** (el del integrante 3, sin reimplementar nada) con `--casos Casos/casos_temporales/ --salida Resultados/resultados_temporales/`, que también se vacía antes. La tabla muestra resultado y tiempo por parte y caso, con un enlace a su traza (`GET /api/aleatorios/traza`), y debajo las tablas de comparación completas.
-- Las dos carpetas están en `.gitignore`: no se acumula información ni se sube nada. Solo se borran archivos sueltos `.json`, `.txt`, `.csv` o `.md` dentro de carpetas que se llamen exactamente así, nunca de forma recursiva. Las rutas de caso y de traza solo aceptan nombres que existan en esas carpetas (sin rutas).
-- Mismo código que la terminal: `python3 probar_aleatorios.py` (ver `COMANDOS.md`). La lógica vive en `src/generacion_casos/`.
+**Qué muestra cada bloque de resultados** (el mismo formato en los tres modos):
+- **Parte 1:** tarjetas (las dos tablas dieron lo mismo, contra la fuerza bruta, tabla más chica, solo por valor, no se corrieron) y la tabla por relación entre B y D.
+- **Parte 2:** tarjetas (casos, el voraz normal llegó al mínimo, el que más veces llega) y la tabla con una fila por enfoque: llega al mínimo, no llega, mejor / igual / peor que el voraz normal, razón máxima, pasa H(d) y, en el modo completo, el tiempo medio; la fila con más aciertos va resaltada. Debajo, el desglose por densidad y los casos más chicos donde un enfoque empeoró.
+- **Variante 1** (solo modo completo), en dos bloques: **solo completas** (la versión principal: casos, si llegó al mínimo real, cómo se compara con el J de la Parte 2) y **con parciales** (la extensión: cuántos casos con parciales y con depuración, y cómo se compara contra la versión solo completas del mismo caso).
+- **Un caso en detalle** (solo modo completo): un selector (con anterior y siguiente) para elegir uno de los casos; muestra su ficha (resultado de la Parte 1, de la Parte 2 y de la variante en sus dos versiones, y los ocho enfoques) y dos botones, **Ver paso a paso en Aceleración** y **Ver paso a paso en Auditoría**, que abren esa página ya con el caso cargado (`/aceleracion?caso=NOMBRE` y `/auditoria?caso=NOMBRE`: la página pide el caso a `GET /api/aleatorios/caso` y lo analiza como si lo hubieras subido). Un botón queda desactivado si el caso no trae datos de esa parte. Solo aparece cuando se corren las dos partes con `run_all.py`; las tablas por caso quedan en `comparacion.md` y en las trazas.
+
+**Modo completo, en detalle**
+- **Generar** (`POST /api/aleatorios/generar`): cantidad (hasta 500), semilla, rango de n (hasta 100), de r (hasta 60) y densidades. Escribe `.json` con el formato de la profesora (con `variaciones_auditoria` parcial y completa) en `Casos/casos_temporales/`, que se vacía y reescribe en cada generación (también se vacía `Resultados/resultados_temporales/`).
+- **Subir casos propios** (`POST /api/aleatorios/subir`, o arrastrando): hasta 200 `.json` y 50 MB en total; reemplazan `Casos/casos_temporales/`. **Cada archivo debería traer las dos partes**, como el ejemplo de la profesora. Si un archivo trae solo la Parte 1 o solo la Parte 2, se analiza únicamente la parte que aplica y la otra figura como «no aplica» (no es un error). Antes de borrar nada se comprueba que cada archivo sea un objeto JSON válido; los nombres se sanean y los repetidos se numeran.
+- **Probar** (`POST /api/aleatorios/probar`): llama a `run_all.py` (sin reimplementar nada), que además de `resumen.csv` y `comparacion.md` escribe `resumen_enfoques.json`, de donde salen los resúmenes por parte. `comparacion.md` empieza por el resumen y deja las tablas por caso al final.
+- **Solo una parte:** `POST /api/aleatorios/solo-pd` y `POST /api/aleatorios/solo-voraz`. Validan los parámetros y responden 400 con el motivo.
+- Las dos carpetas están en `.gitignore`. Solo se borran archivos sueltos `.json`, `.txt`, `.csv` o `.md` dentro de carpetas que se llamen exactamente así, nunca de forma recursiva. Las rutas de caso y de traza solo aceptan nombres que existan en esas carpetas.
+- Lo mismo se hace desde la terminal con `python3 probar_aleatorios.py` y `python3 run_all.py` (ver `COMANDOS.md`). La lógica vive en `src/generacion_casos/` y en los módulos `resolver_enfoques.py` de cada parte.
 
 ## Parte 1: aceleración de la cadena (`/aceleracion`)
 
@@ -153,12 +160,12 @@ Mismo esquema y misma paleta que el visor de la Parte 2: primero se carga el cas
 frontend/
     servidor.py             servidor local (páginas, API de la Parte 2: /api/resolver y /api/previsualizar,
                             API de la Parte 1: /api/aceleracion/resolver y /api/aceleracion/previsualizar,
-                            API de casos aleatorios: /api/aleatorios/{estado,caso,traza,generar,probar})
+                            API de casos aleatorios: /api/aleatorios/{estado,caso,traza,generar,subir,probar,solo-pd,solo-voraz})
     fuerza_bruta_demo.py    demostración de la fuerza bruta (Parte 2): módulo del servidor y comando de terminal
     estatico/
         inicio.html, inicio.css            página de inicio (elegir la parte)
         aceleracion.html, .js, .css        visor de la Parte 1 (tabla de la DP)
-        aleatorios.html, .js               generar casos al azar y probarlos (se sirve en /aleatorios)
+        aleatorios.html, .js               pruebas aleatorias: tres modos, resultados por parte (se sirve en /aleatorios)
         index.html, app.js                 visor de la Parte 2 (voraz; se sirve en /auditoria)
         explicacion.js                     botones de la sección 2 (muestran un enfoque a la vez), común a las dos páginas
         combinador.js                      armador de combinaciones de la sección 2 del visor del voraz
