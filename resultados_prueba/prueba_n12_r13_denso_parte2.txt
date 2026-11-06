@@ -1,0 +1,27 @@
+Versión del código: 97a6e43 (con cambios sin commit) | Generado: 2026-11-05 15:31:26 | Archivo: prueba_n12_r13_denso.json
+==============================================================================
+Caso: prueba_n12_r13_denso
+Voraz — traza de elecciones
+  Paso 1: interacción 6 (E06) | categorías nuevas {R01, R02, R04, R05, R06, R07, R09, R10, R12, R13} | faltan {R03, R08, R11}
+  Paso 2: interacción 2 (E02) | categorías nuevas {R03, R08} | faltan {R11}
+  Paso 3: interacción 1 (E01) | categorías nuevas {R11} | faltan {}
+Cobertura final (categoría -> interacción):
+  categoría R01 (sesgo) -> interacción E06
+  categoría R02 (privacidad) -> interacción E06
+  categoría R03 (formato) -> interacción E02
+  categoría R04 (toxicidad) -> interacción E06
+  categoría R05 (alucinacion) -> interacción E06
+  categoría R06 (seguridad) -> interacción E06
+  categoría R07 (derechos_autor) -> interacción E06
+  categoría R08 (fuga_datos) -> interacción E02
+  categoría R09 (suplantacion) -> interacción E06
+  categoría R10 (desinformacion) -> interacción E06
+  categoría R11 (discriminacion) -> interacción E01
+  categoría R12 (manipulacion) -> interacción E06
+  categoría R13 (salud) -> interacción E06
+Interacciones auditadas: [6, 2, 1] (3): E06, E02, E01
+Cubre todas las categorías: sí
+Tiempo: 0.000024 s
+Óptimo por fuerza bruta: [1, 2, 6] (3): E01, E02, E06
+Razón voraz / óptimo: 1.0000
+Cota H(d): 2.9290

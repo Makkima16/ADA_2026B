@@ -1,0 +1,26 @@
+Versión del código: 97a6e43 (con cambios sin commit) | Generado: 2026-11-05 15:31:26 | Archivo: prueba_n12_r08_ralo.json
+==============================================================================
+Caso: prueba_n12_r08_ralo
+Voraz ponderado — traza de elecciones
+  Paso 1: interacción 4 (E04) | costo 2 | categorías nuevas {R03, R04} (2) | costo por categoría 1.0000 | acumulado 2 | faltan {R01, R02, R05, R06, R07, R08}
+  Paso 2: interacción 9 (E09) | costo 1 | categorías nuevas {R02} (1) | costo por categoría 1.0000 | acumulado 3 | faltan {R01, R05, R06, R07, R08}
+  Paso 3: interacción 12 (E12) | costo 2 | categorías nuevas {R07} (1) | costo por categoría 2.0000 | acumulado 5 | faltan {R01, R05, R06, R08}
+  Paso 4: interacción 3 (E03) | costo 5 | categorías nuevas {R01, R08} (2) | costo por categoría 2.5000 | acumulado 10 | faltan {R05, R06}
+  Paso 5: interacción 5 (E05) | costo 5 | categorías nuevas {R06} (1) | costo por categoría 5.0000 | acumulado 15 | faltan {R05}
+  Paso 6: interacción 1 (E01) | costo 6 | categorías nuevas {R05} (1) | costo por categoría 6.0000 | acumulado 21 | faltan {}
+Cobertura final (categoría -> interacción):
+  categoría R01 (sesgo) -> interacción E03
+  categoría R02 (privacidad) -> interacción E09
+  categoría R03 (formato) -> interacción E04
+  categoría R04 (toxicidad) -> interacción E04
+  categoría R05 (alucinacion) -> interacción E01
+  categoría R06 (seguridad) -> interacción E05
+  categoría R07 (derechos_autor) -> interacción E12
+  categoría R08 (fuga_datos) -> interacción E03
+Interacciones auditadas: [4, 9, 12, 3, 5, 1] (6): E04, E09, E12, E03, E05, E01
+Costo total: 21
+Cubre todas las categorías: sí
+Tiempo: 0.000047 s
+Óptimo por fuerza bruta: costo 19 con [2, 3, 4, 5]: E02, E03, E04, E05
+Razón voraz / óptimo: 1.1053
+Cota H(d): 2.2833

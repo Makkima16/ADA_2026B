@@ -1,0 +1,17 @@
+Versión del código: 97a6e43 (con cambios sin commit) | Generado: 2026-11-05 15:31:26 | Archivo: prueba_n19_r06_denso.json
+==============================================================================
+Caso: prueba_n19_r06_denso
+Voraz — traza de elecciones
+  Paso 1: interacción 18 (E18) | categorías nuevas {R01, R02, R04, R05, R06} | faltan {R03}
+  Paso 2: interacción 3 (E03) | categorías nuevas {R03} | faltan {}
+Cobertura final (categoría -> interacción):
+  categoría R01 (sesgo) -> interacción E18
+  categoría R02 (privacidad) -> interacción E18
+  categoría R03 (formato) -> interacción E03
+  categoría R04 (toxicidad) -> interacción E18
+  categoría R05 (alucinacion) -> interacción E18
+  categoría R06 (seguridad) -> interacción E18
+Interacciones auditadas: [18, 3] (2): E18, E03
+Cubre todas las categorías: sí
+Tiempo: 0.000016 s
+Cota H(d): 2.2833

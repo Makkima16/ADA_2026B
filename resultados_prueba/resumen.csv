@@ -1,0 +1,67 @@
+caso,parte,resultado,tiempo_s,traza
+prueba_n10_r06_ralo,parte1,"A=[2, 3, 4, 7] costo=24 ahorro=27 duración 82 -> 55",0.000058,prueba_n10_r06_ralo_parte1.txt
+prueba_n10_r06_ralo,parte2,"J=[6, 1, 3, 4] (4 interacciones) | óptimo 4 | razón 1.0000 | H(d) 1.8333",0.000019,prueba_n10_r06_ralo_parte2.txt
+prueba_n10_r06_ralo,variante1,"J=[4, 6, 1, 3] costo=12 | óptimo 12 | razón 1.0000 | H(d) 1.8333",0.000025,prueba_n10_r06_ralo_variante1.txt
+prueba_n10_r15_denso,parte1,"A=[2, 5, 7, 8] costo=20 ahorro=18 duración 68 -> 50",0.000169,prueba_n10_r15_denso_parte1.txt
+prueba_n10_r15_denso,parte2,"J=[6, 8] (2 interacciones) | óptimo 2 | razón 1.0000 | H(d) 3.0199",0.000046,prueba_n10_r15_denso_parte2.txt
+prueba_n10_r15_denso,variante1,"J=[7, 8, 4] costo=29 | óptimo 29 | razón 1.0000 | H(d) 3.0199",0.000028,prueba_n10_r15_denso_variante1.txt
+prueba_n11_r07_ralo,parte1,"A=[1, 2, 5, 8, 10] costo=27 ahorro=20 duración 62 -> 42",0.000071,prueba_n11_r07_ralo_parte1.txt
+prueba_n11_r07_ralo,parte2,"J=[1, 6, 5] (3 interacciones) | óptimo 3 | razón 1.0000 | H(d) 2.0833",0.000013,prueba_n11_r07_ralo_parte2.txt
+prueba_n11_r07_ralo,variante1,"J=[2, 9, 10, 5, 1] costo=17 | óptimo 15 | razón 1.1333 | H(d) 2.0833",0.000026,prueba_n11_r07_ralo_variante1.txt
+prueba_n11_r14_denso,parte1,"A=[1, 2, 3, 5, 9, 11] costo=19 ahorro=35 duración 81 -> 46",0.000048,prueba_n11_r14_denso_parte1.txt
+prueba_n11_r14_denso,parte2,"J=[1, 2, 4, 10] (4 interacciones) | óptimo 4 | razón 1.0000 | H(d) 2.5929",0.000034,prueba_n11_r14_denso_parte2.txt
+prueba_n11_r14_denso,variante1,"J=[9, 11, 10, 2, 7] costo=38 | óptimo 37 | razón 1.0270 | H(d) 2.5929",0.000049,prueba_n11_r14_denso_variante1.txt
+prueba_n12_r08_ralo,parte1,"A=[3, 7, 8, 9, 12] costo=27 ahorro=35 duración 94 -> 59",0.000079,prueba_n12_r08_ralo_parte1.txt
+prueba_n12_r08_ralo,parte2,"J=[2, 11, 3] (3 interacciones) | óptimo 3 | razón 1.0000 | H(d) 2.2833",0.000018,prueba_n12_r08_ralo_parte2.txt
+prueba_n12_r08_ralo,variante1,"J=[4, 9, 12, 3, 5, 1] costo=21 | óptimo 19 | razón 1.1053 | H(d) 2.2833",0.000047,prueba_n12_r08_ralo_variante1.txt
+prueba_n12_r13_denso,parte1,"A=[1, 5, 6, 8, 10, 11] costo=27 ahorro=30 duración 90 -> 60",0.000096,prueba_n12_r13_denso_parte1.txt
+prueba_n12_r13_denso,parte2,"J=[6, 2, 1] (3 interacciones) | óptimo 3 | razón 1.0000 | H(d) 2.9290",0.000024,prueba_n12_r13_denso_parte2.txt
+prueba_n12_r13_denso,variante1,"J=[9, 7, 5, 12] costo=31 | óptimo 30 | razón 1.0333 | H(d) 2.9290",0.000030,prueba_n12_r13_denso_variante1.txt
+prueba_n13_r09_ralo,parte1,"A=[2, 3, 10, 12, 13] costo=21 ahorro=44 duración 105 -> 61",0.000067,prueba_n13_r09_ralo_parte1.txt
+prueba_n13_r09_ralo,parte2,"J=[4, 11, 6] (3 interacciones)",0.000022,prueba_n13_r09_ralo_parte2.txt
+prueba_n13_r09_ralo,variante1,"J=[10, 1, 13, 11, 4] costo=21",0.000029,prueba_n13_r09_ralo_variante1.txt
+prueba_n13_r12_denso,parte1,"A=[1, 3, 4, 5, 6, 11, 13] costo=25 ahorro=37 duración 95 -> 58",0.000074,prueba_n13_r12_denso_parte1.txt
+prueba_n13_r12_denso,parte2,"J=[7, 8] (2 interacciones)",0.000016,prueba_n13_r12_denso_parte2.txt
+prueba_n13_r12_denso,variante1,"J=[5, 1, 11, 10, 3] costo=27",0.000037,prueba_n13_r12_denso_variante1.txt
+prueba_n14_r10_ralo,parte1,"A=[2, 5, 7, 11, 12, 14] costo=21 ahorro=33 duración 86 -> 53",0.000069,prueba_n14_r10_ralo_parte1.txt
+prueba_n14_r10_ralo,parte2,"J=[13, 8, 1, 5] (4 interacciones)",0.000033,prueba_n14_r10_ralo_parte2.txt
+prueba_n14_r10_ralo,variante1,"J=[14, 3, 6, 10, 4, 7] costo=26",0.000038,prueba_n14_r10_ralo_variante1.txt
+prueba_n14_r11_denso,parte1,"A=[1, 2, 8, 9, 10, 12] costo=21 ahorro=22 duración 88 -> 66",0.000074,prueba_n14_r11_denso_parte1.txt
+prueba_n14_r11_denso,parte2,"J=[14, 2, 4] (3 interacciones)",0.000021,prueba_n14_r11_denso_parte2.txt
+prueba_n14_r11_denso,variante1,"J=[5, 1, 3, 9] costo=37",0.000032,prueba_n14_r11_denso_variante1.txt
+prueba_n15_r10_denso,parte1,"A=[2, 5, 10, 12, 13] costo=26 ahorro=27 duración 86 -> 59",0.000149,prueba_n15_r10_denso_parte1.txt
+prueba_n15_r10_denso,parte2,"J=[6, 2, 1] (3 interacciones)",0.000022,prueba_n15_r10_denso_parte2.txt
+prueba_n15_r10_denso,variante1,"J=[4, 13, 2, 5] costo=23",0.000030,prueba_n15_r10_denso_variante1.txt
+prueba_n15_r11_ralo,parte1,"A=[1, 2, 4, 8, 10, 11, 15] costo=26 ahorro=37 duración 105 -> 68",0.000129,prueba_n15_r11_ralo_parte1.txt
+prueba_n15_r11_ralo,parte2,"J=[15, 7, 10, 4] (4 interacciones)",0.000024,prueba_n15_r11_ralo_parte2.txt
+prueba_n15_r11_ralo,variante1,"J=[7, 1, 13, 10, 15, 4] costo=30",0.000043,prueba_n15_r11_ralo_variante1.txt
+prueba_n16_r09_denso,parte1,"A=[3, 4, 8, 10, 11, 13, 15, 16] costo=32 ahorro=45 duración 140 -> 95",0.000120,prueba_n16_r09_denso_parte1.txt
+prueba_n16_r09_denso,parte2,"J=[2, 7, 15] (3 interacciones)",0.000029,prueba_n16_r09_denso_parte2.txt
+prueba_n16_r09_denso,variante1,"J=[4, 7, 15, 11] costo=16",0.000049,prueba_n16_r09_denso_variante1.txt
+prueba_n16_r12_ralo,parte1,"A=[3, 4, 5, 6, 7, 8, 10, 15, 16] costo=31 ahorro=38 duración 93 -> 55",0.000105,prueba_n16_r12_ralo_parte1.txt
+prueba_n16_r12_ralo,parte2,"J=[5, 9, 2, 4] (4 interacciones)",0.000024,prueba_n16_r12_ralo_parte2.txt
+prueba_n16_r12_ralo,variante1,"J=[14, 2, 10, 13, 4] costo=19",0.000040,prueba_n16_r12_ralo_variante1.txt
+prueba_n17_r08_denso,parte1,"A=[2, 3, 6, 7, 12, 13, 17] costo=22 ahorro=40 duración 110 -> 70",0.000151,prueba_n17_r08_denso_parte1.txt
+prueba_n17_r08_denso,parte2,"J=[9, 1, 4] (3 interacciones)",0.000030,prueba_n17_r08_denso_parte2.txt
+prueba_n17_r08_denso,variante1,"J=[7, 4, 8, 9] costo=17",0.000083,prueba_n17_r08_denso_variante1.txt
+prueba_n17_r13_ralo,parte1,"A=[1, 2, 3, 5, 9, 10, 11, 15, 17] costo=31 ahorro=33 duración 119 -> 86",0.000117,prueba_n17_r13_ralo_parte1.txt
+prueba_n17_r13_ralo,parte2,"J=[1, 14, 11, 2] (4 interacciones)",0.000024,prueba_n17_r13_ralo_parte2.txt
+prueba_n17_r13_ralo,variante1,"J=[3, 8, 2, 10, 7, 11, 14] costo=50",0.000049,prueba_n17_r13_ralo_variante1.txt
+prueba_n18_r07_denso,parte1,"A=[1, 2, 4, 6, 7, 9, 10, 16, 18] costo=36 ahorro=58 duración 161 -> 103",0.000135,prueba_n18_r07_denso_parte1.txt
+prueba_n18_r07_denso,parte2,"J=[3, 7, 6] (3 interacciones)",0.000026,prueba_n18_r07_denso_parte2.txt
+prueba_n18_r07_denso,variante1,"J=[1, 2, 3, 9, 17] costo=13",0.000054,prueba_n18_r07_denso_variante1.txt
+prueba_n18_r14_ralo,parte1,"A=[1, 2, 7, 13, 16, 18] costo=32 ahorro=37 duración 127 -> 90",0.000209,prueba_n18_r14_ralo_parte1.txt
+prueba_n18_r14_ralo,parte2,"J=[5, 6, 13, 9, 15] (5 interacciones)",0.000035,prueba_n18_r14_ralo_parte2.txt
+prueba_n18_r14_ralo,variante1,"J=[16, 10, 2, 13, 6, 15, 9, 5] costo=79",0.000052,prueba_n18_r14_ralo_variante1.txt
+prueba_n19_r06_denso,parte1,"A=[1, 2, 4, 5, 8, 9, 11, 12, 13, 15, 16] costo=47 ahorro=61 duración 135 -> 74",0.000188,prueba_n19_r06_denso_parte1.txt
+prueba_n19_r06_denso,parte2,"J=[18, 3] (2 interacciones)",0.000016,prueba_n19_r06_denso_parte2.txt
+prueba_n19_r06_denso,variante1,"J=[3, 9, 2] costo=9",0.000028,prueba_n19_r06_denso_variante1.txt
+prueba_n19_r15_ralo,parte1,"A=[4, 5, 7, 11, 12, 14, 17, 18, 19] costo=38 ahorro=64 duración 141 -> 77",0.000190,prueba_n19_r15_ralo_parte1.txt
+prueba_n19_r15_ralo,parte2,"J=[3, 19, 1] (3 interacciones)",0.000022,prueba_n19_r15_ralo_parte2.txt
+prueba_n19_r15_ralo,variante1,"J=[6, 1, 9, 5, 13] costo=39",0.000039,prueba_n19_r15_ralo_variante1.txt
+prueba_n20_r06_ralo,parte1,"A=[1, 2, 3, 5, 11, 12, 14, 17] costo=40 ahorro=48 duración 138 -> 90",0.000259,prueba_n20_r06_ralo_parte1.txt
+prueba_n20_r06_ralo,parte2,"J=[2, 7, 3] (3 interacciones)",0.000037,prueba_n20_r06_ralo_parte2.txt
+prueba_n20_r06_ralo,variante1,"J=[1, 10, 11, 19, 12] costo=11",0.000036,prueba_n20_r06_ralo_variante1.txt
+prueba_n20_r15_denso,parte1,"A=[1, 3, 4, 7, 8, 9, 12, 14, 16, 17, 19] costo=40 ahorro=60 duración 122 -> 62",0.000292,prueba_n20_r15_denso_parte1.txt
+prueba_n20_r15_denso,parte2,"J=[19, 8] (2 interacciones)",0.000040,prueba_n20_r15_denso_parte2.txt
+prueba_n20_r15_denso,variante1,"J=[2, 16, 20] costo=24",0.000039,prueba_n20_r15_denso_variante1.txt

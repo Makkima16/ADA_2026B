@@ -1,0 +1,18 @@
+Versión del código: 97a6e43 (con cambios sin commit) | Generado: 2026-11-05 15:31:26 | Archivo: prueba_n20_r06_ralo.json
+==============================================================================
+Caso: prueba_n20_r06_ralo
+Voraz — traza de elecciones
+  Paso 1: interacción 2 (E02) | categorías nuevas {R01, R02, R03} | faltan {R04, R05, R06}
+  Paso 2: interacción 7 (E07) | categorías nuevas {R04, R06} | faltan {R05}
+  Paso 3: interacción 3 (E03) | categorías nuevas {R05} | faltan {}
+Cobertura final (categoría -> interacción):
+  categoría R01 (sesgo) -> interacción E02
+  categoría R02 (privacidad) -> interacción E02
+  categoría R03 (formato) -> interacción E02
+  categoría R04 (toxicidad) -> interacción E07
+  categoría R05 (alucinacion) -> interacción E03
+  categoría R06 (seguridad) -> interacción E07
+Interacciones auditadas: [2, 7, 3] (3): E02, E07, E03
+Cubre todas las categorías: sí
+Tiempo: 0.000037 s
+Cota H(d): 1.8333
