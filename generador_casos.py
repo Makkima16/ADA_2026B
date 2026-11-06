@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 """Genera casos de prueba PROPIOS mientras llegan los de la profesora.  [Integrante 3]
 
-    python3 generar_casos_prueba.py                          # 22 casos en casos_prueba/
-    python3 generar_casos_prueba.py --malla                  # 110 casos: todo n de 10..20 con todo r de 6..15
-    python3 generar_casos_prueba.py --salida otra/ --semilla 7
+    python3 generar_casos.py                          # 22 casos en casos/
+    python3 generar_casos.py --malla                  # 110 casos: todo n de 10..20 con todo r de 6..15
+    python3 generar_casos.py --salida otra/ --semilla 7
 
 Cada caso usa el MISMO formato JSON del ejemplo de la profesora, así que
 `run_all.py` le corre las tres partes:
@@ -14,7 +14,7 @@ Cada caso usa el MISMO formato JSON del ejemplo de la profesora, así que
 * Variante 1: por etapa, `costo_auditoria` (a_j > 0; campo provisional).
 
 Reproducible: misma semilla = mismos casos. Todos los casos son factibles (cada
-categoría la cubre al menos una interacción). Los casos van en `casos_prueba/`,
+categoría la cubre al menos una interacción). Los casos van en `casos/`,
 NO en `casos/`, que es solo para los de la profesora.
 
 Por defecto se generan 22 casos: para cada n de 10 a 20, dos valores de r que
@@ -83,7 +83,7 @@ def combinaciones(malla):
 
 def main(argv=None):
     ap = argparse.ArgumentParser(description="Genera casos de prueba propios (n = 10..20, r = 6..15).")
-    ap.add_argument("--salida", default="casos_prueba", help="carpeta de salida (por defecto casos_prueba/)")
+    ap.add_argument("--salida", default="casos", help="carpeta de salida (por defecto casos/)")
     ap.add_argument("--semilla", type=int, default=2026, help="semilla base (por defecto 2026)")
     ap.add_argument("--malla", action="store_true", help="generar todas las combinaciones n x r (110 casos)")
     args = ap.parse_args(argv)
