@@ -1,6 +1,0 @@
-Commit: e42e041
-Cambios sin commit en src/ o run_all.py: sí
-Fecha: 2026-11-06 17:39:58
-Python: 3.12.3
-Comando: python3 run_all.py --casos Casos/casos_propios/pd --salida Resultados/resultados_propios/pd
-Casos: 20

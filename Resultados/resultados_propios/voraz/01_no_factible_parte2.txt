@@ -1,4 +1,0 @@
-Versión del código: e42e041 (con cambios sin commit) | Generado: 2026-11-06 17:39:59 | Archivo: 01_no_factible.json
-==============================================================================
-Caso: 01_no_factible
-Instancia NO factible: nadie cubre las categorías [5]. No se ejecutó el voraz.
