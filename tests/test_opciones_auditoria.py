@@ -12,7 +12,7 @@ from auditoria.opciones import depurar, formatear_opciones
 from auditoria.resolver_ponderada import resolver_caso_ponderado
 from auditoria.traza_ponderada import formatear_resultado_ponderado
 
-PROFESORA = Path(__file__).resolve().parents[1] / "Casos" / "casos_propios" / "pd" / "entrada_G3_mochila_20_nodos.json"
+PROFESORA = Path(__file__).resolve().parents[1] / "pruebas" / "casos_propios" / "pd" / "entrada_G3_mochila_20_nodos.json"
 
 
 def _guardar(tmp_path, datos, nombre="caso.json"):

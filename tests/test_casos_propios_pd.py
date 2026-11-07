@@ -1,4 +1,4 @@
-"""Pruebas de los casos propios de la Parte 1 (`Casos/casos_propios/pd/`)."""
+"""Pruebas de los casos propios de la Parte 1 (`pruebas/casos_propios/pd/`)."""
 
 import os
 import sys
@@ -12,7 +12,7 @@ from aceleracion.enfoques.seleccion import elegir_enfoque, resolver_auto, tamano
 from aceleracion.lectura import leer_casos
 from aceleracion.verificacion import N_MAX_FUERZA_BRUTA, fuerza_bruta
 
-CARPETA = Path(__file__).resolve().parents[1] / "Casos" / "casos_propios" / "pd"
+CARPETA = Path(__file__).resolve().parents[1] / "pruebas" / "casos_propios" / "pd"
 sys.path.insert(0, str(CARPETA))
 import generar_casos  # noqa: E402
 

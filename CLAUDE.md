@@ -12,7 +12,7 @@ Si dos fuentes se contradicen, manda la de mayor prioridad:
 3. `Proyecto ADA Grupo 3 — Tareas por integrante (primera entrega).md`: reparto de tareas.
 4. `Proyecto_ADAG3.md`: enunciado completo. Léelo antes de tocar algoritmos o escribir pruebas formales (@context/Proyecto_ADAG3.md).
 
-La documentación del proyecto (informe y, luego, manual técnico) vive en `docs/`.
+La documentación vive en `docs/`, con dos carpetas: `docs/entregables/` (lo que se entrega: `informe.docx` y `Manual técnico.docx`, siempre de la misma versión) y `docs/documentacion/` (documentos de apoyo de cada integrante, estudios y versiones anteriores; no se entregan).
 
 ## Qué es el proyecto
 
@@ -61,10 +61,9 @@ src/generacion_casos/ # generador de casos aleatorios (formato JSON de la profes
 frontend/             # visor local de apoyo (inicio, Parte 1, Parte 2 y pruebas aleatorias); solo importa de src/aceleracion/, src/auditoria/ y src/generacion_casos/
 casos/                # casos de la profesora (SOLO LECTURA)
 resultados/           # salida, tiempo y traza por caso (se regenera completo)
-Casos/                # casos propios y temporales (carpeta del grupo, no confundir con casos/ de la profesora)
+pruebas/              # material del grupo: casos y evidencias propios y temporales (no confundir con casos/ y resultados/ de la entrega oficial)
   casos_propios/      #   casos propios fijos: pd/ (Parte 1) y voraz/ (Parte 2); se versionan
   casos_temporales/   #   casos aleatorios del visor o de probar_aleatorios.py (se vacía y reescribe en cada generación; en .gitignore)
-Resultados/           # evidencias del grupo (no confundir con resultados/ de la entrega oficial)
   resultados_propios/ #   evidencias de los casos propios; se versionan
   resultados_temporales/ # evidencias de los casos temporales (se vacía y reescribe en cada prueba; en .gitignore)
 probar_aleatorios.py  # genera casos aleatorios y los prueba desde la terminal (llama a run_all.py, no lo reemplaza)

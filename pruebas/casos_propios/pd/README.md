@@ -5,7 +5,7 @@ Casos de prueba propios, **no** de la profesora. Mismo formato JSON que el ejemp
 caso y el resultado calculado con el código del proyecto. Se generan con semilla fija:
 
 ```
-python3 Casos/casos_propios/pd/generar_casos.py
+python3 pruebas/casos_propios/pd/generar_casos.py
 ```
 
 | Caso | n | B | Qué prueba |

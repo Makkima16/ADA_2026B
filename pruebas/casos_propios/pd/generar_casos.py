@@ -8,7 +8,7 @@ proyecto. Todo con semilla fija: mismo código = mismos archivos.
 
 Uso (desde la raíz del proyecto):
 
-    python3 Casos/casos_propios/pd/generar_casos.py [--salida CARPETA]
+    python3 pruebas/casos_propios/pd/generar_casos.py [--salida CARPETA]
 
 Por defecto escribe en la misma carpeta del script, junto con un README.md con la tabla de casos.
 """
@@ -199,7 +199,7 @@ def generar(salida: Path) -> list:
         "Casos de prueba propios, **no** de la profesora. Mismo formato JSON que el ejemplo de la profesora\n"
         "(`entrada_G3_mochila_20_nodos.json`, que también está en esta carpeta); la clave `descripcion` dice qué prueba cada\n"
         "caso y el resultado calculado con el código del proyecto. Se generan con semilla fija:\n\n"
-        "```\npython3 Casos/casos_propios/pd/generar_casos.py\n```\n\n"
+        "```\npython3 pruebas/casos_propios/pd/generar_casos.py\n```\n\n"
         "| Caso | n | B | Qué prueba |\n| --- | --- | --- | --- |\n" + filas + "\n\n"
         "Los casos con `valor_gana` en el nombre son aquellos donde la tabla por valor es la más chica (en %s la tabla por presupuesto **también cabe y puede correr**, así que se pueden comparar las dos; en los demás solo cabe la de valor); los de `presupuesto_gana`, donde lo es la de presupuesto; el 28 es el empate (se elige la base).\n\nEl caso `%s` **debe dar error** (ninguna tabla cabe); todos los demás se resuelven. "
         "Las pruebas están en `tests/test_casos_propios_pd.py`.\n" % (", ".join("`%s`" % x for x in base_cabe), CASO_DE_ERROR), encoding="utf-8")

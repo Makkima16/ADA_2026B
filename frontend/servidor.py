@@ -8,7 +8,7 @@ Sirve una página de inicio y dos visores locales:
   /             inicio: elegir la parte que se quiere explicar
   /aceleracion  Parte 1: la tabla de la programación dinámica (Mochila 0/1)
   /auditoria    Parte 2: el algoritmo voraz de Set Cover
-  /aleatorios   pruebas aleatorias: completo (genera casos en Casos/casos_temporales/ y los prueba con run_all.py), solo Parte 1 o solo Parte 2 (en memoria)
+  /aleatorios   pruebas aleatorias: completo (genera casos en pruebas/casos_temporales/ y los prueba con run_all.py), solo Parte 1 o solo Parte 2 (en memoria)
 
 No duplica la lógica: llama a las mismas funciones del código base
 (`leer_instancia` y `resolver_caso` de src/aceleracion/ y de src/auditoria/),
@@ -411,7 +411,7 @@ class Visor(BaseHTTPRequestHandler):
         else:
             self._json(404, {"error": "recurso desconocido"})
 
-    # ---------- Casos aleatorios: generar en Casos/casos_temporales/ y probar en Resultados/resultados_temporales/ ----------
+    # ---------- Casos aleatorios: generar en pruebas/casos_temporales/ y probar en pruebas/resultados_temporales/ ----------
 
     def _estado_aleatorios(self) -> dict:
         casos, salida = carpetas_temporales.CASOS_TEMPORALES, carpetas_temporales.RESULTADOS_TEMPORALES
@@ -435,7 +435,7 @@ class Visor(BaseHTTPRequestHandler):
             self._json(404, {"error": "ese archivo no está en las carpetas temporales (quizá se regeneraron)"})
 
     def _api_aleatorios_generar(self) -> None:
-        """Vacía Casos/casos_temporales/ y escribe los casos nuevos (y vacía Resultados/resultados_temporales/: ya no corresponden)."""
+        """Vacía pruebas/casos_temporales/ y escribe los casos nuevos (y vacía pruebas/resultados_temporales/: ya no corresponden)."""
         datos = self._leer_parametros()
         if datos is None:
             return
@@ -457,7 +457,7 @@ class Visor(BaseHTTPRequestHandler):
         self._json(200, self._estado_aleatorios())
 
     def _api_aleatorios_subir(self) -> None:
-        """Reemplaza Casos/casos_temporales/ por los .json que sube la persona (por ejemplo, los de la profesora)."""
+        """Reemplaza pruebas/casos_temporales/ por los .json que sube la persona (por ejemplo, los de la profesora)."""
         try:
             largo = int(self.headers.get("Content-Length", "0"))
             if largo > MAX_CUERPO_SUBIDA:
@@ -478,7 +478,7 @@ class Visor(BaseHTTPRequestHandler):
         self._json(200, self._estado_aleatorios())
 
     def _api_aleatorios_probar(self) -> None:
-        """Vacía Resultados/resultados_temporales/ y corre run_all.py sobre Casos/casos_temporales/."""
+        """Vacía pruebas/resultados_temporales/ y corre run_all.py sobre pruebas/casos_temporales/."""
         with CANDADO_ALEATORIOS:
             try:
                 proceso = probar_casos.probar(carpetas_temporales.CASOS_TEMPORALES, carpetas_temporales.RESULTADOS_TEMPORALES)

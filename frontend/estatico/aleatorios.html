@@ -80,14 +80,14 @@
         <button class="btn grande" id="al-generar" type="button">Generar casos</button>
         <button class="btn primario grande" id="al-probar" type="button" disabled>Probar los casos</button>
       </div>
-      <p class="nota">Se compara además contra el mínimo real: por fuerza bruta con n ≤ 12 y, si no, por subconjuntos de categorías con r ≤ 16. Los casos se escriben en <span class="mono">Casos/casos_temporales/</span> y las evidencias en <span class="mono">Resultados/resultados_temporales/</span>; las dos carpetas se vacían en cada corrida y no se suben a git.</p>
+      <p class="nota">Se compara además contra el mínimo real: por fuerza bruta con n ≤ 12 y, si no, por subconjuntos de categorías con r ≤ 16. Los casos se escriben en <span class="mono">pruebas/casos_temporales/</span> y las evidencias en <span class="mono">pruebas/resultados_temporales/</span>; las dos carpetas se vacían en cada corrida y no se suben a git.</p>
 
       <div class="subida" id="zona-subida">
         <h3 class="subtitulo-pruebas">¿Tienes tus propios casos? (por ejemplo, los de la profesora)</h3>
         <p>Cada archivo <span class="mono">.json</span> debería traer <b>las dos partes en el mismo archivo</b>, como el ejemplo <span class="mono">entrada_G3_mochila_20_nodos.json</span>:
           las etapas con su duración, costo de aceleración y reducción, el presupuesto B, las categorías de riesgo, los riesgos que cubre cada etapa y sus variaciones de auditoría (completa y parcial).
           Si un archivo trae <b>solo la Parte 1 o solo la Parte 2</b>, se analiza únicamente la parte que aplica y la otra figura como «no aplica» (no es un error).
-          Elige los archivos o arrástralos aquí (hasta 200); reemplazan lo que haya en <span class="mono">Casos/casos_temporales/</span>.</p>
+          Elige los archivos o arrástralos aquí (hasta 200); reemplazan lo que haya en <span class="mono">pruebas/casos_temporales/</span>.</p>
         <div class="form-pruebas">
           <label>Archivos .json<input type="file" id="al-archivos" accept=".json,application/json" multiple></label>
           <button class="btn" id="al-subir" type="button">Usar estos casos</button>

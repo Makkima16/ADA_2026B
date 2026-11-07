@@ -8,7 +8,7 @@ Lee `txt_originales/*.txt` con el lector del proyecto y escribe un `.json` por c
 
 Uso (desde la raíz del proyecto):
 
-    python3 Casos/casos_propios/voraz/convertir_a_json.py
+    python3 pruebas/casos_propios/voraz/convertir_a_json.py
 """
 
 import json
