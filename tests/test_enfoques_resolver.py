@@ -240,3 +240,53 @@ def test_la_opcion_lista_corre_solo_los_casos_pedidos(tmp_path):
     lista.write_text("# nada\n", encoding="utf-8")
     with pytest.raises(SystemExit, match="vacía"):
         run_all.main(["--casos", str(casos), "--salida", str(salida), "--lista", str(lista)])
+
+
+# ------------------------------------------------------------------ elegir qué revisar: --partes y --sin-enfoques
+
+def _salida_de(tmp_path, *opciones):
+    casos = tmp_path / "casos"
+    casos.mkdir(exist_ok=True)
+    (casos / "a.json").write_text(json.dumps(_caso("a")), encoding="utf-8")
+    salida = tmp_path / ("res" + str(abs(hash(opciones)) % 10000))
+    assert run_all.main(["--casos", str(casos), "--salida", str(salida), "--sin-tabla", *opciones]) == 0
+    filas = list(csv.DictReader(open(salida / "resumen.csv", encoding="utf-8")))
+    return salida, {f["parte"] for f in filas}
+
+
+def test_solo_la_variante(tmp_path):
+    salida, partes = _salida_de(tmp_path, "--partes", "variante")
+    assert partes == {"variante1", "variante1_parcial"}
+    archivos = {p.name for p in salida.iterdir()}
+    assert {"a_variante1.txt", "a_variante1_parcial.txt"} <= archivos
+    assert not any(n.startswith(("a_parte1", "a_parte2")) for n in archivos)
+    md = (salida / "comparacion.md").read_text(encoding="utf-8")
+    assert "### Variante 1 — voraz ponderado, solo completas" in md and "Parte 1 — las dos tablas" not in md
+    resumen = json.loads((salida / "resumen_enfoques.json").read_text(encoding="utf-8"))
+    assert resumen["parte1"] is None and resumen["parte2"] is None and resumen["variante"]["casos"] == 1
+
+
+def test_solo_parte_1_y_solo_parte_2(tmp_path):
+    _, partes1 = _salida_de(tmp_path, "--partes", "parte1")
+    assert partes1 == {"parte1", "parte1_presupuesto", "parte1_valor"}
+    _, partes2 = _salida_de(tmp_path, "--partes", "parte2")
+    assert "parte2" in partes2 and "parte2_todo" in partes2 and not any(p.startswith(("parte1", "variante")) for p in partes2)
+    _, partes12 = _salida_de(tmp_path, "--partes", "parte1", "variante")
+    assert "parte2" not in partes12 and "parte2_voraz" not in partes12 and {"parte1", "variante1"} <= partes12
+
+
+def test_sin_enfoques_deja_solo_la_solucion_base(tmp_path):
+    salida, partes = _salida_de(tmp_path, "--sin-enfoques")
+    assert partes == {"parte1", "parte2", "variante1", "variante1_parcial"}               # sin las filas de los enfoques
+    archivos = {p.name for p in salida.iterdir()}
+    assert "a_parte1.txt" in archivos and "a_parte2.txt" in archivos
+    assert "a_parte1_enfoques.txt" not in archivos and "a_parte2_enfoques.txt" not in archivos
+    assert "--sin-enfoques" in (salida / "version.txt").read_text(encoding="utf-8")
+
+
+def test_partes_invalidas_se_rechazan(tmp_path):
+    casos = tmp_path / "casos"
+    casos.mkdir()
+    (casos / "a.json").write_text(json.dumps(_caso("a")), encoding="utf-8")
+    with pytest.raises(SystemExit):
+        run_all.main(["--casos", str(casos), "--salida", str(tmp_path / "r"), "--partes", "parte3"])

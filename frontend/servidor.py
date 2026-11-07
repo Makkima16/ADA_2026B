@@ -42,6 +42,10 @@ sys.path.insert(0, str(RAIZ / "src"))
 from auditoria.lectura import ErrorDeLectura, leer_instancia  # noqa: E402
 from auditoria.resolver import resolver_caso                   # noqa: E402
 from auditoria.traza import formatear_resultado                # noqa: E402
+from auditoria.lectura_ponderada import ErrorDeCostos, leer_opciones  # noqa: E402  (variante ponderada)
+from auditoria.opciones import depurar, formatear_opciones      # noqa: E402
+from auditoria.resolver_ponderada import resolver_caso_ponderado  # noqa: E402
+from auditoria.traza_ponderada import formatear_resultado_ponderado  # noqa: E402
 from fuerza_bruta_demo import analizar as analizar_fuerza_bruta  # noqa: E402  (mismo directorio)
 from auditoria.enfoques.comparacion.experimento import comparar_caso  # noqa: E402  (enfoques aparte del voraz base)
 from aceleracion.aceleracion import ErrorDeEntrada, MAX_CELDAS_TABLA  # noqa: E402  (Parte 1)
@@ -81,6 +85,7 @@ TIPOS_ESTATICOS = {
     "aceleracion.css": "text/css; charset=utf-8",
     "explicacion.js": "application/javascript; charset=utf-8",
     "combinador.js": "application/javascript; charset=utf-8",
+    "variante.js": "application/javascript; charset=utf-8",
     "aleatorios.html": "text/html; charset=utf-8",
     "aleatorios.js": "application/javascript; charset=utf-8",
 }
@@ -151,6 +156,45 @@ def _resultado_a_json(res, inst) -> dict:
         "nombres_categoria": list(inst.nombres_categoria) if inst.nombres_categoria else None,
         "texto_evidencia": formatear_resultado(res),
     }
+
+
+
+def _version_a_json(inst, opciones) -> dict:
+    """Una versión de la variante ponderada (solo completas o con parciales) lista para la página, paso a paso.
+
+    No reimplementa nada: corre `resolver_caso_ponderado` y `depurar` del proyecto. Lo único que calcula aquí es, para
+    cada paso, las candidatas (costo por categoría nueva de cada opción) para poder explicar por qué ganó la elegida.
+    """
+    rv = resolver_caso_ponderado(opciones.instancia, opciones.costos)
+    op = opciones.instancia
+    etq = op.etiqueta_interaccion
+    salida = {"version": opciones.version, "n_opciones": len(opciones.costos), "factible": rv.factible,
+              "sin_cubrir": sorted(rv.sin_cubrir), "opciones": [etq(k) for k in range(1, len(opciones.costos) + 1)],
+              "costos": list(opciones.costos), "tipos": list(opciones.tipo), "cota": rv.cota}
+    if not rv.factible:
+        return salida
+    dep = depurar(rv.J, opciones)
+    faltan = set(range(1, inst.r + 1))
+    pasos = []
+    for p in rv.pasos:
+        candidatas = []
+        for k, s in enumerate(op.S, start=1):
+            nuevas = set(s) & faltan
+            if nuevas:
+                candidatas.append({"opcion": etq(k), "costo": opciones.costos[k - 1], "nuevas": len(nuevas),
+                                   "razon": opciones.costos[k - 1] / len(nuevas), "k": k})
+        candidatas.sort(key=lambda c: (c["razon"], c["k"]))
+        pasos.append({"opcion": etq(p.j), "k": p.j, "costo": p.costo, "nuevas": sorted(p.nuevas), "razon": p.costo_por_categoria,
+                      "acumulado": p.acumulado, "faltan": sorted(p.faltan), "candidatas": candidatas[:5],
+                      "n_candidatas": len(candidatas)})
+        faltan = set(p.faltan)
+    salida.update({
+        "pasos": pasos, "J": [etq(k) for k in rv.J], "costo_voraz": dep.costo_voraz, "costo_real": dep.costo_real,
+        "conservadas": [etq(k) for k in dep.conservadas], "descartadas": [etq(k) for k in dep.descartadas],
+        "cobertura": [{"categoria": c, "opcion": etq(rv.cobertura[c])} for c in sorted(rv.cobertura)], "cubre": rv.cubre,
+        "optimo_costo": rv.optimo_costo, "optimo_metodo": rv.optimo_metodo, "tiempo_s": rv.tiempo_s,
+        "texto_evidencia": formatear_resultado_ponderado(rv) + formatear_opciones(rv, opciones, dep)})
+    return salida
 
 
 def _comparacion_a_json(inst) -> dict:
@@ -348,6 +392,8 @@ class Visor(BaseHTTPRequestHandler):
             self._api_resolver()
         elif self.path == "/api/previsualizar":
             self._api_previsualizar()
+        elif self.path == "/api/auditoria/variante":
+            self._api_variante()
         elif self.path == "/api/aceleracion/resolver":
             self._api_aceleracion(resolver=True)
         elif self.path == "/api/aceleracion/previsualizar":
@@ -462,6 +508,41 @@ class Visor(BaseHTTPRequestHandler):
             return
         res = resolver_caso(inst)
         self._json(200, _resultado_a_json(res, inst))
+
+    def _api_variante(self) -> None:
+        """Variante ponderada de un caso: lee los costos con `leer_opciones` y devuelve las dos versiones paso a paso."""
+        pedido = self._leer_pedido()
+        if pedido is None:
+            return
+        texto, nombre, _ = pedido
+        extension = ".json" if texto.lstrip().startswith("{") else ".txt"
+        directorio = Path(tempfile.gettempdir()) / "frontend_variante_casos"
+        directorio.mkdir(parents=True, exist_ok=True)
+        camino = directorio / ("%s%s" % (_nombre_seguro(nombre), extension))
+        try:
+            camino.write_text(texto, encoding="utf-8")
+            inst = leer_instancia(camino)
+            opciones = leer_opciones(camino, inst)
+        except (ErrorDeLectura, ErrorDeCostos) as e:
+            self._json(400, {"error": str(e)})
+            return
+        except OSError as e:
+            self._json(500, {"error": "no se pudo guardar el caso: %s" % e})
+            return
+        finally:
+            camino.unlink(missing_ok=True)
+        if opciones is None:
+            self._json(200, {"sin_costos": True, "nombre": inst.nombre})
+            return
+        completas = _version_a_json(inst, opciones.solo_completas())
+        parciales = _version_a_json(inst, opciones) if opciones.hay_parcial else None
+        base = resolver_caso(inst)
+        costo_p2 = sum(opciones.costos[j - 1] for j in base.J) if base.factible else None   # las completas tienen los índices 1..n
+        self._json(200, {"nombre": inst.nombre, "n": len(inst.S), "r": inst.r, "sin_costos": False,
+                         "ids_categoria": list(inst.ids_categoria) if inst.ids_categoria else None,
+                         "nombres_categoria": list(inst.nombres_categoria) if inst.nombres_categoria else None,
+                         "n_parciales": opciones.n_parciales, "completas": completas, "parciales": parciales,
+                         "parte2": {"J": list(base.J), "tamano": len(base.J), "costo": costo_p2} if base.factible else None})
 
     def _api_previsualizar(self) -> None:
         """Solo lee el caso (sin resolverlo) para mostrar de qué se compone."""

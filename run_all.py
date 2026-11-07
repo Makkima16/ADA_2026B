@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Corre TODOS los casos y regenera TODAS las evidencias.  [Integrante 3]
 
-    python3 run_all.py --casos casos/ --salida resultados/ [--lista nombres.txt]
+    python3 run_all.py --casos casos/ --salida resultados/ [--lista nombres.txt] [--partes parte1 parte2 variante] [--sin-enfoques]
 
 Por cada archivo de `--casos` (.json del formato de la profesora o .txt provisional):
 
@@ -64,6 +64,7 @@ from auditoria.resolver_ponderada import resolver_caso_ponderado       # noqa: E
 from auditoria.traza_ponderada import formatear_resultado_ponderado     # noqa: E402
 
 EXTENSIONES = (".json", ".txt")
+PARTES = ("parte1", "parte2", "variante")      # lo que se puede elegir revisar con --partes
 SUFIJOS_GENERADOS = ("_parte1.txt", "_parte2.txt", "_variante1.txt", "_variante1_parcial.txt", "_enfoques.txt")
 ARCHIVOS_GENERADOS = ("resumen.csv", "version.txt", "comparacion.md", "resumen_enfoques.json")
 
@@ -89,7 +90,7 @@ def limpiar_salida(salida):
             p.unlink()
 
 
-def correr_parte1(archivo, encabezado, salida, datos):
+def correr_parte1(archivo, encabezado, salida, datos, enfoques=True):
     """Parte 1: las dos tablas de la DP. Devuelve las filas (parte, (resultado, tiempo), destino) del resumen."""
     destino = salida / (archivo.stem + "_parte1.txt")
     destino_e = salida / (archivo.stem + "_parte1_enfoques.txt")
@@ -111,9 +112,11 @@ def correr_parte1(archivo, encabezado, salida, datos):
         return [("parte1", ("ERROR: %s" % e, ""), destino)]
 
     destino.write_text(encabezado + formatear_solucion_p1(comp), encoding="utf-8")
-    destino_e.write_text(encabezado + formatear_enfoques_p1(comp), encoding="utf-8")
     liviano = comp.liviano()                    # las tablas pueden pesar mucho: no se guardan hasta el final
-    datos["p1"], datos["p1_enf"] = liviano.resultado, liviano
+    datos["p1"] = liviano.resultado
+    if enfoques:                                # con --sin-enfoques no se escribe ni se compara el detalle de las dos tablas
+        destino_e.write_text(encabezado + formatear_enfoques_p1(comp), encoding="utf-8")
+        datos["p1_enf"] = liviano
 
     res = comp.resultado
     if res is None:
@@ -125,7 +128,7 @@ def correr_parte1(archivo, encabezado, salida, datos):
             txt += " [solo por valor: la tabla por presupuesto no cabe]"
         fila = (txt, "%.6f" % res.tiempo_s)
     filas = [("parte1", fila, destino)]
-    for nombre, medida in (("presupuesto", comp.presupuesto), ("valor", comp.valor)):
+    for nombre, medida in ((("presupuesto", comp.presupuesto), ("valor", comp.valor)) if enfoques else ()):
         r = medida.resultado
         if r is None:
             filas.append(("parte1_" + nombre, ("no cabe: %d celdas > límite" % medida.celdas, ""), destino_e))
@@ -135,8 +138,13 @@ def correr_parte1(archivo, encabezado, salida, datos):
     return filas
 
 
-def correr_parte2_y_variante(archivo, encabezado, salida, datos):
+def correr_parte2_y_variante(archivo, encabezado, salida, datos, partes=PARTES, enfoques=True):
+    return _filtrar(_parte2_y_variante(archivo, encabezado, salida, datos, partes, enfoques), partes)
+
+
+def _parte2_y_variante(archivo, encabezado, salida, datos, partes, enfoques):
     filas = []
+    p2_on, var_on = "parte2" in partes, "variante" in partes
     destino2 = salida / (archivo.stem + "_parte2.txt")
     destino2e = salida / (archivo.stem + "_parte2_enfoques.txt")
     destinov = salida / (archivo.stem + "_variante1.txt")
@@ -158,27 +166,33 @@ def correr_parte2_y_variante(archivo, encabezado, salida, datos):
             d.write_text(encabezado + msg, encoding="utf-8")
         return [("parte2", ("ERROR: %s" % e, ""), destino2), ("variante1", ("ERROR: %s" % e, ""), destinov)]
 
-    # Parte 2 (voraz base) y todos sus enfoques
-    res = resolver_p2(inst)
-    datos["inst"], datos["p2"] = inst, res
-    destino2.write_text(encabezado + formatear_resultado(res), encoding="utf-8")
-    if res.factible:
+    # Parte 2 (voraz base) y todos sus enfoques (solo si se pidió revisar la Parte 2)
+    res = resolver_p2(inst) if p2_on else None
+    if p2_on:
+        datos["inst"], datos["p2"] = inst, res
+        destino2.write_text(encabezado + formatear_resultado(res), encoding="utf-8")
+    if not p2_on:
+        pass
+    elif res.factible:
         txt = "J=%s (%d interacciones)" % (res.J, len(res.J))
         if res.optimo is not None:
             txt += " | óptimo %d | razón %.4f | H(d) %.4f" % (len(res.optimo), len(res.J) / max(len(res.optimo), 1), res.cota)
         filas.append(("parte2", (txt, "%.6f" % res.tiempo_s), destino2))
     else:
         filas.append(("parte2", ("no factible: sin cubrir %s" % sorted(res.sin_cubrir), ""), destino2))
-    comp2 = resolver_enfoques_p2(inst, optimo=res.optimo)
-    destino2e.write_text(encabezado + formatear_enfoques_p2(comp2), encoding="utf-8")
-    datos["p2_enf"] = comp2.liviano()
-    for m in comp2.medidas:
+    comp2 = resolver_enfoques_p2(inst, optimo=res.optimo) if (p2_on and enfoques) else None
+    if comp2 is not None:
+        destino2e.write_text(encabezado + formatear_enfoques_p2(comp2), encoding="utf-8")
+        datos["p2_enf"] = comp2.liviano()
+    for m in (comp2.medidas if comp2 is not None else ()):
         txt = "J=%s (%d interacciones)" % (m.J, len(m.J))
         if comp2.optimo is not None:
             txt += " | óptimo %d | razón %.4f" % (len(comp2.optimo), comp2.razon(m))
         filas.append(("parte2_" + m.identificador, (txt, "%.6f" % m.tiempo_s), destino2e))
 
     # Variante 1: versión principal (solo completas) y, si el caso trae parciales, la extensión con parciales
+    if not var_on:
+        return filas
     try:
         opciones = leer_opciones(archivo, inst)
         if opciones is None:
@@ -214,6 +228,12 @@ def _correr_variante(opciones, encabezado, destino, datos, clave):
     return (txt, "%.6f" % rv.tiempo_s)
 
 
+def _filtrar(filas, partes):
+    """Deja solo las filas de las partes elegidas (parte2* y variante1* según `partes`)."""
+    return [f for f in filas if not (f[0].startswith("parte2") and "parte2" not in partes)
+            and not (f[0].startswith("variante1") and "variante" not in partes)]
+
+
 def _ms(segundos):
     return "%.3f" % (segundos * 1000)
 
@@ -226,7 +246,7 @@ def agregados(casos_datos):
     """(Parte 1, Parte 2, variante): los resúmenes de los enfoques de todos los casos; None si no hay datos de esa parte."""
     c1 = [d["p1_enf"] for _, d in casos_datos if d.get("p1_enf") is not None]
     c2 = [d["p2_enf"] for _, d in casos_datos if d.get("p2_enf") is not None]
-    items = [(d["v1"], d["v1_dep"], d["v1_op"], sum(d["v1"].costos[j - 1] for j in d["p2"].J))
+    items = [(d["v1"], d["v1_dep"], d["v1_op"], sum(d["v1"].costos[j - 1] for j in d["p2"].J) if d.get("p2") is not None else None)
              for _, d in casos_datos if d.get("v1") is not None and d["v1"].factible and d.get("v1_dep") is not None]
     # la extensión con parciales se compara contra la versión principal (solo completas) del mismo caso
     items_p = [(d["vp"], d["vp_dep"], d["vp_op"], d["v1_dep"].costo_real)
@@ -363,10 +383,17 @@ def main(argv=None):
     ap.add_argument("--salida", required=True, help="directorio donde se regeneran las evidencias")
     ap.add_argument("--lista", help="archivo de texto con los nombres de los casos a correr, uno por línea (sin extensión; "
                                     "# comenta); sirve para dejar las evidencias de solo algunos casos de la carpeta")
+    ap.add_argument("--partes", nargs="+", choices=PARTES, default=list(PARTES),
+                    help="qué revisar: parte1 (DP), parte2 (voraz base y sus enfoques) y/o variante (por defecto, las tres)")
+    ap.add_argument("--sin-enfoques", dest="sin_enfoques", action="store_true",
+                    help="no correr los enfoques: de la Parte 1 solo la solución del caso (sin el detalle de las dos tablas) y "
+                         "de la Parte 2 solo el voraz base (sin las ocho combinaciones)")
     ap.add_argument("--sin-tabla", "--sin_tabla", dest="sin_tabla", action="store_true",
                     help="no imprimir la tabla de comparación en la terminal (igual se guarda en comparacion.md)")
     args = ap.parse_args(argv)
     sin_tabla = args.sin_tabla
+    partes = tuple(args.partes)
+    enfoques = not args.sin_enfoques
 
     casos = Path(args.casos).resolve()
     salida = Path(args.salida).resolve()
@@ -401,11 +428,12 @@ def main(argv=None):
         encabezado = ("Versión del código: %s | Generado: %s | Archivo: %s\n%s\n"
                       % (version, fecha, archivo.name, "=" * 78))
         datos = {}
-        if archivo.suffix.lower() == ".json":
-            for parte, fila, destino in correr_parte1(archivo, encabezado, salida, datos):
+        if archivo.suffix.lower() == ".json" and "parte1" in partes:
+            for parte, fila, destino in correr_parte1(archivo, encabezado, salida, datos, enfoques):
                 filas.append((archivo.stem, parte, fila[0], fila[1], destino.name if destino else ""))
-        for parte, fila, destino in correr_parte2_y_variante(archivo, encabezado, salida, datos):
-            filas.append((archivo.stem, parte, fila[0], fila[1], destino.name if destino else ""))
+        if "parte2" in partes or "variante" in partes:
+            for parte, fila, destino in correr_parte2_y_variante(archivo, encabezado, salida, datos, partes, enfoques):
+                filas.append((archivo.stem, parte, fila[0], fila[1], destino.name if destino else ""))
         casos_datos.append((archivo.stem, datos))
         print("[%s] evidencias generadas" % archivo.stem)
 
@@ -427,7 +455,9 @@ def main(argv=None):
     (salida / "version.txt").write_text(
         "Commit: %s\nCambios sin commit en src/ o run_all.py: %s\nFecha: %s\nPython: %s\nComando: %s\nCasos: %d\n"
         % (commit, "sí" if sucio else "no", fecha, platform.python_version(),
-           "python3 run_all.py --casos %s --salida %s" % (args.casos, args.salida), len(archivos)),
+           "python3 run_all.py --casos %s --salida %s%s%s" % (args.casos, args.salida,
+                                                                   "" if partes == PARTES else " --partes " + " ".join(partes),
+                                                                   " --sin-enfoques" if args.sin_enfoques else ""), len(archivos)),
         encoding="utf-8")
 
     errores = sum(1 for f in filas if f[2].startswith("ERROR"))

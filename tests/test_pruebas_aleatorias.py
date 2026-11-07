@@ -225,3 +225,64 @@ def test_los_visores_aceptan_el_caso_en_la_direccion(url):
     for archivo in ("app.js", "aceleracion.js"):
         with urllib.request.urlopen(url + "/estatico/" + archivo) as r:
             assert "/api/aleatorios/caso?nombre=" in r.read().decode("utf-8")
+
+
+# ----------------------------- /api/auditoria/variante: la variante ponderada paso a paso -----------------------------
+
+def _caso_con_costos():
+    from generacion_casos import generador
+    return json.dumps(generador.generar_caso("v", 8, 6, 5, 0.4))
+
+
+def test_variante_devuelve_las_dos_versiones_paso_a_paso(url):
+    from auditoria.lectura_ponderada import leer_opciones
+    from auditoria.opciones import depurar
+    from auditoria.resolver_ponderada import resolver_caso_ponderado
+    texto = _caso_con_costos()
+    estado, d = _post(url, "/api/auditoria/variante", {"texto": texto, "nombre": "v"})
+    assert estado == 200 and not d["sin_costos"] and d["n"] == 8 and d["r"] == 6 and d["n_parciales"] > 0
+    c, p = d["completas"], d["parciales"]
+    assert c["version"] == "solo completas" and p["version"] == "con parciales" and p["n_opciones"] == 8 + d["n_parciales"]
+    assert c["n_opciones"] == 8 and c["factible"] and c["cubre"] and len(c["pasos"]) >= 1
+    for v in (c, p):
+        assert v["cobertura"] and v["cota"] > 1
+        for paso in v["pasos"]:                                                    # cada paso trae sus candidatas, de menor a mayor razón
+            razones = [x["razon"] for x in paso["candidatas"]]
+            assert razones == sorted(razones) and paso["candidatas"][0]["opcion"] == paso["opcion"]
+    # lo que muestra la página es lo que da el proyecto
+    import tempfile, pathlib
+    ruta = pathlib.Path(tempfile.mkdtemp()) / "v.json"
+    ruta.write_text(texto, encoding="utf-8")
+    from auditoria.lectura import leer_instancia
+    op = leer_opciones(ruta, leer_instancia(ruta))
+    rv = resolver_caso_ponderado(op.instancia, op.costos)
+    assert p["costo_real"] == depurar(rv.J, op).costo_real and p["optimo_costo"] == rv.optimo_costo
+    assert d["parte2"]["costo"] == sum(op.costos[j - 1] for j in d["parte2"]["J"])
+
+
+def test_variante_con_una_sola_opcion_por_interaccion(url):
+    estado, d = _post(url, "/api/auditoria/variante", {"texto": "# costos: 6 6 4\n6 3\n1 2 3\n4 5 6\n1 2 4 5\n", "nombre": "t"})
+    assert estado == 200 and d["parciales"] is None and d["completas"]["costo_real"] == 16     # el ejemplo del documento: 16 contra 12
+    assert d["completas"]["optimo_costo"] == 12
+
+
+def test_variante_sin_costos_o_mal_formada(url):
+    estado, d = _post(url, "/api/auditoria/variante", {"texto": "6 3\n1 2 4 5\n1 2 3\n4 5 6\n", "nombre": "t"})
+    assert estado == 200 and d["sin_costos"] is True
+    estado, d = _post(url, "/api/auditoria/variante", {"texto": "# costos: 6 0 4\n6 3\n1 2 4 5\n1 2 3\n4 5 6\n", "nombre": "t"})
+    assert estado == 400 and "costos" in d["error"]
+    estado, d = _post(url, "/api/auditoria/variante", {"texto": "no es un caso", "nombre": "t"})
+    assert estado == 400
+
+
+def test_variante_no_factible(url):
+    estado, d = _post(url, "/api/auditoria/variante", {"texto": "# costos: 1 1\n3 2\n1\n2\n", "nombre": "t"})
+    assert estado == 200 and not d["completas"]["factible"] and d["completas"]["sin_cubrir"] == [3]
+
+
+def test_la_pagina_de_la_variante_y_su_script_se_sirven(url):
+    with urllib.request.urlopen(url + "/auditoria") as r:
+        cuerpo = r.read().decode("utf-8")
+        assert 'id="panel-variante"' in cuerpo and 'data-vista="variante"' in cuerpo and "variante.js" in cuerpo
+    with urllib.request.urlopen(url + "/estatico/variante.js") as r:
+        assert "/api/auditoria/variante" in r.read().decode("utf-8")
