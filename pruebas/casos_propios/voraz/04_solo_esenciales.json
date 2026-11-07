@@ -1,0 +1,18 @@
+{
+  "descripcion": "Caso 04_solo_esenciales. Acierta el enfoque de las esenciales (y el combinado), pero NO las parejas solas ni la rareza sola: la 2, la 3 y la 4 son esenciales (cada una cubre una categoría que nadie más cubre). r = 6, n = 4. Interacciones usadas: voraz normal 4, esenciales 3, parejas 4, rareza 4, todo (esenciales + rareza + parejas) 3; mínimo real (fuerza bruta) 3.",
+  "parametros": {"numero_etapas": 4, "numero_categorias_riesgo": 6},
+  "categorias_riesgo": [
+    {"id": "R01", "categoria": "Riesgo 1"},
+    {"id": "R02", "categoria": "Riesgo 2"},
+    {"id": "R03", "categoria": "Riesgo 3"},
+    {"id": "R04", "categoria": "Riesgo 4"},
+    {"id": "R05", "categoria": "Riesgo 5"},
+    {"id": "R06", "categoria": "Riesgo 6"}
+  ],
+  "etapas": [
+    {"id": "E01", "riesgos_cubiertos_auditoria_completa": ["R01", "R02", "R06"]},
+    {"id": "E02", "riesgos_cubiertos_auditoria_completa": ["R02", "R04"]},
+    {"id": "E03", "riesgos_cubiertos_auditoria_completa": ["R03", "R06"]},
+    {"id": "E04", "riesgos_cubiertos_auditoria_completa": ["R01", "R05"]}
+  ]
+}

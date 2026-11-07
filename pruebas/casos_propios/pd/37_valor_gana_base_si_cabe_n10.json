@@ -1,0 +1,16 @@
+{
+  "descripcion": "n = 10: la tabla por presupuesto tiene unas 70 mil celdas y corre sin problema, pero la de valor tiene unas 300. Se compara con la fuerza bruta. Celdas de la tabla: por presupuesto 71302, por valor 319. Enfoque recomendado: valor. Resultado: ahorro 18, costo 5986 de B = 6481, 5 etapas aceleradas, duración final 42 de 60. Fuerza bruta: ahorro 18.",
+  "parametros": {"numero_etapas": 10, "presupuesto_aceleracion_B": 6481},
+  "etapas": [
+    {"id": "E01", "duracion_normal": 7, "costo_aceleracion": 1498, "reduccion_tiempo_si_acelera": 4},
+    {"id": "E02", "duracion_normal": 1, "costo_aceleracion": 1422, "reduccion_tiempo_si_acelera": 1},
+    {"id": "E03", "duracion_normal": 8, "costo_aceleracion": 893, "reduccion_tiempo_si_acelera": 4},
+    {"id": "E04", "duracion_normal": 5, "costo_aceleracion": 1432, "reduccion_tiempo_si_acelera": 3},
+    {"id": "E05", "duracion_normal": 6, "costo_aceleracion": 1481, "reduccion_tiempo_si_acelera": 4},
+    {"id": "E06", "duracion_normal": 9, "costo_aceleracion": 1449, "reduccion_tiempo_si_acelera": 4},
+    {"id": "E07", "duracion_normal": 9, "costo_aceleracion": 1327, "reduccion_tiempo_si_acelera": 4},
+    {"id": "E08", "duracion_normal": 5, "costo_aceleracion": 836, "reduccion_tiempo_si_acelera": 2},
+    {"id": "E09", "duracion_normal": 5, "costo_aceleracion": 1446, "reduccion_tiempo_si_acelera": 1},
+    {"id": "E10", "duracion_normal": 5, "costo_aceleracion": 1178, "reduccion_tiempo_si_acelera": 1}
+  ]
+}

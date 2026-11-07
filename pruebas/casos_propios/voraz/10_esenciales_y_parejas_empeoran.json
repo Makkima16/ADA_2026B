@@ -1,0 +1,26 @@
+{
+  "descripcion": "Caso 10_esenciales_y_parejas_empeoran. Las esenciales y las parejas EMPEORAN al voraz normal (usan una interacción más); la rareza y el combinado igualan al voraz normal, que aquí sí es óptimo. r = 9, n = 9. Interacciones usadas: voraz normal 4, esenciales 5, parejas 5, rareza 4, todo (esenciales + rareza + parejas) 4; mínimo real (fuerza bruta) 4.",
+  "parametros": {"numero_etapas": 9, "numero_categorias_riesgo": 9},
+  "categorias_riesgo": [
+    {"id": "R01", "categoria": "Riesgo 1"},
+    {"id": "R02", "categoria": "Riesgo 2"},
+    {"id": "R03", "categoria": "Riesgo 3"},
+    {"id": "R04", "categoria": "Riesgo 4"},
+    {"id": "R05", "categoria": "Riesgo 5"},
+    {"id": "R06", "categoria": "Riesgo 6"},
+    {"id": "R07", "categoria": "Riesgo 7"},
+    {"id": "R08", "categoria": "Riesgo 8"},
+    {"id": "R09", "categoria": "Riesgo 9"}
+  ],
+  "etapas": [
+    {"id": "E01", "riesgos_cubiertos_auditoria_completa": ["R03", "R07", "R09"]},
+    {"id": "E02", "riesgos_cubiertos_auditoria_completa": ["R05", "R08"]},
+    {"id": "E03", "riesgos_cubiertos_auditoria_completa": ["R08", "R09"]},
+    {"id": "E04", "riesgos_cubiertos_auditoria_completa": ["R01", "R05", "R06"]},
+    {"id": "E05", "riesgos_cubiertos_auditoria_completa": ["R01", "R04"]},
+    {"id": "E06", "riesgos_cubiertos_auditoria_completa": ["R04", "R09"]},
+    {"id": "E07", "riesgos_cubiertos_auditoria_completa": ["R03"]},
+    {"id": "E08", "riesgos_cubiertos_auditoria_completa": ["R01", "R02", "R09"]},
+    {"id": "E09", "riesgos_cubiertos_auditoria_completa": ["R02", "R03", "R06", "R09"]}
+  ]
+}

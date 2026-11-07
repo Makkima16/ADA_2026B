@@ -1,0 +1,26 @@
+{
+  "descripcion": "Cerca del cruce: B es solo 1,5 veces la suma de los ahorros D. La tabla por valor gana, pero por poco, y las dos son chicas. Celdas de la tabla: por presupuesto 8274, por valor 5523. Enfoque recomendado: valor. Resultado: ahorro 259, costo 373 de B = 393, 19 etapas aceleradas, duración final 172 de 431.",
+  "parametros": {"numero_etapas": 20, "presupuesto_aceleracion_B": 393},
+  "etapas": [
+    {"id": "E01", "duracion_normal": 34, "costo_aceleracion": 27, "reduccion_tiempo_si_acelera": 25},
+    {"id": "E02", "duracion_normal": 24, "costo_aceleracion": 34, "reduccion_tiempo_si_acelera": 23},
+    {"id": "E03", "duracion_normal": 33, "costo_aceleracion": 35, "reduccion_tiempo_si_acelera": 22},
+    {"id": "E04", "duracion_normal": 23, "costo_aceleracion": 8, "reduccion_tiempo_si_acelera": 11},
+    {"id": "E05", "duracion_normal": 15, "costo_aceleracion": 12, "reduccion_tiempo_si_acelera": 12},
+    {"id": "E06", "duracion_normal": 18, "costo_aceleracion": 25, "reduccion_tiempo_si_acelera": 3},
+    {"id": "E07", "duracion_normal": 26, "costo_aceleracion": 15, "reduccion_tiempo_si_acelera": 11},
+    {"id": "E08", "duracion_normal": 33, "costo_aceleracion": 19, "reduccion_tiempo_si_acelera": 27},
+    {"id": "E09", "duracion_normal": 16, "costo_aceleracion": 2, "reduccion_tiempo_si_acelera": 10},
+    {"id": "E10", "duracion_normal": 24, "costo_aceleracion": 15, "reduccion_tiempo_si_acelera": 20},
+    {"id": "E11", "duracion_normal": 14, "costo_aceleracion": 8, "reduccion_tiempo_si_acelera": 6},
+    {"id": "E12", "duracion_normal": 11, "costo_aceleracion": 37, "reduccion_tiempo_si_acelera": 4},
+    {"id": "E13", "duracion_normal": 18, "costo_aceleracion": 1, "reduccion_tiempo_si_acelera": 17},
+    {"id": "E14", "duracion_normal": 4, "costo_aceleracion": 7, "reduccion_tiempo_si_acelera": 3},
+    {"id": "E15", "duracion_normal": 32, "costo_aceleracion": 11, "reduccion_tiempo_si_acelera": 19},
+    {"id": "E16", "duracion_normal": 5, "costo_aceleracion": 33, "reduccion_tiempo_si_acelera": 4},
+    {"id": "E17", "duracion_normal": 29, "costo_aceleracion": 20, "reduccion_tiempo_si_acelera": 9},
+    {"id": "E18", "duracion_normal": 21, "costo_aceleracion": 25, "reduccion_tiempo_si_acelera": 11},
+    {"id": "E19", "duracion_normal": 15, "costo_aceleracion": 38, "reduccion_tiempo_si_acelera": 4},
+    {"id": "E20", "duracion_normal": 36, "costo_aceleracion": 26, "reduccion_tiempo_si_acelera": 21}
+  ]
+}

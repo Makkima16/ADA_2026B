@@ -1,0 +1,9 @@
+{
+  "descripcion": "Ninguna etapa ahorra nada (d_i = 0): no conviene acelerar y el ahorro es 0 aunque el presupuesto alcance. Celdas de la tabla: por presupuesto 44, por valor 4. Enfoque recomendado: valor. Resultado: ahorro 0, costo 0 de B = 10, 0 etapas aceleradas, duración final 25 de 25. Fuerza bruta: ahorro 0.",
+  "parametros": {"numero_etapas": 3, "presupuesto_aceleracion_B": 10},
+  "etapas": [
+    {"id": "E01", "duracion_normal": 10, "costo_aceleracion": 3, "reduccion_tiempo_si_acelera": 0},
+    {"id": "E02", "duracion_normal": 8, "costo_aceleracion": 2, "reduccion_tiempo_si_acelera": 0},
+    {"id": "E03", "duracion_normal": 7, "costo_aceleracion": 4, "reduccion_tiempo_si_acelera": 0}
+  ]
+}

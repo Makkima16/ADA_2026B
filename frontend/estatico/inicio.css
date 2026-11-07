@@ -1,0 +1,36 @@
+/* Página de inicio — usa las variables de la paleta "Arena y oliva" de estilos.css. */
+
+.presentacion { display: flex; flex-direction: column; gap: 8px; max-width: 760px; }
+.presentacion h2 { font-size: 40px; font-weight: 800; letter-spacing: -0.015em; line-height: 1.15; }
+.presentacion p { font-size: 20px; color: var(--texto-2); }
+
+.portales { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 24px; align-items: stretch; }
+
+.portal {
+  display: flex; flex-direction: column; gap: 16px; padding: 28px 30px 26px; border-radius: 28px;
+  background: var(--panel); box-shadow: var(--sombra); color: var(--texto); text-decoration: none;
+  border: 2px solid transparent; transition: transform .15s, border-color .15s, box-shadow .15s;
+}
+.portal:hover { transform: translateY(-3px); border-color: var(--acento); box-shadow: 0 2px 4px rgba(60, 55, 25, .06), 0 16px 34px rgba(60, 55, 25, .14); }
+.portal:focus-visible { outline: 3px solid var(--foco); outline-offset: 3px; }
+.portal-cab { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; }
+.etiqueta-parte { font: 800 14px var(--sans); letter-spacing: .06em; text-transform: uppercase; color: var(--primario); background: var(--primario-suave); padding: 4px 12px; border-radius: 999px; }
+.tecnica { font-size: 15px; font-weight: 650; color: var(--texto-2); }
+
+.ilustracion { display: flex; align-items: center; justify-content: center; min-height: 170px; border-radius: 22px; background: var(--panel-2); }
+.portal h3 { font-size: 30px; font-weight: 800; letter-spacing: -0.01em; }
+.portal-texto { font-size: 18px; color: var(--texto-2); }
+.portal-lista { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; font-size: 16px; color: var(--texto-2); }
+.portal-lista li { display: flex; gap: 10px; align-items: flex-start; }
+.portal-lista li::before { content: ""; flex: none; width: 9px; height: 9px; margin-top: 8px; border-radius: 50%; background: var(--acento); }
+.portal-entrar {
+  margin-top: auto; align-self: flex-start; display: inline-flex; align-items: center; gap: 10px;
+  height: 56px; padding: 0 24px; border-radius: 16px; background: var(--primario); color: #fff;
+  font: 750 19px var(--sans); box-shadow: 0 6px 16px rgba(var(--sp), .3); transition: background .15s;
+}
+.portal:hover .portal-entrar { background: var(--primario-hover); }
+
+@media (max-width: 760px) {
+  .presentacion h2 { font-size: 30px; }
+  .portal { padding: 22px 20px; }
+}

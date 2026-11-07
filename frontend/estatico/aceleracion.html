@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>¿Qué conviene acelerar? — Visor de la programación dinámica</title>
+  <link rel="stylesheet" href="/estatico/estilos.css">
+  <link rel="stylesheet" href="/estatico/aceleracion.css">
+</head>
+<body>
+<div class="pagina">
+
+  <header class="cabecera">
+    <div class="marca-titulo">
+      <div class="logo logo-escalera" aria-hidden="true"><span class="l1"></span><span class="l2"></span><span class="l3"></span><span class="l4"></span></div>
+      <div>
+        <h1>¿Qué conviene acelerar?</h1>
+        <p class="subtitulo">Visor de la programación dinámica (Mochila 0/1) · Análisis y Diseño de Algoritmos · Universidad de Caldas</p>
+      </div>
+    </div>
+    <div class="acciones-cab">
+      <nav class="selector-parte" aria-label="Cambiar de parte">
+        <a href="/">Inicio</a>
+        <a href="/aceleracion" aria-current="page">Parte 1 · Aceleración</a>
+        <a href="/auditoria">Parte 2 · Auditoría</a>
+        <a href="/aleatorios">Casos aleatorios</a>
+      </nav>
+      <div class="pildora"><i class="punto" aria-hidden="true"></i>Funcionando en este equipo <span class="mono" id="direccion"></span></div>
+    </div>
+  </header>
+
+  <!-- ============ 1. Cargar el caso ============ -->
+  <section class="panel" id="panel-ingreso" aria-labelledby="titulo-carga">
+    <div class="panel-cab">
+      <div class="encabezado-seccion">
+        <span class="num-paso" aria-hidden="true">1</span>
+        <div>
+          <h2 id="titulo-carga">Cargar el caso</h2>
+          <p class="ayuda-corta">Qué etapas hay, cuánto dura, cuesta y ahorra cada una, y cuánto presupuesto hay</p>
+        </div>
+      </div>
+      <div class="tabs" id="tabs" role="tablist" aria-label="Forma de cargar el caso">
+        <button class="tab activa" role="tab" aria-selected="true" data-tab="archivo">Subir archivo</button>
+        <button class="tab" role="tab" aria-selected="false" data-tab="manual">Crear el caso</button>
+        <button class="tab" role="tab" aria-selected="false" data-tab="pegar">Desde texto</button>
+      </div>
+    </div>
+
+    <!-- ---- Subir archivo ---- -->
+    <div id="tab-archivo" class="contenido-tab">
+      <div class="fila-archivo">
+        <label class="zona-archivo" id="zona-archivo" for="entrada-archivo">
+          <span class="icono-subir" aria-hidden="true">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16V4"/><path d="M7 9l5-5 5 5"/><path d="M4 16v3a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-3"/></svg>
+          </span>
+          <span class="zona-titulo" id="texto-archivo">Elige o arrastra tu archivo aquí</span>
+          <span class="zona-ayuda">Acepta .json (formato de la profesora)</span>
+          <input type="file" id="entrada-archivo" class="solo-lectores" accept=".json,application/json">
+        </label>
+
+        <div class="vista-previa oculto" id="vista-previa">
+          <div class="vp-izquierda">
+            <div class="vp-archivo">
+              <span class="vp-nombre mono" id="vp-nombre"></span>
+              <span class="insignia ok">leído correctamente</span>
+            </div>
+            <div class="cifras" id="vp-cifras"></div>
+            <div class="avisos" id="vp-avisos"></div>
+            <div class="empuje"></div>
+            <button class="btn primario grande" id="btn-analizar-archivo" disabled>Analizar archivo</button>
+          </div>
+          <div class="vp-listas">
+            <div class="lista-caja">
+              <h3>Cada etapa…</h3>
+              <ul class="desplazable" id="vp-etapas"></ul>
+            </div>
+            <div class="lista-caja">
+              <h3>Cuánto ahorra por cada unidad de costo</h3>
+              <ul class="desplazable" id="vp-rendimiento"></ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ---- Crear el caso ---- -->
+    <div id="tab-manual" class="contenido-tab oculto">
+      <div class="fila-manual-cab">
+        <div class="manual-izq">
+          <p class="ayuda">
+            Indica cuántas <strong>etapas</strong> tiene la cadena y cuál es el <strong>presupuesto B</strong>.
+            Después, en cada etapa, escribe cuánto <strong>dura</strong> normalmente, cuánto
+            <strong>cuesta acelerarla</strong> y cuánto tiempo <strong>ahorra</strong> si se acelera
+            (el ahorro no puede superar la duración).
+          </p>
+          <div class="campos-manuales">
+            <label>¿Cuántas etapas?
+              <input type="number" id="manual-n" min="1" max="200" value="5">
+            </label>
+            <label>Presupuesto B
+              <input type="number" id="manual-B" min="0" max="1000000" value="10">
+            </label>
+          </div>
+          <button class="btn" id="btn-generar-filas">Preparar filas</button>
+          <div class="estado-cobertura" id="estado-revision" role="status"></div>
+          <details class="plegable">
+            <summary>Ver el caso como archivo de texto</summary>
+            <pre class="desplazable" id="texto-previsualizacion"></pre>
+          </details>
+          <button class="btn primario grande" id="btn-analizar">Analizar este caso</button>
+        </div>
+        <div class="manual-der">
+          <div class="manual-titulo">
+            <h3>Datos de cada etapa</h3>
+            <span class="nota">Todos enteros, 0 o más · el ahorro ≤ la duración</span>
+          </div>
+          <div class="filas-manuales desplazable" id="filas-manuales"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ---- Desde texto ---- -->
+    <div id="tab-pegar" class="contenido-tab oculto">
+      <label for="entrada-texto" class="etiqueta-texto">
+        Pega el caso en JSON <span class="nota">· opción avanzada</span>
+      </label>
+      <textarea id="entrada-texto" spellcheck="false"
+        placeholder='{&#10;  "parametros": { "presupuesto_aceleracion_B": 10 },&#10;  "etapas": [&#10;    { "id": "E01", "duracion_normal": 9, "costo_aceleracion": 5, "reduccion_tiempo_si_acelera": 6 },&#10;    ...&#10;  ]&#10;}'></textarea>
+      <button class="btn primario grande" id="btn-resolver-texto">Analizar texto</button>
+    </div>
+
+    <div class="banner-error oculto" id="banner-error" role="alert">
+      <span class="icono-error" aria-hidden="true">!</span>
+      <div class="cuerpo-error">
+        <div class="titulo-error">No pudimos analizar el caso</div>
+        <div id="mensaje-error"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 2. Cómo funciona cada enfoque ============ -->
+  <section class="panel panel-explicacion" id="panel-enfoques" aria-labelledby="titulo-enfoques">
+    <div class="encabezado-seccion">
+      <span class="num-paso" aria-hidden="true">2</span>
+      <div>
+        <h2 id="titulo-enfoques">Cómo funciona cada enfoque</h2>
+        <p class="ayuda-corta">Dos maneras de llegar a la misma respuesta: qué hace cada una y cuándo conviene</p>
+      </div>
+    </div>
+
+    <div class="intro-explicacion">
+      <p><strong>El problema.</strong> Tienes una cadena de etapas, una detrás de otra. Cada etapa <em>dura</em> un tiempo y se puede
+        <em>acelerar</em> pagando un costo, y al acelerarla <em>ahorras</em> parte de ese tiempo. Solo hay un presupuesto <b>B</b>
+        para gastar. La pregunta: <strong>¿qué etapas aceleras para ahorrar la mayor cantidad de tiempo sin pasarte de B?</strong></p>
+      <p><strong>Por qué no se prueba todo.</strong> Con 20 etapas habría más de un millón de combinaciones posibles, y con 40, más de un
+        billón. La <strong>programación dinámica</strong> evita ese trabajo: resuelve primero problemas pequeños (&laquo;¿qué haría con solo las
+        primeras 3 etapas y este presupuesto?&raquo;), los guarda en una <strong>tabla</strong> y los reutiliza para resolver los más grandes, sin repetir cuentas.</p>
+      <p>Hay dos formas de armar esa tabla. <strong>Las dos son exactas</strong>: siempre encuentran el mejor ahorro posible. Cambia
+        la pregunta que responde cada celda y, con ella, el tamaño de la tabla.</p>
+    </div>
+
+    <div class="tabs tabs-enfoque" role="tablist" aria-label="Elegir qué enfoque se explica" data-selector-explicacion>
+        <button class="tab activa" role="tab" aria-selected="true" data-vista="presupuesto">Por presupuesto</button>
+        <button class="tab" role="tab" aria-selected="false" data-vista="valor">Por valor</button>
+        <button class="tab" role="tab" aria-selected="false" data-vista="comparar">Compararlos</button>
+    </div>
+
+    <div class="cards-enfoque">
+      <article class="enfoque-card" data-vista-panel="presupuesto">
+        <span class="etiqueta-enfoque">La tabla base</span>
+        <h3>Por presupuesto</h3>
+        <p class="lema">&laquo;Si solo puedo usar las primeras <b>i</b> etapas y gasto a lo sumo <b>b</b>, ¿cuánto tiempo ahorro como máximo?&raquo;</p>
+        <ul class="lista-explicacion">
+          <li><b>Filas:</b> las etapas (primero ninguna, luego la 1, luego la 1 y la 2, y así).</li>
+          <li><b>Columnas:</b> el presupuesto, de 0 hasta B.</li>
+          <li><b>Cada celda:</b> el <b>mayor ahorro</b> que se logra con esas etapas y ese presupuesto.</li>
+        </ul>
+        <p><b>Cómo se llena una celda.</b> Para la etapa de esa fila hay solo dos opciones. <em>No acelerarla</em>: se copia lo que ya se
+          tenía en la fila de arriba. <em>Acelerarla</em> (si cabe en el presupuesto): se suma su ahorro a lo mejor que se lograba con el
+          presupuesto que queda. Se anota la opción que ahorra <b>más</b>.</p>
+        <p><b>La respuesta</b> está en la celda de la esquina (todas las etapas, presupuesto B). Para saber <em>cuáles</em> etapas se aceleran,
+          se recorre la tabla hacia atrás.</p>
+        <p class="cuando"><b>Conviene cuando</b> el presupuesto B es moderado: la tabla tiene (n+1) filas por (B+1) columnas.</p>
+      </article>
+
+      <article class="enfoque-card" data-vista-panel="valor">
+        <span class="etiqueta-enfoque">El enfoque aparte</span>
+        <h3>Por valor</h3>
+        <p class="lema">&laquo;Para lograr <b>exactamente</b> un ahorro de <b>v</b> con las primeras <b>i</b> etapas, ¿cuál es el <b>menor costo</b>?&raquo;</p>
+        <ul class="lista-explicacion">
+          <li><b>Filas:</b> las etapas, igual que antes.</li>
+          <li><b>Columnas:</b> el ahorro que se quiere lograr, de 0 hasta D (la suma de todos los ahorros).</li>
+          <li><b>Cada celda:</b> el <b>menor costo</b> para lograr ese ahorro. Aparece <b>∞</b> si ese ahorro no se puede lograr o costaría más que B.</li>
+        </ul>
+        <p><b>Cómo se llena una celda.</b> También hay dos opciones. <em>No acelerar la etapa</em>: se copia la celda de arriba.
+          <em>Acelerarla</em>: se suma su costo al menor costo de lograr lo que falta del ahorro. Se anota la opción más <b>barata</b>.</p>
+        <p><b>La respuesta</b> es el mayor ahorro cuyo costo cabe en B. Luego se recorre hacia atrás para saber qué etapas se aceleran.</p>
+        <p class="cuando"><b>Conviene cuando</b> el presupuesto es enorme pero los ahorros son pequeños: la tabla tiene (n+1) filas por (D+1) columnas y
+          no depende de B.</p>
+      </article>
+    </div>
+
+    <div class="comparativa-explicacion" data-vista-panel="comparar">
+      <h3>Entonces, ¿cuál conviene?</h3>
+      <div style="overflow-x:auto">
+        <table class="tabla-cmp">
+          <thead><tr><th></th><th>Por presupuesto</th><th>Por valor</th></tr></thead>
+          <tbody>
+            <tr><td>Cada celda guarda</td><td>el mayor ahorro</td><td>el menor costo</td></tr>
+            <tr><td>Las columnas son</td><td>el presupuesto (0 a B)</td><td>el ahorro (0 a D)</td></tr>
+            <tr><td>Tamaño de la tabla</td><td>(n+1) · (B+1) celdas</td><td>(n+1) · (D+1) celdas</td></tr>
+            <tr><td>Es más chica cuando</td><td>B es menor que D</td><td>D es menor que B</td></tr>
+            <tr><td>¿Siempre da el mejor ahorro?</td><td>Sí</td><td>Sí</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="nota-cmp">Regla práctica: compara <b>B</b> con la suma de los ahorros <b>D</b>. El visor te dice cuántas celdas tendría cada tabla y cuál es la más chica;
+        aun así, puedes ver cualquiera de las dos. Si ninguna cabe en la memoria del computador, el caso es demasiado grande y se avisa.</p>
+    </div>
+    <details class="plegable ejemplo-explicacion">
+      <summary>Ver un ejemplo pequeño, con números</summary>
+      <p>Tres etapas y un presupuesto <b>B = 8</b>: <b>E1</b> cuesta 5 y ahorra 6 · <b>E2</b> cuesta 4 y ahorra 5 · <b>E3</b> cuesta 3 y ahorra 4.</p>
+      <ul class="lista-explicacion">
+        <li>E1 + E2 costarían 9: no caben. E2 + E3 cuestan 7 y ahorran 9. <b>E1 + E3 cuestan 8 y ahorran 10: es la mejor.</b></li>
+        <li><b>Por presupuesto:</b> la celda final (tres etapas, presupuesto 8) vale <b>10</b>: el mayor ahorro posible gastando a lo sumo 8.</li>
+        <li><b>Por valor:</b> lograr un ahorro de 10 cuesta <b>8</b> (cabe en B), y ningún ahorro mayor se puede lograr dentro de 8 (esas celdas dicen ∞).
+          Entonces el mejor ahorro es <b>10</b>.</li>
+        <li>Las dos tablas llegan al mismo resultado: ahorro 10, aceleradas E1 y E3.</li>
+      </ul>
+    </details>
+
+  </section>
+
+  <!-- ============ 3. Resultado ============ -->
+  <section id="panel-resultado" aria-labelledby="titulo-resultado">
+    <div class="encabezado-seccion">
+      <span class="num-paso verde" aria-hidden="true">3</span>
+      <div>
+        <h2 id="titulo-resultado">Resultado y decisión, paso a paso</h2>
+        <p class="ayuda-corta">Cómo se llena la tabla y qué etapas se aceleran para ahorrar lo máximo con el presupuesto</p>
+      </div>
+    </div>
+
+    <div class="vacio" id="vacio">
+      <div class="mini-tabla" aria-hidden="true">
+        <i class="n1">0</i><i class="n1">0</i><i class="n1">4</i>
+        <i class="n1">0</i><i class="nv">3</i><i class="nv">7</i>
+        <i class="p">·</i><i class="p">·</i><i class="p">·</i>
+      </div>
+      <div class="vacio-titulo">Todavía no hay nada que mostrar</div>
+      <div class="vacio-texto">Carga un caso arriba y pulsa <strong>Analizar</strong>. Aquí verás cómo se llena la tabla y qué etapas se aceleran, y por qué.</div>
+    </div>
+
+    <div class="oculto" id="salida">
+      <div class="barra-metodo" id="barra-enfoque-res">
+        <div class="grupo-ing">
+          <span class="rotulo">Ver el resultado de</span>
+          <div id="enfoques-res" role="group" aria-label="Enfoque del resultado">
+            <button class="btn-ing" type="button" data-enf="presupuesto" aria-pressed="false">Por presupuesto <small>(tabla base)</small></button>
+            <button class="btn-ing" type="button" data-enf="valor" aria-pressed="false">Por valor</button>
+          </div>
+        </div>
+        <span class="sep-metodo" aria-hidden="true"></span>
+        <div class="grupo-nombre">
+          <span class="rotulo">Mostrando (no cambia la simulación de abajo)</span>
+          <span class="nombre-combinacion" id="nombre-enfoque-res">Por presupuesto</span>
+        </div>
+      </div>
+
+      <div class="resumen" id="resumen"></div>
+
+      <div class="tarjeta costo" id="tarjeta-costo"></div>
+
+      <div class="tarjeta fuerza-bruta" id="tarjeta-fb"></div>
+
+      <div class="barra-metodo" id="barra-enfoque">
+        <div class="grupo-ing">
+          <span class="rotulo">Enfoque de la simulación (elige uno)</span>
+          <div id="enfoques" role="group" aria-label="Enfoque de la programación dinámica">
+            <button class="btn-ing" type="button" data-enf="presupuesto" aria-pressed="false">Por presupuesto <small>(tabla base)</small></button>
+            <button class="btn-ing" type="button" data-enf="valor" aria-pressed="false">Por valor</button>
+          </div>
+        </div>
+        <span class="sep-metodo" aria-hidden="true"></span>
+        <div class="grupo-nombre">
+          <span class="rotulo">Celdas de cada tabla</span>
+          <span class="nombre-combinacion" id="tamanos-tablas"></span>
+        </div>
+      </div>
+      <p class="nota-enfoque" id="nota-enfoque"></p>
+
+      <div class="escenario">
+        <div class="tarjeta-paso">
+          <div class="paso-cab">
+            <span class="paso-titulo" id="titulo-paso" aria-live="polite"></span>
+            <div class="controles" role="group" aria-label="Reproducción">
+              <button class="btn redondo" id="btn-inicio" aria-label="Ir al inicio">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 5v14"/><path d="M18 6l-8 6 8 6z"/></svg>
+              </button>
+              <button class="btn redondo" id="btn-anterior" aria-label="Paso anterior">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>
+              </button>
+              <button class="btn primario reproducir" id="btn-auto">Reproducir</button>
+              <button class="btn redondo" id="btn-siguiente" aria-label="Paso siguiente">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg>
+              </button>
+              <button class="btn redondo" id="btn-final" aria-label="Ir al final">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 5v14"/><path d="M6 6l8 6-8 6z"/></svg>
+              </button>
+            </div>
+          </div>
+
+          <div class="hitos" id="hitos"></div>
+          <div class="deslizador">
+            <input type="range" id="slider-paso" min="0" max="0" value="0" aria-label="Paso">
+            <span class="nota">también con ← →</span>
+          </div>
+
+          <div class="frase" id="frase-paso"></div>
+          <div class="explicacion" id="explicacion-paso"></div>
+
+          <div class="progreso">
+            <span class="rotulo" id="progreso-rotulo"></span>
+            <span class="progreso-num" id="progreso-num"></span>
+            <div class="barra-lineal" aria-hidden="true"><div class="barra-relleno" id="barra-relleno"></div></div>
+            <span class="por-que" id="por-que"></span>
+          </div>
+        </div>
+
+        <div class="columna-matriz">
+          <div class="tarjeta" id="tarjeta-tabla">
+            <div class="matriz-cab">
+              <div>
+                <h3>La tabla de la programación dinámica</h3>
+                <p class="nota" id="nota-tabla"></p>
+              </div>
+              <ul class="leyenda" aria-label="Leyenda" id="leyenda-tabla">
+                <li><span class="celda c-nuevo">7</span>conviene acelerar</li>
+                <li><span class="celda c-igual">4</span>igual que arriba</li>
+                <li><span class="celda c-cubierto"></span>ya calculada</li>
+                <li><span class="celda c-pendiente">·</span>pendiente</li>
+                <li><span class="celda c-camino">7</span>camino de la solución</li>
+              </ul>
+            </div>
+            <div class="zona-matriz zona-tabla desplazable" id="zona-tabla" role="table" aria-label="Tabla de la programación dinámica"></div>
+          </div>
+
+          <div class="tarjeta" id="tarjeta-cadena">
+            <div class="matriz-cab">
+              <div>
+                <h3>La cadena de etapas</h3>
+                <p class="nota">En orden, de la primera a la última</p>
+              </div>
+              <ul class="leyenda" aria-label="Leyenda de la cadena">
+                <li><span class="celda c-nuevo"></span>se acelera</li>
+                <li><span class="celda c-cubierto"></span>no se acelera</li>
+                <li><span class="celda c-pendiente"></span>sin decidir</li>
+              </ul>
+            </div>
+            <div class="cadena" id="cadena"></div>
+          </div>
+
+          <div class="cobertura-final oculto" id="solucion-final">
+            <h3>Así queda: etapas aceleradas</h3>
+            <div class="cobertura" id="tabla-solucion"></div>
+            <p class="nota-final" id="nota-solucion"></p>
+          </div>
+        </div>
+      </div>
+
+      <details class="tarjeta evidencia">
+        <summary>Vista técnica · evidencia</summary>
+        <pre class="desplazable" id="texto-evidencia"></pre>
+      </details>
+    </div>
+  </section>
+
+
+  <footer>
+    Herramienta de apoyo local para la sustentación. Los cálculos los hace el mismo código del proyecto
+    que produce las evidencias; esta página solo los muestra. No es parte de la entrega.
+  </footer>
+</div>
+
+<script src="/estatico/explicacion.js"></script>
+<script src="/estatico/aceleracion.js"></script>
+</body>
+</html>

@@ -4,7 +4,7 @@ import random
 
 import pytest
 
-from ruta.auditoria import (
+from auditoria.auditoria import (
     armonico,
     cobertura_final,
     cota_aproximacion,
@@ -13,7 +13,7 @@ from ruta.auditoria import (
     verificar_factibilidad,
     voraz,
 )
-from ruta.traza import formatear_traza
+from auditoria.traza import formatear_traza
 
 # Instancia donde el voraz falla: toma G (4 nuevas) y luego necesita P y Q.
 R_MALA = 6

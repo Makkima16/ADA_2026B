@@ -1,0 +1,6 @@
+Commit: deceef6
+Cambios sin commit en src/ o run_all.py: sí
+Fecha: 2026-11-06 22:39:29
+Python: 3.12.3
+Comando: python3 run_all.py --casos casos/ --salida resultados/
+Casos: 1

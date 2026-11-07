@@ -1,0 +1,84 @@
+/* Visor de la Parte 1 (programación dinámica). Usa la paleta "Arena y oliva" de estilos.css. */
+
+.logo-escalera .l1 { background: var(--primario); }
+.logo-escalera .l2 { background: var(--acento); }
+.logo-escalera .l3 { border: 2px dashed var(--punteado); }
+.logo-escalera .l4 { background: var(--raya-1); }
+
+/* ---------------- crear el caso: una fila por etapa ---------------- */
+.campos-etapa { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+.campos-etapa label { display: flex; flex-direction: column; gap: 3px; font-size: 12px; font-weight: 650; color: var(--texto-3); }
+.campos-etapa input[type="number"] { height: 40px; font-size: 17px; padding: 0 10px; border-radius: 12px; }
+.fila-etapa .rotulo-fila { font: 750 16px var(--mono); color: var(--tinta-int); }
+
+/* ---------------- resultado ---------------- */
+.stat .grande.mono { font-family: var(--mono); }
+.sin-tabla { font-size: 15px; color: var(--texto-2); padding: 14px 16px; border-radius: 16px; background: var(--ambar-suave); }
+
+.formula {
+  font: 650 15px var(--mono); color: var(--acento-tinta); background: var(--acento-suave);
+  padding: 8px 12px; border-radius: 12px; overflow-wrap: anywhere;
+}
+.explicacion .detalle-celda { padding: 10px 12px; border-radius: 12px; background: var(--panel); border: 1.5px solid var(--voraz); }
+.explicacion .detalle-celda b { font-family: var(--mono); }
+.explicacion .pista { color: var(--texto-3); font-size: 14px; }
+.explicacion ul { margin: 0; padding-left: 20px; display: flex; flex-direction: column; gap: 3px; }
+
+/* barra de progreso lineal */
+.barra-lineal { height: 16px; border-radius: 8px; background: var(--panel); border: 1.5px solid var(--borde); overflow: hidden; }
+.barra-relleno { height: 100%; width: 0; border-radius: 6px; background: var(--primario); transition: width .3s; }
+
+/* ---------------- la tabla de la DP ---------------- */
+.zona-tabla { --cs: 36px; max-height: 620px; }
+.tabla-dp { display: grid; gap: 3px; width: max-content; min-width: 100%; }
+.t-esquina, .t-cab, .t-lab { background: var(--panel); }
+.t-esquina { position: sticky; top: 0; left: 0; z-index: 3; font: 600 12px var(--sans); color: var(--texto-3); padding: 4px 8px; align-self: end; }
+.t-cab { position: sticky; top: 0; z-index: 2; text-align: center; font: 750 13px var(--mono); padding: 6px 0; color: var(--texto-2); }
+.t-cab.recorte { color: var(--texto-4); }
+.t-lab {
+  position: sticky; left: 0; z-index: 1; display: flex; align-items: center; gap: 6px; padding: 0 8px;
+  font: 750 14px var(--mono); color: var(--tinta-int); white-space: nowrap; border-radius: 9px;
+}
+.t-lab small { font: 500 11px var(--sans); color: var(--texto-3); }
+.t-lab.actual { background: var(--acento-suave); box-shadow: 0 0 0 2px var(--acento); }
+.tcelda {
+  height: var(--cs); min-width: 42px; padding: 0 4px; border-radius: 9px; display: flex; align-items: center; justify-content: center;
+  font: 800 15px/1 var(--mono); cursor: pointer; transition: background .2s; font-variant-numeric: tabular-nums;
+}
+.tcelda.c-pendiente { cursor: default; }
+.c-igual { background: var(--primario-suave); color: var(--texto-2); }
+.c-camino { background: var(--primario); color: #fff; }
+.tcelda.c-ahora { background: var(--primario); color: #fff; box-shadow: 0 0 0 3px var(--acento-tinta); }
+.tcelda.c-destino { box-shadow: inset 0 0 0 2.5px var(--primario); }
+.tcelda.c-origen { background: var(--ambar-suave); color: #5E4100; box-shadow: inset 0 0 0 2.5px var(--ambar); }
+.tcelda.c-sel { box-shadow: 0 0 0 3px var(--voraz); position: relative; z-index: 1; }
+.leyenda .celda.c-igual, .leyenda .celda.c-camino { box-shadow: none; }
+
+/* ---------------- la cadena de etapas ---------------- */
+.cadena { display: grid; grid-template-columns: repeat(auto-fill, minmax(124px, 1fr)); gap: 8px; max-height: 360px; overflow: auto; padding: 4px; }
+.eta {
+  display: flex; flex-direction: column; gap: 2px; padding: 8px 12px; border-radius: 14px; min-width: 0;
+  border: 2px solid transparent; font-size: 13px; color: var(--texto-2);
+}
+.eta b { font: 800 16px var(--mono); color: var(--texto); }
+.eta .linea { font-variant-numeric: tabular-nums; }
+.eta.pend { background: #fff; border: 2px dashed var(--punteado); }
+.eta.acel { background: var(--acento); color: var(--acento-tinta); box-shadow: 0 3px 8px rgba(var(--sa), .35); }
+.eta.acel b { color: var(--acento-tinta); }
+.eta.noacel { background: repeating-linear-gradient(135deg, var(--raya-1) 0 5px, var(--raya-2) 5px 10px); }
+.eta.ahora { border-color: var(--tinta-int); box-shadow: 0 0 0 3px var(--acento); }
+
+.nota-final { font-size: 16px; color: var(--exito-texto); }
+.par-cobertura .m { color: var(--texto-3); font-weight: 600; font-size: 14px; }
+
+/* ---------------- selector de enfoque ---------------- */
+#enfoques, #enfoques-res { display: flex; flex-wrap: wrap; gap: 8px; }
+.btn-ing small { font-weight: 600; opacity: .8; }
+.btn-ing:disabled { opacity: .45; cursor: not-allowed; }
+.nota-enfoque { font-size: 15px; color: var(--texto-2); padding: 12px 16px; border-radius: 16px; background: var(--panel); box-shadow: var(--sombra); }
+.nota-enfoque b { color: var(--tinta-int); }
+.tcelda.inf { color: var(--texto-4); font-weight: 600; }
+
+@media (max-width: 760px) {
+  .campos-etapa { grid-template-columns: 1fr; }
+}

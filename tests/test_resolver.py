@@ -1,8 +1,8 @@
 """Pruebas de la salida por caso (resolver + formato de la evidencia)."""
 
-from ruta.auditoria import N_MAX_FUERZA_BRUTA
-from ruta.resolver import Instancia, resolver_caso
-from ruta.traza import formatear_resultado
+from auditoria.auditoria import N_MAX_FUERZA_BRUTA
+from auditoria.resolver import Instancia, resolver_caso
+from auditoria.traza import formatear_resultado
 
 CLASICA = Instancia("clasica", 6, [{1, 2, 4, 5}, {1, 2, 3}, {4, 5, 6}])
 
@@ -24,8 +24,11 @@ def test_caso_no_factible_no_ejecuta_el_voraz():
     assert "NO factible" in formatear_resultado(res)
 
 
-def test_sin_optimo_si_n_supera_el_limite_o_no_se_pide():
-    grande = Instancia("grande", 1, [{1}] * (N_MAX_FUERZA_BRUTA + 1))
+def test_sin_optimo_si_no_hay_como_calcularlo_o_no_se_pide():
+    n_grande_r_chico = Instancia("a", 1, [{1}] * (N_MAX_FUERZA_BRUTA + 1))           # n > 12 pero r <= 16: subconjuntos de categorías
+    res = resolver_caso(n_grande_r_chico)
+    assert res.optimo == [1] and res.optimo_metodo == "subconjuntos de categorías"
+    grande = Instancia("grande", 17, [set(range(1, 10)), set(range(10, 18))] + [{1}] * (N_MAX_FUERZA_BRUTA - 1))   # n = 13 y r = 17
     assert resolver_caso(grande).optimo is None
     assert resolver_caso(CLASICA, comparar_con_optimo=False).optimo is None
 
@@ -37,5 +40,24 @@ def test_formatear_resultado_incluye_lo_pedido_por_la_guia():
     assert "Interacciones auditadas: [1, 2, 3] (3)" in texto
     assert "Cubre todas las categorías: sí" in texto
     assert "Tiempo:" in texto
-    assert "Óptimo por fuerza bruta: [2, 3] (2)" in texto
+    assert "Óptimo (fuerza bruta): [2, 3] (2)" in texto
     assert "Cota H(d):" in texto
+
+
+def test_traza_con_nombres_cuando_la_instancia_los_trae():
+    inst = Instancia("con_ids", 3, [{1, 2}, {3}],
+                     ids_interaccion=("E01", "E02"),
+                     ids_categoria=("R01", "R02", "R03"),
+                     nombres_categoria=("sesgo", "privacidad", "formato"))
+    texto = formatear_resultado(resolver_caso(inst))
+    assert "interacción 1 (E01)" in texto
+    assert "categorías nuevas {R01, R02}" in texto
+    assert "categoría R03 (formato) -> interacción E02" in texto
+    assert "[1, 2] (2): E01, E02" in texto
+
+
+def test_traza_sin_nombres_no_cambia():
+    texto = formatear_resultado(resolver_caso(CLASICA))
+    assert "Paso 1: interacción 1 | categorías nuevas {1, 2, 4, 5}" in texto
+    assert "categoría 3 -> interacción 2" in texto
+    assert "(E" not in texto

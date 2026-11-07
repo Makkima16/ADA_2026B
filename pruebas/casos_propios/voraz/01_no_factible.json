@@ -1,0 +1,16 @@
+{
+  "descripcion": "Caso 01_no_factible. Instancia NO factible: la categoría 5 no la cubre ninguna interacción. El programa lo informa y no ejecuta ningún algoritmo (la factibilidad se verifica antes, en O(n·r)). r = 5, n = 3.",
+  "parametros": {"numero_etapas": 3, "numero_categorias_riesgo": 5},
+  "categorias_riesgo": [
+    {"id": "R01", "categoria": "Riesgo 1"},
+    {"id": "R02", "categoria": "Riesgo 2"},
+    {"id": "R03", "categoria": "Riesgo 3"},
+    {"id": "R04", "categoria": "Riesgo 4"},
+    {"id": "R05", "categoria": "Riesgo 5"}
+  ],
+  "etapas": [
+    {"id": "E01", "riesgos_cubiertos_auditoria_completa": ["R01", "R02"]},
+    {"id": "E02", "riesgos_cubiertos_auditoria_completa": ["R02", "R03"]},
+    {"id": "E03", "riesgos_cubiertos_auditoria_completa": ["R04"]}
+  ]
+}

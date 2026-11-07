@@ -1,0 +1,14 @@
+{
+  "descripcion": "Costos de cientos de miles y ahorros de 1 a 10: la tabla por valor es mucho más chica. Con n = 8 se puede comparar con la fuerza bruta. Celdas de la tabla: por presupuesto 20392344, por valor 324. Enfoque recomendado: valor. Resultado: ahorro 26, costo 2243555 de B = 2265815, 4 etapas aceleradas, duración final 54 de 80. Fuerza bruta: ahorro 26.",
+  "parametros": {"numero_etapas": 8, "presupuesto_aceleracion_B": 2265815},
+  "etapas": [
+    {"id": "E01", "duracion_normal": 15, "costo_aceleracion": 857910, "reduccion_tiempo_si_acelera": 10},
+    {"id": "E02", "duracion_normal": 10, "costo_aceleracion": 819589, "reduccion_tiempo_si_acelera": 3},
+    {"id": "E03", "duracion_normal": 10, "costo_aceleracion": 258550, "reduccion_tiempo_si_acelera": 1},
+    {"id": "E04", "duracion_normal": 14, "costo_aceleracion": 372448, "reduccion_tiempo_si_acelera": 7},
+    {"id": "E05", "duracion_normal": 13, "costo_aceleracion": 806750, "reduccion_tiempo_si_acelera": 7},
+    {"id": "E06", "duracion_normal": 5, "costo_aceleracion": 766606, "reduccion_tiempo_si_acelera": 2},
+    {"id": "E07", "duracion_normal": 5, "costo_aceleracion": 206447, "reduccion_tiempo_si_acelera": 2},
+    {"id": "E08", "duracion_normal": 8, "costo_aceleracion": 443331, "reduccion_tiempo_si_acelera": 3}
+  ]
+}

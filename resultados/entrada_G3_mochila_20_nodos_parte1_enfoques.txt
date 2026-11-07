@@ -1,0 +1,14 @@
+Versión del código: deceef6 (con cambios sin commit) | Generado: 2026-11-06 22:39:29 | Archivo: entrada_G3_mochila_20_nodos.json
+==============================================================================
+Caso: entrada_G3_mochila_20_nodos   (n = 20 etapas, B = 72, D = suma de ahorros = 165)
+
+Límite de celdas por tabla: 10000000
+
+DP por presupuesto (base): 1533 celdas, cabe
+    etapas aceleradas [2, 3, 4, 6, 8, 12] | costo 72 de B = 72 | ahorro 55 | duración 501 -> 446 | tiempo 0.658 ms | válida: sí
+DP por valor: 3486 celdas, cabe
+    etapas aceleradas [2, 3, 4, 6, 8, 12] | costo 72 de B = 72 | ahorro 55 | duración 501 -> 446 | tiempo 0.717 ms | válida: sí
+
+Las dos tablas dieron el mismo ahorro (55).
+Más rápida en este caso: DP por presupuesto. Menos celdas: DP por presupuesto.
+Solución del caso (la que se reporta en la evidencia de la Parte 1): DP por presupuesto (base).

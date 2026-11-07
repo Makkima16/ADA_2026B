@@ -1,0 +1,33 @@
+{
+  "descripcion": "Caso 13_n15_r10. Caso mediano (n = 15 > 12): sin mínimo real. Las parejas y el combinado usan una interacción menos que el voraz normal; las esenciales y la rareza no cambian nada. r = 10, n = 15. Interacciones usadas: voraz normal 3, esenciales 3, parejas 2, rareza 3, todo (esenciales + rareza + parejas) 2; sin mínimo real (n > 12); cota inferior ⌈r/d⌉ = 2; el mejor de los métodos usa 2.",
+  "parametros": {"numero_etapas": 15, "numero_categorias_riesgo": 10},
+  "categorias_riesgo": [
+    {"id": "R01", "categoria": "Riesgo 1"},
+    {"id": "R02", "categoria": "Riesgo 2"},
+    {"id": "R03", "categoria": "Riesgo 3"},
+    {"id": "R04", "categoria": "Riesgo 4"},
+    {"id": "R05", "categoria": "Riesgo 5"},
+    {"id": "R06", "categoria": "Riesgo 6"},
+    {"id": "R07", "categoria": "Riesgo 7"},
+    {"id": "R08", "categoria": "Riesgo 8"},
+    {"id": "R09", "categoria": "Riesgo 9"},
+    {"id": "R10", "categoria": "Riesgo 10"}
+  ],
+  "etapas": [
+    {"id": "E01", "riesgos_cubiertos_auditoria_completa": ["R01", "R05", "R06", "R07"]},
+    {"id": "E02", "riesgos_cubiertos_auditoria_completa": ["R01", "R05", "R08", "R10"]},
+    {"id": "E03", "riesgos_cubiertos_auditoria_completa": ["R06", "R09"]},
+    {"id": "E04", "riesgos_cubiertos_auditoria_completa": ["R02", "R03", "R05", "R06", "R07"]},
+    {"id": "E05", "riesgos_cubiertos_auditoria_completa": ["R03", "R04", "R05", "R06", "R10"]},
+    {"id": "E06", "riesgos_cubiertos_auditoria_completa": ["R02", "R03", "R06", "R08", "R10"]},
+    {"id": "E07", "riesgos_cubiertos_auditoria_completa": ["R03", "R06", "R07"]},
+    {"id": "E08", "riesgos_cubiertos_auditoria_completa": ["R06"]},
+    {"id": "E09", "riesgos_cubiertos_auditoria_completa": ["R01", "R02", "R04", "R05", "R06"]},
+    {"id": "E10", "riesgos_cubiertos_auditoria_completa": ["R07", "R10"]},
+    {"id": "E11", "riesgos_cubiertos_auditoria_completa": ["R02", "R03", "R05", "R07", "R09"]},
+    {"id": "E12", "riesgos_cubiertos_auditoria_completa": ["R01", "R04", "R05", "R06", "R08", "R09"]},
+    {"id": "E13", "riesgos_cubiertos_auditoria_completa": ["R01", "R02", "R03", "R04", "R05"]},
+    {"id": "E14", "riesgos_cubiertos_auditoria_completa": ["R03", "R06", "R07", "R08", "R09", "R10"]},
+    {"id": "E15", "riesgos_cubiertos_auditoria_completa": ["R03", "R05", "R08", "R10"]}
+  ]
+}

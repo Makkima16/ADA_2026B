@@ -7,7 +7,7 @@ description: Corre toda la solución base (y la variante ponderada) sobre los ca
 
 1. Confirma que existe `casos/` y que tiene archivos. Si el formato de los casos todavía no está definido en `CLAUDE.md`, detente y pregunta; no lo inventes.
 2. Confirma que el árbol de git está limpio o que los cambios pendientes son intencionales (`git status`). Las evidencias deben corresponder a una versión concreta del código.
-3. Corre `python3 run_all.py --casos casos/ --salida resultados/`. Si `run_all.py` no existe, créalo siguiendo la convención de `CLAUDE.md`.
+3. Corre `python3 run_all.py --casos casos/ --salida resultados/`. Si `run_all.py` no existe, no lo crees: lo está creando el integrante 3 (ver `CLAUDE.md`); avisa y espera.
 4. Verifica que **para cada caso** existan: resultado, tiempo (medido con `time.perf_counter`) y traza.
    - Parte 1: decisiones/estados de la DP, etapas aceleradas y costos.
    - Parte 2 y variante: elección de cada paso del voraz y cobertura final.

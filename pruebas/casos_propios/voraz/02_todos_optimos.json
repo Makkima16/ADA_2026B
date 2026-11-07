@@ -1,0 +1,15 @@
+{
+  "descripcion": "Caso 02_todos_optimos. Desempate por menor índice: en el primer paso las tres interacciones cubren 2 categorías nuevas y gana la de menor índice j = 1. Todos los métodos dan el óptimo. r = 4, n = 3. Interacciones usadas: voraz normal 2, esenciales 2, parejas 2, rareza 2, todo (esenciales + rareza + parejas) 2; mínimo real (fuerza bruta) 2.",
+  "parametros": {"numero_etapas": 3, "numero_categorias_riesgo": 4},
+  "categorias_riesgo": [
+    {"id": "R01", "categoria": "Riesgo 1"},
+    {"id": "R02", "categoria": "Riesgo 2"},
+    {"id": "R03", "categoria": "Riesgo 3"},
+    {"id": "R04", "categoria": "Riesgo 4"}
+  ],
+  "etapas": [
+    {"id": "E01", "riesgos_cubiertos_auditoria_completa": ["R01", "R02"]},
+    {"id": "E02", "riesgos_cubiertos_auditoria_completa": ["R03", "R04"]},
+    {"id": "E03", "riesgos_cubiertos_auditoria_completa": ["R01", "R03"]}
+  ]
+}

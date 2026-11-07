@@ -1,0 +1,30 @@
+{
+  "descripcion": "Caso 12_limite_n12. Caso en el límite de la fuerza bruta (n = 12). El voraz normal usa una interacción de más y los cuatro enfoques alcanzan el mínimo. r = 10, n = 12. Interacciones usadas: voraz normal 7, esenciales 6, parejas 6, rareza 6, todo (esenciales + rareza + parejas) 6; mínimo real (fuerza bruta) 6.",
+  "parametros": {"numero_etapas": 12, "numero_categorias_riesgo": 10},
+  "categorias_riesgo": [
+    {"id": "R01", "categoria": "Riesgo 1"},
+    {"id": "R02", "categoria": "Riesgo 2"},
+    {"id": "R03", "categoria": "Riesgo 3"},
+    {"id": "R04", "categoria": "Riesgo 4"},
+    {"id": "R05", "categoria": "Riesgo 5"},
+    {"id": "R06", "categoria": "Riesgo 6"},
+    {"id": "R07", "categoria": "Riesgo 7"},
+    {"id": "R08", "categoria": "Riesgo 8"},
+    {"id": "R09", "categoria": "Riesgo 9"},
+    {"id": "R10", "categoria": "Riesgo 10"}
+  ],
+  "etapas": [
+    {"id": "E01", "riesgos_cubiertos_auditoria_completa": ["R03", "R05"]},
+    {"id": "E02", "riesgos_cubiertos_auditoria_completa": ["R02", "R06"]},
+    {"id": "E03", "riesgos_cubiertos_auditoria_completa": ["R04"]},
+    {"id": "E04", "riesgos_cubiertos_auditoria_completa": ["R03", "R07"]},
+    {"id": "E05", "riesgos_cubiertos_auditoria_completa": ["R05", "R08"]},
+    {"id": "E06", "riesgos_cubiertos_auditoria_completa": ["R02"]},
+    {"id": "E07", "riesgos_cubiertos_auditoria_completa": ["R06"]},
+    {"id": "E08", "riesgos_cubiertos_auditoria_completa": ["R07"]},
+    {"id": "E09", "riesgos_cubiertos_auditoria_completa": ["R09"]},
+    {"id": "E10", "riesgos_cubiertos_auditoria_completa": ["R01", "R06", "R10"]},
+    {"id": "E11", "riesgos_cubiertos_auditoria_completa": ["R09"]},
+    {"id": "E12", "riesgos_cubiertos_auditoria_completa": ["R04"]}
+  ]
+}
