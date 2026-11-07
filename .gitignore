@@ -27,5 +27,5 @@ env/
 .claude/settings.local.json
 
 # --- Casos y resultados aleatorios del visor y de probar_aleatorios.py (se regeneran; no se suben) ---
-casos_temporales/
-resultados_temporales/
+pruebas/casos_temporales/
+pruebas/resultados_temporales/

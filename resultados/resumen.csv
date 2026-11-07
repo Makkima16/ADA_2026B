@@ -1,0 +1,15 @@
+caso,parte,resultado,tiempo_s,traza
+entrada_G3_mochila_20_nodos,parte1,"A=[2, 3, 4, 6, 8, 12] costo=72 ahorro=55 duración 501 -> 446",0.000658,entrada_G3_mochila_20_nodos_parte1.txt
+entrada_G3_mochila_20_nodos,parte1_presupuesto,ahorro=55 costo=72 celdas=1533,0.000658,entrada_G3_mochila_20_nodos_parte1_enfoques.txt
+entrada_G3_mochila_20_nodos,parte1_valor,ahorro=55 costo=72 celdas=3486,0.000717,entrada_G3_mochila_20_nodos_parte1_enfoques.txt
+entrada_G3_mochila_20_nodos,parte2,"J=[1, 16, 6, 3] (4 interacciones) | óptimo 4 | razón 1.0000 | H(d) 2.0833",0.000066,entrada_G3_mochila_20_nodos_parte2.txt
+entrada_G3_mochila_20_nodos,parte2_voraz,"J=[1, 16, 6, 3] (4 interacciones) | óptimo 4 | razón 1.0000",0.000079,entrada_G3_mochila_20_nodos_parte2_enfoques.txt
+entrada_G3_mochila_20_nodos,parte2_esenciales,"J=[1, 16, 6, 3] (4 interacciones) | óptimo 4 | razón 1.0000",0.000091,entrada_G3_mochila_20_nodos_parte2_enfoques.txt
+entrada_G3_mochila_20_nodos,parte2_rareza,"J=[18, 19, 17, 4] (4 interacciones) | óptimo 4 | razón 1.0000",0.000348,entrada_G3_mochila_20_nodos_parte2_enfoques.txt
+entrada_G3_mochila_20_nodos,parte2_parejas,"J=[1, 16, 6, 3] (4 interacciones) | óptimo 4 | razón 1.0000",0.000425,entrada_G3_mochila_20_nodos_parte2_enfoques.txt
+entrada_G3_mochila_20_nodos,parte2_esenciales_rareza,"J=[18, 19, 17, 4] (4 interacciones) | óptimo 4 | razón 1.0000",0.000254,entrada_G3_mochila_20_nodos_parte2_enfoques.txt
+entrada_G3_mochila_20_nodos,parte2_esenciales_parejas,"J=[1, 16, 6, 3] (4 interacciones) | óptimo 4 | razón 1.0000",0.000403,entrada_G3_mochila_20_nodos_parte2_enfoques.txt
+entrada_G3_mochila_20_nodos,parte2_rareza_parejas,"J=[3, 10, 5, 1] (4 interacciones) | óptimo 4 | razón 1.0000",0.002040,entrada_G3_mochila_20_nodos_parte2_enfoques.txt
+entrada_G3_mochila_20_nodos,parte2_todo,"J=[3, 10, 5, 1] (4 interacciones) | óptimo 4 | razón 1.0000",0.002005,entrada_G3_mochila_20_nodos_parte2_enfoques.txt
+entrada_G3_mochila_20_nodos,variante1,"J=[1, 16, 6, 13] costo=27 | óptimo 26 | razón 1.0385 | H(d) 2.0833",0.000123,entrada_G3_mochila_20_nodos_variante1.txt
+entrada_G3_mochila_20_nodos,variante1_parcial,"J=[1, 16, 6, 23] costo=26 (E01 (completa), E16 (completa), E06 (completa), E03 (parcial)) | óptimo 24 | razón 1.0833 | H(d) 2.0833",0.000126,entrada_G3_mochila_20_nodos_variante1_parcial.txt

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Genera casos aleatorios y los prueba de inmediato, todo desde la terminal.
 
-Escribe los casos en `Casos/casos_temporales/` y las evidencias en `Resultados/resultados_temporales/` (las dos se
+Escribe los casos en `pruebas/casos_temporales/` y las evidencias en `pruebas/resultados_temporales/` (las dos se
 vacían y se reescriben en cada corrida y están en .gitignore). Las evidencias las produce
 `run_all.py`: aquí solo se generan los casos y se le pasa la carpeta.
 
@@ -26,7 +26,7 @@ from generacion_casos import carpetas, generador, probar   # noqa: E402
 
 
 def main(argv=None):
-    ap = argparse.ArgumentParser(description="Genera casos aleatorios en Casos/casos_temporales/ y los prueba.")
+    ap = argparse.ArgumentParser(description="Genera casos aleatorios en pruebas/casos_temporales/ y los prueba.")
     ap.add_argument("--cantidad", type=int, default=20, help="cuántos casos (por defecto 20)")
     ap.add_argument("--semilla", type=int, default=2026, help="semilla (por defecto 2026)")
     ap.add_argument("--n-min", type=int, default=8)

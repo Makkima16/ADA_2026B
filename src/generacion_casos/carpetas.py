@@ -1,4 +1,4 @@
-"""Carpetas temporales: `Casos/casos_temporales/` y `Resultados/resultados_temporales/` en la raíz del proyecto.
+"""Carpetas temporales: `pruebas/casos_temporales/` y `pruebas/resultados_temporales/` en la raíz del proyecto.
 
 Se vacían y se reescriben cada vez, para no acumular información, y están en `.gitignore`.
 El borrado es deliberadamente estrecho: solo archivos sueltos con extensión conocida, dentro de
@@ -13,8 +13,8 @@ from typing import Dict, List, Tuple
 RAIZ = Path(__file__).resolve().parents[2]
 NOMBRE_CASOS = "casos_temporales"
 NOMBRE_RESULTADOS = "resultados_temporales"
-CASOS_TEMPORALES = RAIZ / "Casos" / NOMBRE_CASOS
-RESULTADOS_TEMPORALES = RAIZ / "Resultados" / NOMBRE_RESULTADOS
+CASOS_TEMPORALES = RAIZ / "pruebas" / NOMBRE_CASOS
+RESULTADOS_TEMPORALES = RAIZ / "pruebas" / NOMBRE_RESULTADOS
 EXTENSIONES_BORRABLES = (".json", ".txt", ".csv", ".md")
 
 

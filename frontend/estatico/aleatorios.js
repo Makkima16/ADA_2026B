@@ -1,7 +1,7 @@
 "use strict";
 
 /* Pruebas aleatorias. Tres modos:
-   - completo: genera casos en Casos/casos_temporales/ (o se suben los propios), los prueba con run_all.py y muestra los
+   - completo: genera casos en pruebas/casos_temporales/ (o se suben los propios), los prueba con run_all.py y muestra los
      resúmenes por parte que arma run_all.py (resumen_enfoques.json) y, plegado, el detalle caso por caso;
    - solo PD y solo voraz: los experimentos en memoria de siempre (pruebas_aleatorias.py y ablacion.py), sin escribir archivos.
    Los resultados de los tres modos se dibujan con las mismas funciones porque tienen la misma forma. */
@@ -27,8 +27,8 @@
     cruce: { nmin: 5, nmax: 30, cmin: 1, cmax: 30, dmin: 1, dmax: 30, pct: 100 },
   };
   const EXPLICACION = {
-    completo: "<p><strong>Cómo funciona.</strong> Los casos se escriben como archivos <span class=\"mono\">.json</span> (el formato de la profesora) en <span class=\"mono\">Casos/casos_temporales/</span> y se prueban con <span class=\"mono\">run_all.py</span>, " +
-      "que deja por cada caso su resultado, su tiempo y su traza en <span class=\"mono\">Resultados/resultados_temporales/</span>. Como cada caso deja unos 13 archivos, el máximo es de <b>500 casos</b> por corrida: " +
+    completo: "<p><strong>Cómo funciona.</strong> Los casos se escriben como archivos <span class=\"mono\">.json</span> (el formato de la profesora) en <span class=\"mono\">pruebas/casos_temporales/</span> y se prueban con <span class=\"mono\">run_all.py</span>, " +
+      "que deja por cada caso su resultado, su tiempo y su traza en <span class=\"mono\">pruebas/resultados_temporales/</span>. Como cada caso deja unos 13 archivos, el máximo es de <b>500 casos</b> por corrida: " +
       "con miles de casos serían decenas de miles de archivos. Las dos carpetas se vacían y se reescriben en cada corrida, así que no se acumula nada.</p>",
     pd: "<p><strong>Por qué en memoria.</strong> Aquí los casos se generan y se miden <b>sin escribir archivos</b> (es el experimento <span class=\"mono\">pruebas_aleatorias.py</span>). Al no guardar la evidencia de cada caso se pueden correr muchos más, " +
       "y se ven los resultados agregados: cuándo conviene cada tabla de la DP, según la relación entre el presupuesto B y la suma de los ahorros D. No queda traza por caso. Máximo: <b>500 casos</b>, con corte a los 25 segundos.</p>",
@@ -270,7 +270,7 @@
     $("#panel-resultados").classList.toggle("oculto", !hayCasos);
     if (!hayCasos) return;
     if (!hayResultados) {
-      mostrarResultados("Casos listos para probar", "<b>" + plural(estado.casos.length, "caso generado", "casos generados") + "</b> en <span class=\"mono\">Casos/casos_temporales/</span>. Pulsa «Probar los casos» para correrlos.");
+      mostrarResultados("Casos listos para probar", "<b>" + plural(estado.casos.length, "caso generado", "casos generados") + "</b> en <span class=\"mono\">pruebas/casos_temporales/</span>. Pulsa «Probar los casos» para correrlos.");
       ["#res-p1", "#res-p2", "#res-var", "#res-varp"].forEach((id) => $(id).classList.add("oculto"));
     } else {
       const errores = estado.resumen.filter((f) => f.resultado.indexOf("ERROR") === 0).length;

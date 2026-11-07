@@ -19,7 +19,7 @@ Las combinaciones intermedias (esenciales + rareza, esenciales + parejas, rareza
 Notación única del proyecto: n, r, S_j, J. Las pruebas están en `tests/test_enfoques.py`.
 
 Los resultados medidos y el análisis completo (cuándo mejora, cuándo empeora, cuánto sube el costo y por
-qué se justifica) están en `docs/` (documento "Enfoques sobre el voraz").
+qué se justifica) están en `docs/documentacion/` (documento "Enfoques sobre el voraz").
 
 Se ejecuta desde la raíz del proyecto:
 

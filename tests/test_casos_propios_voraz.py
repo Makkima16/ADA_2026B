@@ -1,4 +1,4 @@
-"""Pruebas de los casos propios de la Parte 2 (`Casos/casos_propios/voraz/`): son 20 archivos JSON."""
+"""Pruebas de los casos propios de la Parte 2 (`pruebas/casos_propios/voraz/`): son 20 archivos JSON."""
 
 from pathlib import Path
 
@@ -7,7 +7,7 @@ import pytest
 from auditoria.lectura import leer_casos
 from auditoria.resolver import resolver_caso
 
-CARPETA = Path(__file__).resolve().parents[1] / "Casos" / "casos_propios" / "voraz"
+CARPETA = Path(__file__).resolve().parents[1] / "pruebas" / "casos_propios" / "voraz"
 
 
 def test_la_carpeta_solo_tiene_json_y_hay_20_casos():

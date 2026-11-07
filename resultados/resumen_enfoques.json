@@ -1,0 +1,217 @@
+{
+ "version": "deceef6 (con cambios sin commit)",
+ "fecha": "2026-11-06 22:39:29",
+ "casos": 1,
+ "parte1": {
+  "parametros": {
+   "instancias": 1
+  },
+  "hechas": 1,
+  "detenido_por_tiempo": false,
+  "recomendado": {
+   "presupuesto": 1,
+   "valor": 0,
+   "empate": 0,
+   "ninguna": 0
+  },
+  "ambas": {
+   "corridas": 1,
+   "coinciden": 1
+  },
+  "fuerza_bruta": {
+   "comparadas": 0,
+   "presupuesto_ok": 0,
+   "valor_ok": 0
+  },
+  "no_corridas": {
+   "presupuesto": 0,
+   "valor": 0
+  },
+  "regiones": {
+   "B menor que D": {
+    "casos": 1,
+    "corridas": 1,
+    "celdas_presupuesto": 1533,
+    "celdas_valor": 3486,
+    "tiempo_presupuesto": 0.0006579070031875744,
+    "tiempo_valor": 0.0007169090094976127,
+    "regla_mas_rapida": 1,
+    "regla_valida": 1
+   },
+   "B igual a D": {
+    "casos": 0,
+    "corridas": 0,
+    "celdas_presupuesto": 0,
+    "celdas_valor": 0,
+    "tiempo_presupuesto": 0.0,
+    "tiempo_valor": 0.0,
+    "regla_mas_rapida": 0,
+    "regla_valida": 0
+   },
+   "B mayor que D": {
+    "casos": 0,
+    "corridas": 0,
+    "celdas_presupuesto": 0,
+    "celdas_valor": 0,
+    "tiempo_presupuesto": 0.0,
+    "tiempo_valor": 0.0,
+    "regla_mas_rapida": 0,
+    "regla_valida": 0
+   }
+  },
+  "limite_celdas": 10000000,
+  "solo_valor": 0,
+  "ninguna_cabe": 0
+ },
+ "parte2": {
+  "Voraz base": {
+   "clave": "",
+   "no_optimo": 0,
+   "mejora": 0,
+   "igual": 0,
+   "peor": 0,
+   "razon_max": 1.0,
+   "viola_cota": 0,
+   "tiempo_medio_s": 7.859799370635301e-05
+  },
+  "Esenciales": {
+   "clave": "e",
+   "no_optimo": 0,
+   "mejora": 0,
+   "igual": 1,
+   "peor": 0,
+   "razon_max": 1.0,
+   "viola_cota": 0,
+   "tiempo_medio_s": 9.082999895326793e-05
+  },
+  "Rareza": {
+   "clave": "r",
+   "no_optimo": 0,
+   "mejora": 0,
+   "igual": 1,
+   "peor": 0,
+   "razon_max": 1.0,
+   "viola_cota": 0,
+   "tiempo_medio_s": 0.00034811499062925577
+  },
+  "Parejas": {
+   "clave": "p",
+   "no_optimo": 0,
+   "mejora": 0,
+   "igual": 1,
+   "peor": 0,
+   "razon_max": 1.0,
+   "viola_cota": 0,
+   "tiempo_medio_s": 0.000424919999204576
+  },
+  "Esenciales + rareza": {
+   "clave": "er",
+   "no_optimo": 0,
+   "mejora": 0,
+   "igual": 1,
+   "peor": 0,
+   "razon_max": 1.0,
+   "viola_cota": 0,
+   "tiempo_medio_s": 0.00025402799656149
+  },
+  "Esenciales + parejas": {
+   "clave": "ep",
+   "no_optimo": 0,
+   "mejora": 0,
+   "igual": 1,
+   "peor": 0,
+   "razon_max": 1.0,
+   "viola_cota": 0,
+   "tiempo_medio_s": 0.0004030279960716143
+  },
+  "Rareza + parejas": {
+   "clave": "rp",
+   "no_optimo": 0,
+   "mejora": 0,
+   "igual": 1,
+   "peor": 0,
+   "razon_max": 1.0,
+   "viola_cota": 0,
+   "tiempo_medio_s": 0.002039797996985726
+  },
+  "Los tres (enfoque D)": {
+   "clave": "erp",
+   "no_optimo": 0,
+   "mejora": 0,
+   "igual": 1,
+   "peor": 0,
+   "razon_max": 1.0,
+   "viola_cota": 0,
+   "tiempo_medio_s": 0.0020047819998580962
+  },
+  "instancias": 1,
+  "con_optimo": 1,
+  "por_familia": {
+   "ralo": {
+    "Voraz base": 0,
+    "Esenciales": 0,
+    "Rareza": 0,
+    "Parejas": 0,
+    "Esenciales + rareza": 0,
+    "Esenciales + parejas": 0,
+    "Rareza + parejas": 0,
+    "Los tres (enfoque D)": 0
+   },
+   "medio": {
+    "Voraz base": 0,
+    "Esenciales": 0,
+    "Rareza": 0,
+    "Parejas": 0,
+    "Esenciales + rareza": 0,
+    "Esenciales + parejas": 0,
+    "Rareza + parejas": 0,
+    "Los tres (enfoque D)": 0
+   },
+   "denso": {
+    "Voraz base": 0,
+    "Esenciales": 0,
+    "Rareza": 0,
+    "Parejas": 0,
+    "Esenciales + rareza": 0,
+    "Esenciales + parejas": 0,
+    "Rareza + parejas": 0,
+    "Los tres (enfoque D)": 0
+   }
+  },
+  "casos_por_familia": {
+   "ralo": 0,
+   "medio": 1,
+   "denso": 0
+  },
+  "fallan_cobertura": 0,
+  "ejemplos": {}
+ },
+ "variante": {
+  "casos": 1,
+  "con_parcial": 0,
+  "con_depuracion": 0,
+  "con_optimo": 1,
+  "optimo_ok": 0,
+  "razon_max": 1.0384615384615385,
+  "viola_cota": 0,
+  "mas_barata": 1,
+  "igual": 0,
+  "mas_cara": 0,
+  "ahorro_medio_pct": 6.896551724137931
+ },
+ "variante_parcial": {
+  "casos": 1,
+  "con_parcial": 1,
+  "con_depuracion": 0,
+  "con_optimo": 1,
+  "optimo_ok": 0,
+  "razon_max": 1.0833333333333333,
+  "viola_cota": 0,
+  "mas_barata": 1,
+  "igual": 0,
+  "mas_cara": 0,
+  "ahorro_medio_pct": 3.7037037037037033
+ },
+ "sin_parte1": [],
+ "sin_parte2": []
+}

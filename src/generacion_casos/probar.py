@@ -1,4 +1,4 @@
-"""Prueba los casos de `Casos/casos_temporales/` llamando a `run_all.py` (no reimplementa nada).
+"""Prueba los casos de `pruebas/casos_temporales/` llamando a `run_all.py` (no reimplementa nada).
 
 `run_all.py` es del integrante 3 y es el único que corre las tres partes; aquí solo se le pasa la
 carpeta de casos y la de resultados temporales. Después se leen sus archivos (`resumen.csv`,

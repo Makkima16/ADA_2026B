@@ -14,7 +14,7 @@ from auditoria.resolver_ponderada import resolver_caso_ponderado
 from auditoria.verificacion_exacta import (METODO_FUERZA_BRUTA, METODO_SUBCONJUNTOS, R_MAX_EXACTO, minimo_por_subconjuntos,
                                            optimo_de_referencia)
 
-PROFESORA = Path(__file__).resolve().parents[1] / "Casos" / "casos_propios" / "pd" / "entrada_G3_mochila_20_nodos.json"
+PROFESORA = Path(__file__).resolve().parents[1] / "pruebas" / "casos_propios" / "pd" / "entrada_G3_mochila_20_nodos.json"
 
 
 def _instancia(rng, n, r, p=0.3):
