@@ -1,0 +1,5 @@
+# Proyecto ADA 2026-B — Grupo 3
+# Requiere Python 3.8 o superior.
+# El código (src/, run_all.py, probar_aleatorios.py y frontend/) usa solo la librería estándar.
+# La única dependencia externa es pytest, para correr las pruebas de tests/.
+pytest>=7.0

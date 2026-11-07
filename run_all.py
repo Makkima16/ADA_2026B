@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 """Corre TODOS los casos y regenera TODAS las evidencias.  [Integrante 3]
 
     python3 run_all.py --casos casos/ --salida resultados/

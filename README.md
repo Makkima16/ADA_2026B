@@ -50,12 +50,20 @@ Por ser un grupo de tres integrantes se implementa además la **variante de audi
 ```
 README.md
 COMANDOS.md             # comandos del proyecto y desde dónde se ejecutan
+requirements.txt        # dependencias (solo pytest; el código usa la librería estándar)
 context/                # guía de entrega, enunciado y reparto de tareas
-docs/                   # documentación: informe (formalización y reducción), manual técnico de la Parte 2 y estudio de enfoques sobre el voraz
+docs/                   # «Informe - Primera entrega.docx» (informe único), «Manual técnico.docx» (manual único) y documentos de apoyo de cada integrante
 src/aceleracion/        # Parte 1: DP, resolver de un caso (tiempo y verificación), fuerza bruta, lectura (.json) y traza
 src/auditoria/          # Parte 2: voraz, fuerza bruta, lectura de casos, resolución y escritura de traza
 src/auditoria/enfoques/           # enfoques aparte del voraz base (esenciales, parejas, rareza, todo junto) y su experimento de comparación
-frontend/               # visor local para ver paso a paso cómo resuelve cada método un caso (herramienta de apoyo)
+src/generacion_casos/   # generador de casos aleatorios, carpetas temporales y prueba vía run_all.py
+frontend/               # visor local para ver paso a paso cómo resuelve cada método un caso, y probar casos aleatorios o propios (herramienta de apoyo)
+casos/                  # casos de la profesora (solo lectura)
+resultados/             # evidencias de la entrega: resultado, tiempo y traza por caso (se regenera con run_all.py)
+Casos/                  # casos propios (casos_propios/pd y voraz) y temporales (casos_temporales/, en .gitignore)
+Resultados/             # evidencias de los casos propios (resultados_propios/) y temporales (resultados_temporales/, en .gitignore)
+probar_aleatorios.py    # genera casos aleatorios y los prueba desde la terminal
+run_all.py              # corre todos los casos y mide todos los enfoques
 tests/                  # pruebas
 ```
 
@@ -64,17 +72,25 @@ Los algoritmos, la lectura de la entrada y la escritura de la traza están separ
 ## Estado actual
 
 - Implementado (Parte 2): voraz base, verificación de factibilidad, fuerza bruta, cota $H(d)$, resolución de un caso y escritura de traza, con la lectura de casos aislada en `src/auditoria/lectura.py` (formatos `.json` del ejemplo de la profesora y `.txt` provisional); con sus pruebas.
-- Implementado (Parte 1): DP con validación de la entrada, resolución de un caso con tiempo y comprobación contra fuerza bruta (n ≤ 12), lectura del JSON de la profesora y traza de la DP, en `src/aceleracion/`. Guía de cada archivo en `docs/Guía del código de la Parte 1.md`.
+- Implementado (Parte 1): DP con validación de la entrada, resolución de un caso con tiempo y comprobación contra fuerza bruta (n ≤ 12), lectura del JSON de la profesora y traza de la DP, en `src/aceleracion/`. La guía de cada archivo está en la sección 2 del manual técnico.
+- Implementado (variante 1, auditoría ponderada por costo): voraz ponderado, lectura de los costos y traza, en `src/auditoria/`. Lee el formato de la profesora (`variaciones_auditoria`: cada etapa trae una opción `completa` y, en algunas, una `parcial` con su costo y los riesgos que cubre) y, como respaldo, `costo_auditoria` por etapa o `# costos:` en `.txt`. Como la profesora no ha confirmado si usar solo `completa` o también `parcial`, **se miden las dos versiones**: «solo completas» (un costo a_j por interacción; la versión principal) y «con parciales» (cada variación es una opción con su costo; el voraz corre sin cambios sobre la lista de opciones y, si elige la parcial y la completa de la misma interacción, el resultado se depura para no pagar dos veces). `src/auditoria/experimento_ponderada.py` verifica la cota H(d) y los tiempos de la variante (con semilla 2026 y 1000 instancias por familia: óptimo en 2030 de 3000, peor razón 1,909, ninguna por encima de H(d)).
+- Implementado (mínimo real): `src/auditoria/verificacion_exacta.py` calcula el mínimo real por subconjuntos de categorías cuando n > 12 y r ≤ 16 (la fuerza bruta solo llega a n ≤ 12), así que el ejemplo de la profesora (n = 20, r = 12) ya tiene mínimo real: 4 interacciones en la Parte 2 y costo 26 en la variante solo completas, 27 contra el mínimo 26. Solo sirve para verificar y coincide con la fuerza bruta donde las dos valen.
+- Implementado (casos y evidencias): `run_all.py` corre las tres partes sobre cualquier carpeta de casos y **mide todos los enfoques**: en la Parte 1, la DP por presupuesto y la DP por valor (si la base no cabe en memoria, el caso se resuelve solo por valor; si ninguna cabe, se informa que la tabla es demasiado grande); en la Parte 2, las ocho combinaciones del voraz. Escribe resultado, tiempo y traza por caso, `resumen.csv` y `comparacion.md` con las tablas comparativas. `run_all.py --partes` permite revisar solo la Parte 1, la Parte 2 o la variante (y `--sin-enfoques` deja solo las soluciones base); el visor de auditoría tiene una vista de la variante ponderada paso a paso. `probar_aleatorios.py` genera casos aleatorios y los prueba desde la terminal; el visor hace lo mismo en `/aleatorios`, permite subir casos propios (un archivo con las dos partes, como el ejemplo de la profesora; si trae una sola, se analiza esa y la otra figura como «no aplica») y tiene los modos «solo Parte 1» y «solo Parte 2», en memoria, para correr muchos más casos (hasta 9.000 y más en el voraz).
 - Implementado (estudio adicional de la Parte 2): cuatro enfoques sobre el voraz (esenciales, parejas, rareza y todo junto), su comparación contra el óptimo y el visor `frontend/`.
-- Documentación en `docs/`: informe de la Parte 2 (formalización y reducción), manual técnico de la Parte 2 y estudio de los enfoques.
-- Pendiente: adaptar la lectura al formato final de los casos de la profesora (aún no llegaron; se guardarán en `casos/`), el comando que corre todos los casos y genera las evidencias, `requirements.txt`, la variante ponderada, y unir los documentos de `docs/` en el informe y el manual únicos del grupo.
+- Implementado (entrega): `requirements.txt`; evidencias del caso de la profesora (`casos/entrada_G3_mochila_20_nodos.json`) en `resultados/`, generadas con `python3 run_all.py --casos casos/ --salida resultados/` (ver `resultados/README.md`).
+- Documentación en `docs/`: `Informe - Primera entrega.docx` (informe único: formalización y reducción de la Parte 1, la Parte 2 y la variante 1, y resultados del caso de la profesora) y `Manual técnico.docx` (manual único). Los demás documentos de `docs/` son los aportes de cada integrante y el estudio de los enfoques del voraz; el informe y el manual son los que se entregan.
+- Pendiente: confirmar con la profesora si la variante 1 debe usar solo la variación `completa` o también la `parcial` (hoy se miden las dos), y si llegan más casos, copiarlos en `casos/` y regenerar `resultados/`.
 
 ## Ejecución
 
 Requiere Python 3.8 o superior. El código usa solo la librería estándar; las pruebas requieren `pytest`.
 
 ```
+pip install -r requirements.txt                                           # dependencias (solo pytest)
+python3 run_all.py --casos casos/ --salida resultados/                    # evidencias de la entrega (casos de la profesora)
 python3 -m pytest tests/                                                  # pruebas
+python3 run_all.py --casos RUTA_DE_CASOS --salida RUTA_DE_SALIDA          # todas las evidencias (cualquier carpeta de casos)
+python3 probar_aleatorios.py                                              # casos aleatorios + prueba inmediata (Casos/casos_temporales/ y Resultados/resultados_temporales/)
 python3 frontend/servidor.py                                              # visor local (abre el navegador)
 python3 src/auditoria/enfoques/comparacion/experimento.py --instancias 3000         # experimento de comparación de enfoques (unos 20 s)
 ```
